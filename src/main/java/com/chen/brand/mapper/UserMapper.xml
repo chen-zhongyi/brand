@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.UserMapper">
+    <resultMap id = "userMap" type = "com.chen.brand.model.User">
+        <id property = "id" column = "id" />
+        <result property = "userName" column = "userName" />
+        <result property = "pwd" column = "pwd"/>
+        <result property = "realName" column = "realName"/>
+        <result property = "mail" column = "mail"/>
+        <result property = "loginIp" column = "loginIp"/>
+        <result property = "lastLoginTime" column = "lastLoginTime" jdbcType = "TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result property = "count" column = "count"/>
+        <result property = "role" column = "role"/>
+        <result property = "right" column = "right"/>
+        <result property = "otherStr" column = "otherStr"/>
+        <result property = "createAt" column = "createAt" jdbcType = "TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result property = "createBy" column = "createBy"/>
+        <result property = "status" column = "status"/>
+        <result property = "type" column = "type"/>
+        <result property = "phone" column = "phone"/>
+        <result property = "areaCode" column = "areaCode"/>
+    </resultMap>
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.User">
+        insert into `user` (userName, pwd, realName, mail, role, `right`, otherStr, status, `type`, createAt, createBy, phone, areaCode)
+        values(#{userName}, #{pwd}, #{realName}, #{mail}, #{role}, #{right}, #{otherStr}, #{status}, #{type}, #{createAt}, #{createBy}, #{phone}, #{areaCode})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.User">
+        update `user`
+        <set>
+            <if test = "pwd != null" >
+                pwd = #{pwd},
+            </if>
+            <if test = "realName != null">
+                realName = #{realName},
+            </if>
+            <if test = "mail != null">
+                mail = #{mail},
+            </if>
+            <if test = "loginIp != null">
+                loginIp = #{loginIp},
+            </if>
+            <if test = "lastLoginTime != null">
+                lastLoginTime = #{lastLoginTime},
+            </if>
+            <if test = "count != null">
+                `count` = #{count},
+            </if>
+            <if test = "right != null">
+                `right` = #{right},
+            </if>
+            <if test = "status != null">
+                status = #{status},
+            </if>
+            <if test = "phone != null">
+                phone = #{phone},
+            </if>
+            <if test = "areaCode != null">
+                areaCode = #{areaCode},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id = "delete">
+        delete from `user` where id = #{id}
+    </delete>
+
+    <select id = "findOne" resultType="com.chen.brand.model.User" resultMap="userMap">
+        select * from `user` where id = #{id}
+    </select>
+
+    <select id = "findByUserName" resultType="com.chen.brand.model.User" resultMap="userMap">
+        select * from `user` where userName = #{userName}
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from `user` where id = #{id}
+    </select>
+
+    <select id = "isExistUserName" resultType="java.lang.Integer">
+        select count(*) from `user` where userName = #{userName}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.User" resultMap="userMap">
+        select * from `user`
+        <where>
+            <if test = "realName != null">
+                <bind name="pattern" value="'%' + _parameter.realName + '%'" />
+                realName like #{pattern}
+            </if>
+            <if test = "type != null">
+                and `type` = #{type}
+            </if>
+        </where>
+        order by id desc limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "count" resultType="java.lang.Integer">
+        select count(*) from `user`
+        <where>
+            <if test = "realName != null">
+                <bind name="pattern" value="'%' + _parameter.realName + '%'" />
+                realName like #{pattern}
+            </if>
+            <if test = "type != null">
+                and `type` = #{type}
+            </if>
+        </where>
+    </select>
+
+    <select id = "checkPwd" resultType = "java.lang.Integer">
+        select count(*) from `user` where userName = #{userName} and pwd = #{pwd}
+    </select>
+
+</mapper>

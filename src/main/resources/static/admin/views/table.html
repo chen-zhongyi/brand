@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DataGrid Complex Toolbar - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../plugin/jquery-easyui-1.5.3/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/jquery-easyui-1.5.3/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/jquery-easyui-1.5.3/demo/demo.css">
+</head>
+<body>
+<table id="t" class="easyui-datagrid" title="DataGrid Complex Toolbar" style="width:100%;height: 500px;">
+    <thead>
+    <tr>
+        <th data-options="field:'id',width:80">ID</th>
+        <th data-options="field:'name',width:100">name</th>
+        <th data-options="field:'theNo',width:80">theNo</th>
+        <th data-options="field:'groupId',width:80">groupId</th>
+        <th data-options="field:'guide',width:240">guide</th>
+        <th data-options="field:'valiGuide',width:240">valiGuide</th>
+        <th data-options="field:'status',width:60">Status</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb" style="padding:2px 5px;">
+    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="creteDialog('添加', 'add')"></a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"></a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
+</div>
+<div id="dlg" class="easyui-dialog" title="Toolbar and Buttons" style="width:400px;height:310px;padding:10px"
+    data-options="
+            width: 400,
+            height: 320,
+            closed: false,
+            cache: false,
+            modal: true,
+            buttons:[{
+                text:'提交'
+            },{
+                text:'取消',
+                handler:function(){
+                    $('#dlg').window('close');
+                }
+            }]
+">
+    <form id="ff" method="post">
+        <input id="id" style="width:100%" data-options="label:'id:'" type="hidden">
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" id="name" style="width:100%" data-options="label:'name:',required:true,labelAlign:'right'">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" id="theNo" style="width:100%" data-options="label:'theNo:',required:true,labelAlign:'right'">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" id="groupId" style="width:100%" data-options="label:'groupId:',required:true,labelAlign:'right'">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" id="guide" style="width:100%" data-options="label:'guide:',labelAlign:'right'">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" id="valiGuide" style="width:100%" data-options="label:'valiGuide:',labelAlign:'right'">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" id="orderBy" style="width:100%" data-options="label:'orderBy:',labelAlign:'right'">
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="../plugin/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript" src="../plugin/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#dlg').window('close');
+        $('#t').datagrid({
+            rownumbers:true,
+            singleSelect:true,
+            url:'/api/tables',
+            method:'get',
+            toolbar:'#tb',
+            pagination:true,
+            striped:true,
+            loadFilter: function(data){
+                console.log(data);
+                var res = {};
+                res['rows'] = data.data;
+                res['total'] = data.data.length;
+                return res;
+            }
+        })
+    });
+    function add(){
+        var name = $('#name').val();
+        var theNo = $('#theNo').val();
+        var groupId = $('#groupId').val();
+        var guide = $('#guide').val();
+        var valiGuide = $('#valiGuide').val();
+        var orderBy = $('#orderBy').val();
+        if(name == '' || theNo == '' || groupId == '' || guide == '' || valiGuide == '' || orderBy == ''){
+            alert('name, theNo, groupId, guide, valiGuide 字段不能为空');
+            return ;
+        }
+        var data = {
+            name: name,
+            theNo: theNo,
+            groupId: groupId,
+            guide: guide,
+            valiGuide: valiGuide,
+            orderBy: orderBy
+        };
+        console.log(data);
+        $.ajax({
+            url: '/api/tables',
+            method: 'post',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data){
+                alert(data.msg);
+                $('#t').datagrid('reload');
+            }
+        });
+        $('#dlg').window('close');
+    }
+    function creteDialog(title, operation){
+        $(':input').attr('value', '');
+        console.log($(':input'));
+        var fun;
+        if(operation == 'add'){
+            fun = add;
+        }
+        $('#dlg').dialog({
+            title: title,
+            width: 400,
+            height: 320,
+            closed: false,
+            cache: false,
+            modal: true,
+            buttons:[{
+                text:'提交',
+                handler: fun
+            },{
+                text:'取消',
+                handler:function(){
+                    $('#dlg').window('close');
+                }
+            }]
+        });
+    }
+</script>
+</body>
+</html>

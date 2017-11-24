@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.WzMapper">
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Wz">
+        insert into wz (`name`, code, status, link)
+        values(#{name}, #{code}, #{status}, #{link})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.Wz">
+        update wz
+        <set>
+            <if test = "name != null" >
+                `name` = #{name},
+            </if>
+            <if test = "code != null">
+                code = #{code},
+            </if>
+            <if test = "link != null">
+                link = #{link},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id = "delete">
+        delete from wz where id = #{id}
+    </delete>
+
+    <select id = "findOne" resultType="com.chen.brand.model.Wz">
+        select * from wz where id = #{id}
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from wz where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.Wz" >
+        select * from wz
+    </select>
+
+    <update id = "changeStatus" >
+        update wz set status = #{status} where id = #{id}
+    </update>
+
+</mapper>

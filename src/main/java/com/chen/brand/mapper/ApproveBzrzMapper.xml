@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.ApproveBzrzMapper">
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ApproveBzrz">
+        insert into approve_bzrz (bz, tx, zsbh, sj, zs, status, userId)
+        values(#{bz}, #{tx}, #{zsbh}, #{sj}, #{zs}, #{status}, #{userId})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.ApproveBzrz">
+        update approve_bzrz
+        <set>
+            <if test = "bz != null" >
+                bz = #{bz},
+            </if>
+            <if test = "tx != null">
+                tx = #{tx},
+            </if>
+            <if test = "zsbh != null">
+                zsbh = #{zsbh},
+            </if>
+            <if test = "sj != null">
+                sj = #{sj},
+            </if>
+            <if test = "zs != null">
+                zs = #{zs},
+            </if>
+            <if test = "status != null">
+                status = #{status},
+            </if>
+            <if test = "firstComment != null">
+                firstComment = #{firstComment},
+            </if>
+            <if test = "finalComment != null">
+                finalComment = #{finalComment},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id = "delete">
+        delete from approve_bzrz where id = #{id}
+    </delete>
+
+    <select id = "findOne" resultType="com.chen.brand.model.ApproveBzrz">
+        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from approve_bzrz b, `user` u, sample s
+        where b.id = #{id} and u.id = b.userId and u.id = s.userId
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from approve_bzrz where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.ApproveBzrz">
+        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from approve_bzrz b, `user` u, sample s
+        <where>
+            u.id = b.userId and u.id = s.userId
+            <if test = "areaCode != null">
+                and u.areaCode = #{areaCode}
+            </if>
+            <if test = "userId != null">
+                and u.id = #{userId}
+            </if>
+            <if test = "sampleName != null">
+                <bind name="temp" value="'%' + _parameter.sampleName + '%'" />
+                and (s.qymcCn like #{temp} or s.qymcEn like #{temp})
+            </if>
+            <if test = "status != null">
+                and b.status = #{status}
+            </if>
+        </where>
+        order by id desc limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "count" resultType="java.lang.Integer">
+        select count(*) from approve_bzrz b, `user` u, sample s
+        <where>
+            u.id = b.userId and u.id = s.userId
+            <if test = "areaCode != null">
+                and u.areaCode = #{areaCode}
+            </if>
+            <if test = "userId != null">
+                and u.id = #{userId}
+            </if>
+            <if test = "sampleName != null">
+                <bind name="temp" value="'%' + _parameter.sampleName + '%'" />
+                and (s.qymcCn like #{temp} or s.qymcEn like #{temp})
+            </if>
+            <if test = "status != null">
+                and b.status = #{status}
+            </if>
+        </where>
+    </select>
+
+</mapper>

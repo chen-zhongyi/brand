@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.TableMapper">
+    <resultMap id = "tableMap" type = "com.chen.brand.model.Table">
+        <id property = "id" column = "id" />
+        <result property = "name" column = "name" />
+        <result property = "theNo" column = "theNo"/>
+        <result property = "status" column = "status"/>
+        <result property = "groupId" column = "groupId"/>
+        <result property = "guide" column = "guide"/>
+        <result property = "valiGuide" column = "valiGuide"/>
+        <result property = "orderNo" column = "orderNo"/>
+    </resultMap>
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Table">
+        insert into `table` (`name`, theNo, status, groupId, guide, `valiGuide`, orderNo)
+        values(#{name}, #{theNo}, #{status}, #{groupId}, #{guide}, #{valiGuide}, #{orderNo})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.User">
+        update `table`
+        <set>
+            <if test = "name != null" >
+                `name` = #{name},
+            </if>
+            <if test = "theNo != null">
+                theNo = #{theNo},
+            </if>
+            <if test = "groupId != null">
+                groupId = #{groupId},
+            </if>
+            <if test = "guide != null">
+                guide = #{guide},
+            </if>
+            <if test = "valiGuide != null">
+                valiGuide = #{valiGuide},
+            </if>
+            <if test = "orderNo != null">
+                `orderNo` = #{orderNo},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id = "findOne" resultType="com.chen.brand.model.Table" resultMap="tableMap">
+        select * from `table` where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.Table" resultMap="tableMap">
+        select * from `table`
+    </select>
+
+    <select id = "isExist" resultType = "java.lang.Integer">
+        select count(*) from `table` where id = #{id}
+    </select>
+
+    <update id = "changeStatus">
+        update `table` set status = #{status} where id = #{id}
+    </update>
+
+</mapper>

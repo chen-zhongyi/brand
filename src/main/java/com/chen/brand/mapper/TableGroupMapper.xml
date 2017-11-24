@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.TableGroupMapper">
+    <resultMap id = "tableGroupMap" type = "com.chen.brand.model.TableGroup">
+        <id property = "id" column = "id" />
+        <result property = "name" column = "name" />
+        <result property = "frequency" column = "frequency"/>
+        <result property = "orderNo" column = "orderNo"/>
+    </resultMap>
+
+    <select id = "findOne" resultType="com.chen.brand.model.TableGroup" resultMap="tableGroupMap">
+        select * from tablegroup where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.TableGroup" resultMap="tableGroupMap">
+        select * from tablegroup
+    </select>
+
+</mapper>

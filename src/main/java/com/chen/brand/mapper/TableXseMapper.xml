@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.TableXseMapper">
+    <resultMap id = "tableXseMap" type = "com.chen.brand.model.TableXse">
+        <id property = "id" column = "id" />
+        <result property = "xse" column = "xse" />
+        <result property = "cke" column = "cke"/>
+        <result property = "dscke" column = "dscke"/>
+        <result property = "gj" column = "gj"/>
+        <result property = "brandId" column = "brandId"/>
+        <result property = "recordId" column = "recordId"/>
+    </resultMap>
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.TableXse">
+        insert into table_xse (`xse`, cke, dscke, gj1, brandId, recordId, gj2, gj3, gj4, gj5)
+        values(#{xse}, #{cke}, #{dscke}, #{gj1}, #{brandId}, #{recordId}, #{gj2}, #{gj3}, #{gj4}, #{gj5})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.TableXse">
+        update table_xse
+        <set>
+            <if test = "xse != null" >
+                `xse` = #{xse},
+            </if>
+            <if test = "cke != null">
+                cke = #{cke},
+            </if>
+            <if test = "dscke != null">
+                dscke = #{dscke},
+            </if>
+            <if test = "gj1 != null">
+                gj1 = #{gj1},
+            </if>
+            <if test = "gj2 != null">
+                gj2 = #{gj2},
+            </if>
+            <if test = "gj3 != null">
+                gj3 = #{gj3},
+            </if>
+            <if test = "gj4 != null">
+                gj4 = #{gj4},
+            </if>
+            <if test = "gj5 != null">
+                gj5 = #{gj5},
+            </if>
+        </set>
+        where recordId = #{recordId} and brandId = #{brandId}
+    </update>
+
+    <select id = "findByRecordId" resultType="com.chen.brand.model.TableXse" resultMap="tableXseMap">
+        select * from table_xse where recordId = #{recordId}
+    </select>
+
+    <select id = "isExist" resultType = "java.lang.Integer">
+        select count(*) from table_xse where recordId = #{recordId} and brandId = #{brandId}
+    </select>
+
+    <select id = "findAll" resultType="java.util.Map">
+        select x.*, b.ppmc as brandName from table_xse x, record r, sample s, reportplan p, brand b
+        where r.id = x.recordId and s.id = r.sampleId and r.planId = p.id and x.brandId = b.id
+        <if test = "areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test = "planRound != null">
+            and YEAR(p.round) = YEAR(#{planRound}) and MONTH(p.round) = MONTH(#{planRound})
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.ApiMapper">
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Api">
+        insert into api (api, systemCode, status)
+        values(#{api}, #{systemCode}, #{status})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.Api">
+        update api
+        <set>
+            <if test = "systemCode != null">
+                systemCode = #{systemCode},
+            </if>
+            <if test = "status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id = "delete">
+        delete from api where id = #{id}
+    </delete>
+
+    <select id = "findOne" resultType="com.chen.brand.model.Api">
+        select * from api where id = #{id}
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from api where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.Api">
+        select * from api ORDER BY id ASC
+    </select>
+
+    <select id = "findByApi" resultType="com.chen.brand.model.Api">
+        select * from api where api = #{api}
+    </select>
+
+</mapper>

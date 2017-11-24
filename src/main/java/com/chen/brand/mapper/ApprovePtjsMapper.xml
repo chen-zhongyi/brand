@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.ApprovePtjsMapper">
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ApprovePtjs">
+        insert into approve_ptjs (mc, lx, dw, sj, status, userId, cl)
+        values(#{mc}, #{lx}, #{dw}, #{sj}, #{status}, #{userId}, #{cl})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.ApprovePtjs">
+        update approve_ptjs
+        <set>
+            <if test = "mc != null" >
+                mc = #{mc},
+            </if>
+            <if test = "lx != null">
+                lx = #{lx},
+            </if>
+            <if test = "dw != null">
+                dw = #{dw},
+            </if>
+            <if test = "cl != null">
+                cl = #{cl},
+            </if>
+            <if test = "sj != null">
+                sj = #{sj},
+            </if>
+            <if test = "status != null">
+                status = #{status},
+            </if>
+            <if test = "firstComment != null">
+                firstComment = #{firstComment},
+            </if>
+            <if test = "finalComment != null">
+                finalComment = #{finalComment},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id = "delete">
+        delete from approve_ptjs where id = #{id}
+    </delete>
+
+    <select id = "findOne" resultType="com.chen.brand.model.ApprovePtjs">
+        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from approve_ptjs b, `user` u, sample s
+        where b.id = #{id} and u.id = b.userId and u.id = s.userId
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from approve_ptjs where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.ApprovePtjs">
+        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from approve_ptjs b, `user` u, sample s
+        <where>
+            u.id = b.userId and u.id = s.userId
+            <if test = "areaCode != null">
+                and u.areaCode = #{areaCode}
+            </if>
+            <if test = "userId != null">
+                and u.id = #{userId}
+            </if>
+            <if test = "sampleName != null">
+                <bind name="temp" value="'%' + _parameter.sampleName + '%'" />
+                and (s.qymcCn like #{temp} or s.qymcEn like #{temp})
+            </if>
+            <if test = "status != null">
+                and b.status = #{status}
+            </if>
+        </where>
+        order by id desc limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "count" resultType="java.lang.Integer">
+        select count(*) from approve_ptjs b, `user` u, sample s
+        <where>
+            u.id = b.userId and u.id = s.userId
+            <if test = "areaCode != null">
+                and u.areaCode = #{areaCode}
+            </if>
+            <if test = "userId != null">
+                and u.id = #{userId}
+            </if>
+            <if test = "sampleName != null">
+                <bind name="temp" value="'%' + _parameter.sampleName + '%'" />
+                and (s.qymcCn like #{temp} or s.qymcEn like #{temp})
+            </if>
+            <if test = "status != null">
+                and b.status = #{status}
+            </if>
+        </where>
+    </select>
+
+</mapper>

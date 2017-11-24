@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.SampleMapper">
+    <resultMap id = "sampleMap" type = "com.chen.brand.model.Sample">
+        <id property = "id" column = "id" />
+        <result property = "qymcCn" column = "qymcCn" />
+        <result property = "qymcEn" column = "qymcEn"/>
+        <result property = "qylx" column = "qylx"/>
+        <result property = "qysyzxz" column = "qysyzxz"/>
+        <result property = "qyjj" column = "qyjj"/>
+        <result property = "frdb" column = "frdb"/>
+        <result property = "lxr" column = "lxr"/>
+        <result property = "lxdh" column = "lxdh"/>
+        <result property = "lxsj" column = "lxsj"/>
+        <result property = "dzsw" column = "dzsw"/>
+        <result property = "wz" column = "wz"/>
+        <result property = "userId" column = "userId"/>
+        <result property = "status" column = "status"/>
+        <result property = "xydm" column = "xydm"/>
+        <result property = "zcdz" column = "zcdz"/>
+        <result property = "ssqx" column = "ssqx"/>
+    </resultMap>
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Sample">
+        insert into sample (`qymcCn`, qymcEn, qylx, qysyzxz, qyjj, `frdb`, lxr, lxdh, `lxsj`, dzsw, wz, userId, status, xydm, zcdz, ssqx, zczb, bgdz, yyzz, djzs)
+        values(#{qymcCn}, #{qymcEn}, #{qylx}, #{qysyzxz}, #{qyjj}, #{frdb}, #{lxr}, #{lxdh}, #{lxsj}, #{dzsw}, #{wz}, #{userId}, #{status}, #{xydm}, #{zcdz}, #{ssqx}, #{zczb}, #{bgdz}, #{yyzz}, #{djzs})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.Sample">
+        update sample
+        <set>
+            <if test = "qymcCn != null" >
+                `qymcCn` = #{qymcCn},
+            </if>
+            <if test = "qymcEn != null">
+                qymcEn = #{qymcEn},
+            </if>
+            <if test = "qylx != null">
+                qylx = #{qylx},
+            </if>
+            <if test = "qysyzxz != null">
+                qysyzxz = #{qysyzxz},
+            </if>
+            <if test = "frdb != null">
+                frdb = #{frdb},
+            </if>
+            <if test = "lxr != null">
+                lxr = #{lxr},
+            </if>
+            <if test = "lxdh != null">
+                lxdh = #{lxdh},
+            </if>
+            <if test = "lxsj != null">
+                lxsj = #{lxsj},
+            </if>
+            <if test = "dzsw != null">
+                dzsw = #{dzsw},
+            </if>
+            <if test = "wz != null">
+                wz = #{wz},
+            </if>
+            <if test = "xydm != null">
+                xydm = #{xydm},
+            </if>
+            <if test = "zcdz != null">
+                zcdz = #{zcdz},
+            </if>
+            <if test = "qyjj != null">
+                qyjj = #{qyjj},
+            </if>
+            <if test = "zczb != null">
+                zczb = #{zczb},
+            </if>
+            <if test = "bgdz != null">
+                bgdz = #{bgdz},
+            </if>
+            <if test = "yyzz != null">
+                yyzz = #{yyzz},
+            </if>
+            <if test = "djzs != null">
+                djzs = #{djzs},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id = "delete">
+        delete from sample where id = #{id}
+    </delete>
+
+    <select id = "findOne" resultType="com.chen.brand.model.Sample" resultMap="sampleMap">
+        select * from sample where id = #{id}
+    </select>
+
+    <select id = "findByUserId" resultType="com.chen.brand.model.Sample" resultMap="sampleMap">
+        select * from sample where userId = #{userId}
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from sample where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.Sample" resultMap="sampleMap">
+        select * from sample
+        <where>
+            <if test = "xydm != null">
+                <bind name="xydmTemp" value="'%' + _parameter.xydm + '%'" />
+                xydm like #{xydmTemp}
+            </if>
+            <if test = "qymc != null">
+                <bind name="qymcTemp" value="'%' + _parameter.qymc + '%'" />
+                and (qymcCn like #{qymcTemp} or qymcEn like #{qymcTemp})
+            </if>
+            <if test = "areaCode != null">
+                and ssqx = #{areaCode}
+            </if>
+            <if test = "userId != null">
+                and userId like #{userId}
+            </if>
+        </where>
+        order by id desc limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "count" resultType="java.lang.Integer">
+        select count(*) from sample
+        <where>
+            <if test = "xydm != null">
+                <bind name="xydmTemp" value="'%' + _parameter.xydm + '%'" />
+                xydm like #{xydmTemp}
+            </if>
+            <if test = "qymc != null">
+                <bind name="qymcTemp" value="'%' + _parameter.qymc + '%'" />
+                and (qymcCn like #{qymcTemp} or qymcEn like #{qymcTemp})
+            </if>
+            <if test = "areaCode != null">
+                and ssqx = #{areaCode}
+            </if>
+            <if test = "userId != null">
+                and userId like #{userId}
+            </if>
+        </where>
+    </select>
+
+    <update id = "approve" >
+        update sample set status = #{status} where id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.RecordMapper">
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Record">
+        insert into record (tableId, planId, sampleId, status, createAt, createBy, tableReportId)
+        values(#{tableId}, #{planId}, #{sampleId}, #{status}, #{createAt}, #{createBy}, #{tableReportId})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.Record">
+        update record
+        <set>
+            <if test = "modifyAt != null" >
+                modifyAt = #{modifyAt},
+            </if>
+            <if test = "modifyBy != null">
+                modifyBy = #{modifyBy},
+            </if>
+            <if test = "firstApproveAt != null">
+                firstApproveAt = #{firstApproveAt},
+            </if>
+            <if test = "firstApproveBy != null">
+                firstApproveBy = #{firstApproveBy},
+            </if>
+            <if test = "finalApproveAt != null">
+                finalApproveAt = #{finalApproveAt},
+            </if>
+            <if test = "finalApproveBy != null">
+                finalApproveBy = #{finalApproveBy},
+            </if>
+            <if test = "finalApproveComment != null">
+                finalApproveComment = #{finalApproveComment},
+            </if>
+            <if test = "firstApproveComment != null">
+                firstApproveComment = #{firstApproveComment},
+            </if>
+            <if test = "status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id = "findOne" resultType="com.chen.brand.model.Record">
+        select r.*, s.ssqx as areaCode, s.qymcCn as sampleName, p.round as planRound, t.name as tableName, g.id as groupId from record r, sample s, `table` t, reportplan p, tablegroup g
+        where r.sampleId = s.id and r.planId = p.id and r.tableId = t.id and p.groupId = g.id and r.id = #{id}
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from record where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.Record">
+        select r.*, s.ssqx as areaCode, s.qymcCn as sampleName, p.round as planRound, t.name as tableName, g.id as groupId from record r, sample s, `table` t, reportplan p, tablegroup g
+        where r.sampleId = s.id and r.planId = p.id and r.tableId = t.id and p.groupId = g.id
+        <if test="sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test="areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleName != null">
+            <bind name="nameTemp" value="'%' + _parameter.sampleName + '%'" />
+            and s.qymcCn like #{nameTemp}
+        </if>
+        <if test = "planRound != null">
+            and p.round = #{planRound}
+        </if>
+        <if test = "tableId != null">
+            and t.id = #{tableId}
+        </if>
+        ORDER BY p.round limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "count" resultType="java.lang.Integer">
+        select count(*) from record r, sample s, `table` t, reportplan p, tablegroup g
+        where r.sampleId = s.id and r.planId = p.id and r.tableId = t.id and p.groupId = g.id
+        <if test="sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test="areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleName != null">
+            <bind name="nameTemp" value="'%' + _parameter.sampleName + '%'" />
+            and s.qymcCn like #{nameTemp}
+        </if>
+        <if test = "planRound != null">
+            and p.round = #{planRound}
+        </if>
+        <if test = "tableId != null">
+            and t.id = #{tableId}
+        </if>
+    </select>
+
+    <select id = "findByTableIdAndSampleIdAndPlanId" resultType="java.lang.Long">
+        select id from record where tableId = #{tableId} and sampleId = #{sampleId} and planId = #{planId}
+    </select>
+
+</mapper>

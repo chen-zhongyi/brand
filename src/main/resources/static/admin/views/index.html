@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Full Layout - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../plugin/jquery-easyui-1.5.3/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/jquery-easyui-1.5.3/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../plugin/jquery-easyui-1.5.3/demo/demo.css">
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north',border:false" style="height:11%;background:#B3DFDA;padding:10px;text-align:center;"><h1>名牌后台管理系统</h1></div>
+<div data-options="region:'west',split:true,title:'West'" style="width:20%;padding:10px;">
+    <ul id="tree"></ul>
+</div>
+<!--<div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region</div>-->
+<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;text-align:center;font-weight: bold" >联系：765485378@qq.com</div>
+<div data-options="region:'center',title:'Center'">
+    <div id="tt" class="easyui-tabs" data-options="tools:'#tab-tools'" style="width:100%;height:100%">
+    </div>
+</div>
+<script type="text/javascript" src="../plugin/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript" src="../plugin/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript">
+    var url = {
+        "Java": "table.html"
+    }
+    $(document).ready(function(){
+        $('#tree').tree({
+            url: "../data/menu.json",
+            onClick: function(node){
+                if(url[node.text] != undefined) {
+                    $('#tt').tabs('add', {
+                        title: node.text,
+                        content: '<iframe src="' + url[node.text] + '" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>',
+                        closable: true
+                    });
+                }else {
+                    $('#tt').tabs('add', {
+                        title: node.text,
+                        content: '<h1>nothing</h1>',
+                        closable: true
+                    });
+                }
+            },
+            method:"get"
+        });
+    });
+</script>
+</body>
+</html>

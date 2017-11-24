@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.TableJygmMapper">
+    <resultMap id = "tableJygmMap" type = "com.chen.brand.model.TableJygm">
+        <id property = "id" column = "id" />
+        <result property = "ckeB2b" column = "cke_b2b" />
+        <result property = "ckeB2c" column = "cke_b2c"/>
+        <result property = "ckddB2b" column = "ckdd_b2b"/>
+        <result property = "ckddB2c" column = "ckdd_b2c"/>
+        <result property = "cyryB2b" column = "cyry_b2b"/>
+        <result property = "cyryB2c" column = "cyry_b2c"/>
+        <result property = "recordId" column = "recordId"/>
+    </resultMap>
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.TableJygm">
+        insert into table_jygm(`cke_b2b`, cke_b2c, ckdd_b2b, ckdd_b2c, cyry_b2b, `cyry_b2c`, recordId)
+        values(#{ckeB2b}, #{ckeB2c}, #{ckddB2b}, #{ckddB2c}, #{cyryB2b}, #{cyryB2c}, #{recordId})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.TableJygm">
+        update table_jygm
+        <set>
+            <if test = "ckeB2b != null" >
+                `cke_b2b` = #{ckeB2b},
+            </if>
+            <if test = "ckeB2c != null">
+                cke_b2c = #{ckeB2c},
+            </if>
+            <if test = "ckddB2b != null">
+                ckdd_b2b = #{ckddB2b},
+            </if>
+            <if test = "ckddB2c != null">
+                ckdd_b2c = #{ckddB2c},
+            </if>
+            <if test = "cyryB2b != null">
+                cyry_b2b = #{cyryB2b},
+            </if>
+            <if test = "cyryB2c != null">
+                cyry_b2c = #{cyryB2c}
+            </if>
+        </set>
+        where recordId = #{recordId}
+    </update>
+
+    <select id = "findByRecordId" resultType="com.chen.brand.model.TableJygm" resultMap="tableJygmMap">
+        select * from table_jygm where recordId = #{recordId}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.TableJygm" resultMap="tableJygmMap">
+        select b.* from table_jygm b, record r, sample s, reportplan p
+        where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
+        <if test = "areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test = "planRound != null">
+            and YEAR(p.round) = YEAR(#{planRound}) and MONTH(p.round) = MONTH(#{planRound})
+        </if>
+    </select>
+
+</mapper>

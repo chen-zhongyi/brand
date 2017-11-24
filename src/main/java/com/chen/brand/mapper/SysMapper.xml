@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.SysMapper">
+    <resultMap id = "sysMap" type = "com.chen.brand.model.Sys">
+        <id property = "id" column = "id" />
+        <result property = "code" column = "code" />
+        <result property = "description" column = "description"/>
+        <result property = "status" column = "status"/>
+    </resultMap>
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Sys">
+        insert into system (code, description, status)
+        values(#{code}, #{description}, #{status})
+    </insert>
+
+    <select id = "findOne" resultType="com.chen.brand.model.Sys" resultMap="sysMap">
+        select * from system where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.Sys" resultMap="sysMap">
+        select * from system
+    </select>
+
+    <select id = "isExistCode" resultType="java.lang.Integer">
+        select count(*) from system where code = #{code}
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from system where id = #{id}
+    </select>
+
+    <update id = "changeStatus">
+        update system set status = #{status} where id = #{id}
+    </update>
+
+</mapper>

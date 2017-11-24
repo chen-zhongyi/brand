@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.TableBaseMapper">
+    <resultMap id = "tableBaseMap" type = "com.chen.brand.model.TableBase">
+        <id property = "id" column = "id" />
+        <result property = "zczb" column = "zczb" />
+        <result property = "zzc" column = "zzc"/>
+        <result property = "jzc" column = "jzc"/>
+        <result property = "lrze" column = "lrze"/>
+        <result property = "ywsr" column = "ywsr"/>
+        <result property = "xse" column = "xse"/>
+        <result property = "cke" column = "cke"/>
+        <result property = "hypm" column = "hypm"/>
+        <result property = "ppsl" column = "ppsl"/>
+        <result property = "cyry" column = "cyry"/>
+        <result property = "recordId" column = "recordId"/>
+        <result property = "round" column = "round"/>
+        <result property = "ckppsl" column = "ckppsl"/>
+        <result property = "sjse" column = "sjse"/>
+    </resultMap>
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.TableBase">
+        insert into table_base (`zczb`, zzc, jzc, lrze, ywsr, `xse`, cke, hypm, `ppsl`, cyry, recordId, round, ckppsl, sjse)
+        values(#{zczb}, #{zzc}, #{jzc}, #{lrze}, #{ywsr}, #{xse}, #{cke}, #{hypm}, #{ppsl}, #{cyry}, #{recordId}, #{round}, #{ckppsl}, #{sjse})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.TableBase">
+        update table_base
+        <set>
+            <if test = "zczb != null" >
+                `zczb` = #{zczb},
+            </if>
+            <if test = "zzc != null">
+                zzc = #{zzc},
+            </if>
+            <if test = "jzc != null">
+                jzc = #{jzc},
+            </if>
+            <if test = "lrze != null">
+                lrze = #{lrze},
+            </if>
+            <if test = "ywsr != null">
+                ywsr = #{ywsr},
+            </if>
+            <if test = "xse != null">
+                xse = #{xse},
+            </if>
+            <if test = "cke != null">
+                cke = #{cke},
+            </if>
+            <if test = "hypm != null">
+                hypm = #{hypm},
+            </if>
+            <if test = "ppsl != null">
+                ppsl = #{ppsl},
+            </if>
+            <if test = "cyry != null">
+                cyry = #{cyry},
+            </if>
+            <if test = "ckppsl != null">
+                ckppsl = #{ckppsl},
+            </if>
+            <if test = "sjse != null">
+                sjse = #{sjse}
+            </if>
+        </set>
+        where recordId = #{recordId}
+    </update>
+
+    <select id = "findByRecordId" resultType="com.chen.brand.model.TableBase" resultMap="tableBaseMap">
+        select * from table_base where recordId = #{recordId}
+    </select>
+
+    <select id = "findAll" resultType = "com.chen.brand.model.TableBase" resultMap = "tableBaseMap">
+        select b.* from table_base b, record r, sample s, reportplan p
+        where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
+        <if test = "areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test = "planRound != null">
+            and YEAR(p.round) = YEAR(#{planRound})
+        </if>
+    </select>
+
+</mapper>

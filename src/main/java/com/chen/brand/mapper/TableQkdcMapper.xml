@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.TableQkdcMapper">
+    <resultMap id = "tableQkdcMap" type = "com.chen.brand.model.TableQkdc">
+        <id property = "id" column = "id" />
+        <result property = "recordId" column = "recordId"/>
+
+        <result property = "rzPri" column = "rz_pri" />
+        <result property = "rzYear" column = "rz_year"/>
+        <result property = "rzNext" column = "rz_next"/>
+
+        <result property = "zpPri" column = "zp_pri"/>
+        <result property = "zpYear" column = "zp_year"/>
+        <result property = "zpNext" column = "zp_next"/>
+
+        <result property = "gzPri" column = "gz_pri"/>
+        <result property = "gzYear" column = "gz_year"/>
+        <result property = "gzNext" column = "gz_next"/>
+
+        <result property = "ywlPri" column = "ywl_pri"/>
+        <result property = "ywlYear" column = "ywl_year"/>
+        <result property = "ywlNext" column = "ywl_next"/>
+
+        <result property = "fwjgPri" column = "fwjg_pri"/>
+        <result property = "fwjgYear" column = "fwjg_year"/>
+        <result property = "fwjgNext" column = "fwjg_next"/>
+
+        <result property = "fwslPri" column = "fwsl_pri"/>
+        <result property = "fwslYear" column = "fwsl_year"/>
+        <result property = "fwslNext" column = "fwsl_next"/>
+
+        <result property = "zjzzPri" column = "zjzz_pri"/>
+        <result property = "zjzzYear" column = "zjzz_year"/>
+        <result property = "zjzzNext" column = "zjzz_next"/>
+
+        <result property = "jysrPri" column = "jysr_pri"/>
+        <result property = "jysrYear" column = "jysr_year"/>
+        <result property = "jysrNext" column = "jysr_next"/>
+
+        <result property = "mlzePri" column = "mlze_pri"/>
+        <result property = "mlzeYear" column = "mlze_year"/>
+        <result property = "mlzeNext" column = "mlze_next"/>
+
+        <result property = "jyzkPri" column = "jyzk_pri"/>
+        <result property = "jyzkYear" column = "jyzk_year"/>
+        <result property = "jyzkNext" column = "jyzk_next"/>
+
+        <result property = "jyxsPri" column = "jyxs_pri"/>
+        <result property = "jyxsYear" column = "jyxs_year"/>
+        <result property = "jyxsNext" column = "jyxs_next"/>
+
+        <result property = "xczzPri" column = "xczz_pri"/>
+        <result property = "xczzYear" column = "xczz_year"/>
+        <result property = "xczzNext" column = "xczz_next"/>
+
+        <result property = "gjzcPri" column = "gjzc_pri"/>
+        <result property = "gjzcYear" column = "gjzc_year"/>
+        <result property = "gjzcNext" column = "gjzc_next"/>
+    </resultMap>
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.TableQkdc">
+        insert into table_qkdc (rz_pri, rz_year, rz_next,
+                               gz_pri, gz_year, gz_next,
+                               zp_pri, zp_year, zp_next,
+                               ywl_pri, ywl_year, ywl_next,
+                               fwjg_pri, fwjg_year, fwjg_next,
+                               fwsl_pri, fwsl_year, fwsl_next,
+                               zjzz_pri, zjzz_year, zjzz_next,
+                               jysr_pri, jysr_year, jysr_next,
+                               mlze_pri, mlze_year, mlze_next,
+                               jyzk_pri, jyzk_year, jyzk_next,
+                               jyxs_pri, jyxs_year, jyxs_next,
+                               xczz_pri, xczz_year, xczz_next,
+                               gjzc_pri, gjzc_year, gjzc_next,
+                               recordId)
+        values(#{rzPri}, #{rzYear}, #{rzNext},
+               #{gzPri}, #{gzYear}, #{gzNext},
+               #{zpPri}, #{zpYear}, #{zpNext},
+               #{ywlPri}, #{ywlYear}, #{ywlNext},
+               #{fwjgPri}, #{fwjgYear}, #{fwjgNext},
+               #{fwslPri}, #{fwslYear}, #{fwslNext},
+               #{zjzzPri}, #{zjzzYear}, #{zjzzNext},
+               #{jysrPri}, #{jysrYear}, #{jysrNext},
+               #{mlzePri}, #{mlzeYear}, #{mlzeNext},
+               #{jyzkPri}, #{jyzkYear}, #{jyzkNext},
+               #{jyxsPri}, #{jyxsYear}, #{jyxsNext},
+               #{xczzPri}, #{xczzYear}, #{xczzNext},
+               #{gjzcPri}, #{gjzcYear}, #{gjzcNext},
+               #{recordId})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.TableQkdc">
+        update table_qkdc
+        <set>
+            <if test = "rzPri != null" >
+                rz_pri = #{rzPri},
+            </if>
+            <if test = "rzYear != null">
+                rz_year = #{rzYear},
+            </if>
+            <if test = "rzNext != null">
+                rz_next = #{rzNext},
+            </if>
+
+            <if test = "zpPri != null" >
+                zp_pri = #{zpPri},
+            </if>
+            <if test = "zpYear != null">
+                zp_year = #{zpYear},
+            </if>
+            <if test = "zpNext != null">
+                zp_next = #{zpNext},
+            </if>
+
+            <if test = "gzPri != null" >
+                gz_pri = #{gzPri},
+            </if>
+            <if test = "gzYear != null">
+                gz_year = #{gzYear},
+            </if>
+            <if test = "gzNext != null">
+                gz_next = #{gzNext},
+            </if>
+
+            <if test = "ywlPri != null" >
+                ywl_pri = #{ywlPri},
+            </if>
+            <if test = "ywlYear != null">
+                ywl_year = #{ywlYear},
+            </if>
+            <if test = "ywlNext != null">
+                ywl_next = #{ywlNext},
+            </if>
+
+            <if test = "fwjgPri != null" >
+                fwjg_pri = #{fwjgPri},
+            </if>
+            <if test = "fwjgYear != null">
+                fwjg_year = #{fwjgYear},
+            </if>
+            <if test = "fwjgNext != null">
+                fwjg_next = #{fwjgNext},
+            </if>
+
+            <if test = "fwslPri != null" >
+                fwsl_pri = #{fwslPri},
+            </if>
+            <if test = "fwslYear != null">
+                fwsl_year = #{fwslYear},
+            </if>
+            <if test = "fwslNext != null">
+                fwsl_next = #{fwslNext},
+            </if>
+
+            <if test = "zjzzPri != null" >
+                zjzz_pri = #{zjzzPri},
+            </if>
+            <if test = "zjzzYear != null">
+                zjzz_year = #{zjzzYear},
+            </if>
+            <if test = "zjzzNext != null">
+                zjzz_next = #{zjzzNext},
+            </if>
+
+            <if test = "jysrPri != null" >
+                jysr_pri = #{jysrPri},
+            </if>
+            <if test = "jysrYear != null">
+                jysr_year = #{jysrYear},
+            </if>
+            <if test = "jysrNext != null">
+                jysr_next = #{jysrNext},
+            </if>
+
+            <if test = "mlzePri != null" >
+                mlze_pri = #{mlzePri},
+            </if>
+            <if test = "mlzeYear != null">
+                mlze_year = #{mlzeYear},
+            </if>
+            <if test = "mlzeNext != null">
+                mlze_next = #{mlzeNext},
+            </if>
+
+            <if test = "jyzkPri != null" >
+                jyzk_pri = #{jyzkPri},
+            </if>
+            <if test = "jyzkYear != null">
+                jyzk_year = #{jyzkYear},
+            </if>
+            <if test = "jyzkNext != null">
+                jyzk_next = #{jyzkNext},
+            </if>
+
+            <if test = "jyxsPri != null" >
+                jyxs_pri = #{jyxsPri},
+            </if>
+            <if test = "jyxsYear != null">
+                jyxs_year = #{jyxsYear},
+            </if>
+            <if test = "jyxsNext != null">
+                jyxs_next = #{jyxsNext},
+            </if>
+
+            <if test = "xczzPri != null" >
+                xczz_pri = #{xczzPri},
+            </if>
+            <if test = "xczzYear != null">
+                xczz_year = #{xczzYear},
+            </if>
+            <if test = "xczzNext != null">
+                xczz_next = #{xczzNext},
+            </if>
+
+            <if test = "gjzcPri != null" >
+                gjzc_pri = #{gjzcPri},
+            </if>
+            <if test = "gjzcYear != null">
+                gjzc_year = #{gjzcYear},
+            </if>
+            <if test = "gjzcNext != null">
+                gjzc_next = #{gjzcNext},
+            </if>
+        </set>
+        where recordId = #{recordId}
+    </update>
+
+    <select id = "findByRecordId" resultType="com.chen.brand.model.TableQkdc" resultMap="tableQkdcMap">
+        select * from table_qkdc where recordId = #{recordId}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.TableQkdc" resultMap="tableQkdcMap">
+        select b.* from table_qkdc b, record r, sample s, reportplan p
+        where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
+        <if test = "areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test = "planRound != null">
+            and YEAR(p.round) = YEAR(#{planRound}) and MONTH(p.round) = MONTH(#{planRound})
+        </if>
+    </select>
+
+</mapper>

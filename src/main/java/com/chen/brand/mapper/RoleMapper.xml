@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.RoleMapper">
+    <resultMap id = "roleMap" type = "com.chen.brand.model.Role">
+        <id property = "id" column = "id" />
+        <result property = "code" column = "code" />
+        <result property = "description" column = "description"/>
+        <result property = "status" column = "status"/>
+        <result property = "right" column = "right"/>
+    </resultMap>
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Role">
+        insert into role (code, description, status, `right`)
+        values(#{code}, #{description}, #{status}, #{right})
+    </insert>
+
+    <select id = "findOne" resultType="com.chen.brand.model.Role" resultMap="roleMap">
+        select * from role where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.Role" resultMap="roleMap">
+        select * from role
+    </select>
+
+    <select id = "isExistCode" resultType="java.lang.Integer">
+        select count(*) from role where code = #{code}
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from role where id = #{id}
+    </select>
+
+    <update id = "changeStatus">
+        update role set status = #{status} where id = #{id}
+    </update>
+
+    <update id = "update" parameterType="com.chen.brand.model.Role">
+        update role set `right` = #{right} where id = #{id}
+    </update>
+
+</mapper>

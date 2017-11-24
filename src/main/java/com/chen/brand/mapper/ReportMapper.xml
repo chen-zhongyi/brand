@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.ReportMapper">
+
+    <select id = "findAll" resultType="com.chen.brand.model.Record">
+        select ta.*, r.createAt, r.createBy, r.modifyAt, r.modifyBy, r.status, r.firstApproveAt, r.firstApproveBy, r.finalApproveAt, r.finalApproveBy, r.firstApproveComment,
+        r.finalApproveComment, r.tableReportId from
+        (select g.id as groupId, p.id as planId, p.round as planRound, t.id as tableId, t.name as tableName, s.id as sampleId, s.qymcCn as sampleName, s.ssqx as areaCode from reportplan p, `table` t, tablegroup g, sample s
+        where p.groupId = g.id and t.groupId = g.id and t.status = 1 and p.status = 1
+        <if test="sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test="areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleName != null">
+            <bind name="nameTemp" value="'%' + _parameter.sampleName + '%'" />
+            and s.qymcCn like #{nameTemp}
+        </if>
+        <if test = "planRound != null">
+            and p.round = #{planRound}
+        </if>
+        <if test = "tableId != null">
+            and t.id = #{tableId}
+        </if>
+        ORDER BY p.round
+        ) ta
+        LEFT OUTER JOIN
+        record r
+        ON ta.tableId = r.tableId and ta.planId = r.planId and ta.sampleId = r.sampleId
+        limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "count" resultType="java.lang.Integer">
+        select count(*) from
+        (select g.id as groupId, p.id as planId, p.round as planRound, t.id as tableId, t.name as tableName, s.id as sampleId, s.qymcCn as sampleName, s.ssqx as areaCode from reportplan p, `table` t, tablegroup g, sample s
+        where p.groupId = g.id and t.groupId = g.id and t.status = 1 and p.status = 1
+        <if test="sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test="areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleName != null">
+            <bind name="nameTemp" value="'%' + _parameter.sampleName + '%'" />
+            and s.qymcCn like #{nameTemp}
+        </if>
+        <if test = "planRound != null">
+            and p.round = #{planRound}
+        </if>
+        <if test = "tableId != null">
+            and t.id = #{tableId}
+        </if>
+        ORDER BY p.round
+        ) ta
+        LEFT OUTER JOIN
+        record r
+        ON ta.tableId = r.tableId and ta.planId = r.planId and ta.sampleId = r.sampleId
+    </select>
+
+</mapper>

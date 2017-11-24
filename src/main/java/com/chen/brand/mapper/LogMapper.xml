@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.LogMapper">
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Log">
+        insert into log (`type`, `user`, method, param, result, ex, createTime, executionTime)
+        values(#{type}, #{user}, #{method}, #{param}, #{result}, #{ex}, #{createTime}, #{executionTime})
+    </insert>
+
+    <delete id = "delete">
+        delete from log where id = #{id}
+    </delete>
+
+    <delete id = "deleteAll">
+        delete from log
+    </delete>
+
+    <select id = "findOne" resultType="com.chen.brand.model.Log">
+        select * from log where id = #{id}
+    </select>
+
+    <select id = "isExist" resultType="java.lang.Integer">
+        select count(*) from log where id = #{id}
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.Log">
+        select * from log
+        <where>
+            <if test = "userName != null">
+                `user` = #{userName}
+            </if>
+            <if test = "startTime != null">
+                and date(createTime) >= #{startTime}
+            </if>
+            <if test = "endTime != null">
+                <![CDATA[ and date(createTime) <= #{endTime} ]]>
+            </if>
+            <if test = "type != null">
+                and `type` = #{type}
+            </if>
+        </where>
+        ORDER BY id ASC limit #{start}, #{pageSize}
+    </select>
+
+</mapper>
