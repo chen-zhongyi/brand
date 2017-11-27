@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveRychMapper;
 import com.chen.brand.model.ApproveRych;
 import com.chen.brand.service.ApproveRychService;
@@ -41,5 +42,12 @@ public class ApproveRychServiceImp implements ApproveRychService{
 
     public boolean isExist(Long id){
         return rychMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = rychMapper.count(null, null, null, userId);
+        ans[1] = rychMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }

@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApprovePpckeMapper;
 import com.chen.brand.model.ApprovePpcke;
 import com.chen.brand.service.ApprovePpckeService;
@@ -46,5 +47,12 @@ public class ApprovePpckeServiceImp implements ApprovePpckeService{
 
     public List<ApprovePpcke> findByYear(Long userId, String year){
         return ppckeMapper.findByYear(userId, year);
+    }
+
+    public int[] total(Long userId, String year){
+        int[] ans = new int[2];
+        ans[0] = ppckeMapper.count(null, null, null, userId, year);
+        ans[1] = ppckeMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId, year);
+        return ans;
     }
 }

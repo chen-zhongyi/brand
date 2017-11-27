@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveCfsmMapper;
 import com.chen.brand.model.ApproveCfsm;
 import com.chen.brand.service.ApproveCfsmService;
@@ -41,5 +42,12 @@ public class ApproveCfsmServiceImp implements ApproveCfsmService{
 
     public boolean isExist(Long id){
         return cfsmMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = cfsmMapper.count(null, null, null, userId);
+        ans[1] = cfsmMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }

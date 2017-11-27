@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveQqhMapper;
 import com.chen.brand.model.ApproveQqh;
 import com.chen.brand.service.ApproveQqhService;
@@ -41,5 +42,12 @@ public class ApproveQqhServiceImp implements ApproveQqhService{
 
     public boolean isExist(Long id){
         return qqhMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = qqhMapper.count(null, null, null, userId);
+        ans[1] = qqhMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }

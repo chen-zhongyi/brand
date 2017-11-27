@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApprovePtjsMapper;
 import com.chen.brand.model.ApprovePtjs;
 import com.chen.brand.service.ApprovePtjsService;
@@ -41,5 +42,12 @@ public class ApprovePtjsServiceImp implements ApprovePtjsService {
 
     public boolean isExist(Long id){
         return ptjsMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = ptjsMapper.count(null, null, null, userId);
+        ans[1] = ptjsMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }

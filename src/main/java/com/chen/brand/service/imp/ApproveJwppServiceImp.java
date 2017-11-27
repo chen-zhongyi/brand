@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveJwppMapper;
 import com.chen.brand.model.ApproveJwpp;
 import com.chen.brand.service.ApproveJwppService;
@@ -41,5 +42,12 @@ public class ApproveJwppServiceImp implements ApproveJwppService{
 
     public boolean isExist(Long id){
         return jwppMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = jwppMapper.count(null, null, null, userId);
+        ans[1] = jwppMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }

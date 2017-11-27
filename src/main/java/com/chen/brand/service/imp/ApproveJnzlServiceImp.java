@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveJnzlMapper;
 import com.chen.brand.model.ApproveJnzl;
 import com.chen.brand.service.ApproveJnzlService;
@@ -41,5 +42,12 @@ public class ApproveJnzlServiceImp implements ApproveJnzlService{
 
     public boolean isExist(Long id){
         return jnzlMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = jnzlMapper.count(null, null, null, userId);
+        ans[1] = jnzlMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }

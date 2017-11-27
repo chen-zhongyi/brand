@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveKjjlMapper;
 import com.chen.brand.model.ApproveKjjl;
 import com.chen.brand.service.ApproveKjjlService;
@@ -41,5 +42,12 @@ public class ApproveKjjlServiceImp implements ApproveKjjlService {
 
     public boolean isExist(Long id){
         return kjjlMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = kjjlMapper.count(null, null, null, userId);
+        ans[1] = kjjlMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }

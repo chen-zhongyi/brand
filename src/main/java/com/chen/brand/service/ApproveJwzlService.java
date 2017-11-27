@@ -18,4 +18,5 @@ public interface ApproveJwzlService {
 
     Map<String, Object> findAll(String areaCode, String sampleName, Long status, Long userId, int pageNumber, int pageSize);
 
+    int[] total(Long userId);
 }

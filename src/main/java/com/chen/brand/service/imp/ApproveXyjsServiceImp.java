@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveXyjsMapper;
 import com.chen.brand.model.ApproveXyjs;
 import com.chen.brand.service.ApproveXyjsService;
@@ -41,5 +42,12 @@ public class ApproveXyjsServiceImp implements ApproveXyjsService{
 
     public boolean isExist(Long id){
         return xyjsMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId, String year){
+        int[] ans = new int[2];
+        ans[0] = xyjsMapper.count(null, null, null, userId, year);
+        ans[1] = xyjsMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId, year);
+        return ans;
     }
 }

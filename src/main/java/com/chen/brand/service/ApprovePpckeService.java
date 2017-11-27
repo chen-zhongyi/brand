@@ -21,4 +21,5 @@ public interface ApprovePpckeService {
 
     List<ApprovePpcke> findByYear(Long userId, String year);
 
+    int[] total(Long userId, String year);
 }

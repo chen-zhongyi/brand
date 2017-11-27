@@ -18,4 +18,5 @@ public interface ApproveXyjsService {
 
     Map<String, Object> findAll(String areaCode, String sampleName, Long status, Long userId, String year, int pageNumber, int pageSize);
 
+    int[] total(Long userId, String year);
 }

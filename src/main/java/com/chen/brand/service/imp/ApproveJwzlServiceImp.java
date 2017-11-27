@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveJwzlMapper;
 import com.chen.brand.model.ApproveJwzl;
 import com.chen.brand.service.ApproveJwzlService;
@@ -41,5 +42,12 @@ public class ApproveJwzlServiceImp implements ApproveJwzlService {
 
     public boolean isExist(Long id){
         return jwzlMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = jwzlMapper.count(null, null, null, userId);
+        ans[1] = jwzlMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }

@@ -1,5 +1,6 @@
 package com.chen.brand.service.imp;
 
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.mapper.ApproveBzqcMapper;
 import com.chen.brand.model.ApproveBzqc;
 import com.chen.brand.service.ApproveBzqcService;
@@ -41,5 +42,12 @@ public class ApproveBzqcServiceImp implements ApproveBzqcService {
 
     public boolean isExist(Long id){
         return bzqcMapper.isExist(id) > 0;
+    }
+
+    public int[] total(Long userId){
+        int[] ans = new int[2];
+        ans[0] = bzqcMapper.count(null, null, null, userId);
+        ans[1] = bzqcMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
+        return ans;
     }
 }
