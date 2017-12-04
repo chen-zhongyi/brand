@@ -33,4 +33,6 @@ public interface ApproveRychMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveRych> findByUserIdAndStatus(@Param("userId")Long userId, @Param("status") Long status);
+
 }

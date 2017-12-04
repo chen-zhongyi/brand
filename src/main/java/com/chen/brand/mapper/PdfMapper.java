@@ -21,6 +21,8 @@ public interface PdfMapper {
 
     int isExist(@Param("id") Long id);
 
+    Pdf findByUserIdAndBrandId(@Param("userId") Long userId, @Param("brandId") Long brandId);
+
     List<Pdf> findAll(@Param("areaCode") String areaCode,
                       @Param("sampleName") String sampleName,
                       @Param("status") Long status,

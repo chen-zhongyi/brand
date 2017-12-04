@@ -5,24 +5,24 @@ import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.Enum.UserType;
 import com.chen.brand.http.request.pdf.PdfApprove;
 import com.chen.brand.http.request.pdf.PdfInsert;
-import com.chen.brand.model.Brand;
-import com.chen.brand.model.Pdf;
-import com.chen.brand.model.Sample;
-import com.chen.brand.model.User;
-import com.chen.brand.service.BrandService;
-import com.chen.brand.service.PdfService;
-import com.chen.brand.service.SampleService;
+import com.chen.brand.model.*;
+import com.chen.brand.service.*;
+import com.chen.brand.util.PdfUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,7 +39,21 @@ public class PdfController extends BaseController{
     @Autowired
     private SampleService sampleService;
 
-    @ApiOperation("创建")
+    @Value("${web.upload-path}")
+    private String UPLOAD_PATH;
+
+    @ApiOperation("是否已经创建了文档")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", value = "请求体", dataType = "PdfInsert", paramType = "body")
+    })
+    @GetMapping("/isCreated")
+    public Map<String, Object> isCreated(@ApiIgnore HttpServletRequest httpRequest,
+                                        @RequestParam Long brandId){
+        User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
+        return createResponse(Constant.SUCCESS, "成功", pdfService.findByUserIdAndBrandId(user.getId(), brandId));
+    }
+
+    @ApiOperation("生成pdf文档接口,未生成文档的创建文档，已生成文档的更新文档内容")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", value = "请求体", dataType = "PdfInsert", paramType = "body")
     })
@@ -59,11 +73,21 @@ public class PdfController extends BaseController{
         if(brand.getSampleId() != sample.getId()){
             return createResponse(Constant.FAIL, "不能生成不属于该企业的品牌评审材料", null);
         }
-        Pdf pdf = new Pdf();
-        pdf.setBrandId(request.getBrandId());
-        pdf.setUserId(user.getId());
-        pdf.setStatus(ApproveStatus.NotApprove.getStatus());
-        pdfService.insert(pdf);
+        Pdf pdf = pdfService.findByUserIdAndBrandId(user.getId(), request.getBrandId());
+        String name = "pdf" + File.separator + sample.getQymcCn() + "-" + brand.getPpmc() + "-" + System.currentTimeMillis() + ".pdf";
+        String path = UPLOAD_PATH + File.separator + "pdf" + File.separator + name;
+        PdfUtil.getPdf(getData(user.getId(), brand.getId()), path, UPLOAD_PATH);
+        if(pdf == null){
+            pdf = new Pdf();
+            pdf.setBrandId(request.getBrandId());
+            pdf.setUserId(user.getId());
+            pdf.setStatus(ApproveStatus.NotApprove.getStatus());
+            pdf.setPath(name);
+            pdfService.insert(pdf);
+        }else{
+            pdf.setPath(name);
+            pdfService.update(pdf);
+        }
         return createResponse(Constant.SUCCESS, "成功", pdf);
     }
 
@@ -72,7 +96,7 @@ public class PdfController extends BaseController{
             @ApiImplicitParam(name = "id", value = "ID", dataType = "long", paramType = "path"),
             @ApiImplicitParam(name = "request", value = "请求体", dataType = "PdfApprove", paramType = "body")
     })
-    @PutMapping("/{id}")
+    @PutMapping("/approve/{id}")
     public Map<String, Object> approve(@PathVariable Long id,
                                        @Valid @RequestBody PdfApprove request,
                                        @ApiIgnore Errors errors){
@@ -131,5 +155,158 @@ public class PdfController extends BaseController{
             userId = user.getId();
         }
         return createResponse(Constant.SUCCESS, "成功", pdfService.findAll(areaCode, sampleName, status, userId, pageNumber, pageSize));
+    }
+
+    @Autowired
+    private ApproveJnzlService jnzlService;
+
+    @Autowired
+    private ApproveKjjlService kjjlService;
+
+    @Autowired
+    private ApprovePtjsService ptjsService;
+
+    @Autowired
+    private ApproveBzqcService bzqcService;
+
+    @Autowired
+    private ApproveBzrzService bzrzService;
+
+    @Autowired
+    private ApproveJwsbService jwsbService;
+
+    @Autowired
+    private ApproveJwzlService jwzlService;
+
+    @Autowired
+    private ApproveJwppService jwppService;
+
+    @Autowired
+    private ApproveQqhService qqhService;
+
+    @Autowired
+    private ApproveRychService rychService;
+
+    @Autowired
+    private ApproveCfsmService cfsmService;
+
+    @Autowired
+    private ApproveXyjsService xyjsService;
+
+    @Autowired
+    private ApproveZmclService zmclService;
+
+    @Autowired
+    private TableBaseServer baseServer;
+
+    private Map<String, Object> getData(Long userId, Long brandId){
+        Map<String, Object> data = new HashMap<>();
+        /**
+         * 年份
+         */
+        int year = 2017;
+        data.put("year", year);
+
+        /**
+         * 企业基础数据
+         */
+        Sample sample = sampleService.findByUserId(userId);
+        data.put("sample", sample);
+
+        /**
+         * 品牌基础数据
+         */
+        Brand brand = brandService.findOne(brandId);
+        data.put("brand", brand);
+
+        /**
+         * table_base 年报
+         */
+        TableBase base = baseServer.findByUserIdAndYearAndStatus(userId, year + "", ApproveStatus.FinalApprovePass.getStatus());
+        TableBase priBase = baseServer.findByUserIdAndYearAndStatus(userId, (year - 1) + "", ApproveStatus.FinalApprovePass.getStatus());
+        data.put("base", base);
+        data.put("priBase", priBase);
+
+        /**
+         * 证明材料
+         */
+        ApproveZmcl zmcl = zmclService.findByUserIdAndYearAndStatus(userId, year + "", ApproveStatus.FinalApprovePass.getStatus());
+        data.put("zmcl", zmcl);
+
+        /**
+         * 表4 企业专利获取情况
+         */
+        List<ApproveJnzl> jnzls = jnzlService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("jnzls", jnzls);
+
+        /**
+         * 表5 企业科技获奖情况
+         */
+        List<ApproveKjjl> kjjls = kjjlService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("kjjls", kjjls);
+
+        /**
+         * 表6 企业科技平台建设情况
+         */
+        List<ApprovePtjs> ptjss = ptjsService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("ptjss", ptjss);
+
+        /**
+         * 表7 企业标准制定情况
+         */
+        List<ApproveBzqc> bzqcs = bzqcService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("bzqcs", bzqcs);
+
+        /**
+         * 表8 企业质量体系建设情况
+         */
+        List<ApproveBzrz> bzrzs = bzrzService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("bzrzs", bzrzs);
+
+        /**
+         * 表9 报品牌项下的境外注册商标
+         */
+        List<ApproveJwsb> jwsbs = jwsbService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("jwsbs", jwsbs);
+
+        /**
+         * 表10 申报品牌项下的境外收购情况
+         */
+        List<ApproveJwpp> jwpps = jwppService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("jwpps", jwpps);
+
+        /**
+         * 表11 申报品牌项下的境外申请专利情况
+         */
+        List<ApproveJwzl> jwzls = jwzlService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("jwzls", jwzls);
+
+        /**
+         * 表12 企业全球化经营情况
+         */
+        List<ApproveQqh> qqhs = qqhService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("qqhs", qqhs);
+
+        /**
+         * 表13 企业信用体系建设
+         */
+        List<ApproveXyjs> xyjss = xyjsService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        Map<String, ApproveXyjs> map = new HashMap<>();
+        for(ApproveXyjs xyjs : xyjss){
+            map.put(xyjs.getCode(), xyjs);
+        }
+        data.put("xyjss", map);
+        /**
+         * 表14 企业荣誉与社会评价
+         */
+        List<ApproveRych> rychs = rychService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("rychs", rychs);
+
+        /**
+         * 表15 部门处罚情况说明
+         */
+        List<ApproveCfsm> cfsms = cfsmService.findByUserIdAndStatus(userId, ApproveStatus.FinalApprovePass.getStatus());
+        data.put("cfsms", cfsms);
+        return data;
     }
 }

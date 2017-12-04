@@ -1,6 +1,8 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
+import com.chen.brand.Enum.XyType;
 import com.chen.brand.http.request.ApproveXyjs.XyjsRequest;
 import com.chen.brand.http.request.ApproveXyjs.XyjsStatus;
 import com.chen.brand.http.request.ApproveXyjs.XyjsUpdate;
@@ -42,7 +44,7 @@ public class ApproveXyjsController extends BaseController{
         if (errors.hasErrors()) {
             return createResponse(Constant.FAIL, "参数验证失败", null);
         }
-        if(constant.containsKey(request.getCode()) == false){
+        if(XyType.convert(request.getCode()) == null){
             return createResponse(Constant.FAIL, "code不存在", null);
         }
         ApproveXyjs xyjs = new ApproveXyjs();
@@ -50,8 +52,8 @@ public class ApproveXyjsController extends BaseController{
         xyjs.setCl(request.getCl());
         xyjs.setDj(request.getDj());
         xyjs.setYear(request.getYear());
-        xyjs.setContent(constant.get(request.getCode()));
-        xyjs.setStatus(1L);
+        xyjs.setContent(XyType.convert(request.getCode()).intro());
+        xyjs.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         xyjs.setUserId(user.getId());
         Long id = xyjsService.insert(xyjs);
@@ -148,9 +150,9 @@ public class ApproveXyjsController extends BaseController{
         ApproveXyjs xyjs = new ApproveXyjs();
         xyjs.setId(id);
         xyjs.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3) {
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()) {
             xyjs.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             xyjs.setFinalComment(request.getComment());
         }
         xyjsService.update(xyjs);

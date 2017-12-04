@@ -16,6 +16,15 @@ public class Brand {
     private Long sampleId;
     private String zcdGw;
     private String zs;
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getZs() {
         return zs;

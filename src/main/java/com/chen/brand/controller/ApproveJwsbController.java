@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveJwsb.JwsbRequest;
 import com.chen.brand.http.request.ApproveJwsb.JwsbStatus;
 import com.chen.brand.model.ApproveJwsb;
@@ -45,7 +46,7 @@ public class ApproveJwsbController extends BaseController{
         jwsb.setSj(request.getSj());
         jwsb.setCl(request.getCl());
         jwsb.setDygj(request.getDygj());
-        jwsb.setStatus(1L);
+        jwsb.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         jwsb.setUserId(user.getId());
         Long id = jwsbService.insert(jwsb);
@@ -144,9 +145,9 @@ public class ApproveJwsbController extends BaseController{
         ApproveJwsb jwsb = new ApproveJwsb();
         jwsb.setId(id);
         jwsb.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             jwsb.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             jwsb.setFinalComment(request.getComment());
         }
         jwsbService.update(jwsb);

@@ -33,4 +33,6 @@ public interface ApproveBzrzMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveBzrz> findByUserIdAndStatus(@Param("userId")Long userId, @Param("status") Long status);
+
 }

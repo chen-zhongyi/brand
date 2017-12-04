@@ -2,6 +2,7 @@ package com.chen.brand.service;
 
 import com.chen.brand.model.ApprovePtjs;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ApprovePtjsService {
@@ -19,4 +20,6 @@ public interface ApprovePtjsService {
     Map<String, Object> findAll(String areaCode, String sampleName, Long status, Long userId, int pageNumber, int pageSize);
 
     int[] total(Long userId);
+
+    List<ApprovePtjs> findByUserIdAndStatus(Long userId, Long status);
 }

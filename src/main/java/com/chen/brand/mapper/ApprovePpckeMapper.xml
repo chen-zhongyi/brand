@@ -49,7 +49,7 @@
 
     <select id = "findOne" resultType="com.chen.brand.model.ApprovePpcke">
         select b.*, s.ssqx as areaCode, s.qymcCn as sampleName, s.id as sampleId from approve_ppcke b, `user` u, sample s
-        where id = #{id} and u.id = b.userId and s.userId = u.id
+        where b.id = #{id} and u.id = b.userId and s.userId = u.id
     </select>
 
     <select id = "isExist" resultType="java.lang.Integer">

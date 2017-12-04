@@ -17,4 +17,6 @@ public interface PdfService {
     List<Pdf> findAll(String areaCode, String sampleName, Long status, Long userId, int pageNumber, int pageSize);
 
     boolean isExist(Long id);
+
+    Pdf findByUserIdAndBrandId(Long userId, Long brandId);
 }

@@ -1,7 +1,7 @@
 package com.chen.brand.Filter;
 
 import com.chen.brand.Constant;
-import com.chen.brand.Enum.UserType;
+import com.chen.brand.sys.SysData;
 import com.chen.brand.controller.BaseController;
 import com.chen.brand.model.Api;
 import com.chen.brand.model.User;
@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Order(2)
-@WebFilter(filterName = "roleFilter", urlPatterns = "/api/*")
+//@Order(2)
+//@WebFilter(filterName = "roleFilter", urlPatterns = "/api/*")
 public class RoleFilter extends BaseController implements Filter{
 
     @Autowired
@@ -30,6 +30,9 @@ public class RoleFilter extends BaseController implements Filter{
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SysData sysData;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -37,7 +40,7 @@ public class RoleFilter extends BaseController implements Filter{
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException{
-        System.err.println("2 -- roleFilter");
+        System.out.println("2 -- roleFilter");
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -48,8 +51,9 @@ public class RoleFilter extends BaseController implements Filter{
         path = (String) temp[0];
         Long id = null;
         if(temp[1] != null)    id = (Long) temp[1];
-        System.err.println("path = " + path + ", id = " + id + ", method = " + method);
-        Api api = apiService.findByApi(path);
+        System.out.println("path = " + path + ", id = " + id + ", method = " + method);
+        //Api api = apiService.findByApi(path);
+        Api api = sysData.getApi(path);
         if(api == null || api.getStatus() == false){
             Map<String, Object> data = new HashMap<>();
             data.put("code", Constant.FAIL);
@@ -61,12 +65,12 @@ public class RoleFilter extends BaseController implements Filter{
             response.getWriter().flush();
             return ;
         }
-        System.err.println("api = " + new Gson().toJson(api));
+        System.out.println("api = " + new Gson().toJson(api));
         if( ! ((api.getSystemCode().equals("sys") || api.getSystemCode().equals("public")) && method.equals("GET") )){  //非公共接口和系统获取接口
             User user = (User) request.getSession().getAttribute(Constant.SESSION_NAME);
             String rightStr = user.getRight();
             Map<String, String> right = new Gson().fromJson(rightStr, new TypeToken<Map<String, Object>>(){}.getType());
-            System.err.println("right = " + new Gson().toJson(right));
+            System.out.println("right = " + new Gson().toJson(right));
             boolean flag = false;
             String type = right.get(api.getSystemCode());
             if(type != null){
@@ -85,7 +89,7 @@ public class RoleFilter extends BaseController implements Filter{
                     }
                 }
             }*/
-            System.err.println("flag = " + flag);
+            System.out.println("flag = " + flag);
             if(flag){
                 Map<String, Object> data = new HashMap<>();
                 data.put("code", Constant.FAIL);

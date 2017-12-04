@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Order(1)
-@WebFilter( filterName = "crossFilter", urlPatterns = "/*")
+//@Order(1)
+//@WebFilter( filterName = "crossFilter", urlPatterns = "/*")
 public class GrossFilter implements Filter{
 
     @Value("${web.allow-origin}")
@@ -23,14 +23,15 @@ public class GrossFilter implements Filter{
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException{
-        System.err.println("1 -- crossFilter");
+        System.out.println("1 -- crossFilter");
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String origin = request.getHeader("Origin");
-        System.err.println("url : " + request.getRequestURL().toString());
-        System.err.println("path : " + request.getPathInfo());
-        System.err.println("origin : " + origin);
+        System.out.println("url : " + request.getRequestURL().toString());
+        System.out.println("path : " + request.getPathInfo());
+        System.out.println("origin : " + origin);
+        System.out.println("allowOrigin : " + allowOrigin);
         if(origin != null){
             for(String temp : allowOrigin.split(",")){
                 if(origin.equals(temp)){

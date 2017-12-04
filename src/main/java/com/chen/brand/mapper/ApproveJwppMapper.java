@@ -33,4 +33,6 @@ public interface ApproveJwppMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveJwpp> findByUserIdAndStatus(@Param("userId")Long userId, @Param("status") Long status);
+
 }

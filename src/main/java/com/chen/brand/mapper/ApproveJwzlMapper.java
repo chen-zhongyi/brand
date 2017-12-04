@@ -33,4 +33,6 @@ public interface ApproveJwzlMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveJwzl> findByUserIdAndStatus(@Param("userId")Long userId, @Param("status") Long status);
+
 }

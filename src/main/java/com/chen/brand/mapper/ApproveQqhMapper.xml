@@ -94,4 +94,8 @@
         </where>
     </select>
 
+    <select id = "findByUserIdAndStatus" resultType = "com.chen.brand.model.ApproveQqh">
+        select * from approve_qqh where userId = #{userId} and status = #{status}
+    </select>
+
 </mapper>

@@ -5,6 +5,7 @@ import com.chen.brand.http.request.Area.AreaInsert;
 import com.chen.brand.http.request.Area.AreaUpdate;
 import com.chen.brand.model.Area;
 import com.chen.brand.service.AreaService;
+import com.chen.brand.sys.SysData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,6 +26,9 @@ public class AreaController extends BaseController{
     @Autowired
     private AreaService areaService;
 
+    @Autowired
+    private SysData sysData;
+
     @ApiOperation("创建区县")
     @ApiImplicitParams({
             @ApiImplicitParam( name = "areaRequest", value = "区县请求实体类", paramType = "body", dataType = "AreaInsert")
@@ -34,7 +38,7 @@ public class AreaController extends BaseController{
         if(errors.hasErrors()){
             return createResponse(Constant.FAIL, "参数验证失败", createErrors(errors));
         }
-        if(areaService.isExist(areaRequest.getCode())){
+        if(sysData.getArea(areaRequest.getCode()) != null){
             return createResponse(Constant.FAIL, "区县代码已存在", null);
         }
         Area area = new Area();
@@ -44,6 +48,7 @@ public class AreaController extends BaseController{
         area.setLevel(areaRequest.getLevel());
         area.setOrderNo(areaRequest.getOrderNo());
         areaService.insert(area);
+        sysData.loadArea();
         return createResponse(Constant.SUCCESS, "成功", area);
     }
 
@@ -57,7 +62,7 @@ public class AreaController extends BaseController{
         if(errors.hasErrors()){
             return createResponse(Constant.FAIL, "参数验证失败", createErrors(errors));
         }
-        if(areaService.isExist(code) == false){
+        if(sysData.getArea(code) == null){
             return createResponse(Constant.FAIL, "区县代码不存在", null);
         }
         Area area = new Area();
@@ -67,6 +72,7 @@ public class AreaController extends BaseController{
         area.setLevel(areaRequest.getLevel());
         area.setOrderNo(areaRequest.getOrderNo());
         areaService.update(area);
+        sysData.loadArea();
         return createResponse(Constant.SUCCESS, "成功", areaService.findOne(code));
     }
 
@@ -76,16 +82,16 @@ public class AreaController extends BaseController{
     })
     @GetMapping( value = "/{code}")
     public Map<String, Object> findOne(@PathVariable String code){
-        if(areaService.isExist(code) == false){
+        if(sysData.getArea(code) == null){
             return createResponse(Constant.FAIL, "区县代码不存在", null);
         }
-        return createResponse(Constant.SUCCESS, "成功", areaService.findOne(code));
+        return createResponse(Constant.SUCCESS, "成功", sysData.getArea(code));
     }
 
     @ApiOperation("获取区县信息列表")
     @GetMapping( value = "")
     public Map<String, Object> findAll(){
-        return createResponse(Constant.SUCCESS, "成功", areaService.findAll());
+        return createResponse(Constant.SUCCESS, "成功", sysData.getAllArea());
     }
 
     @ApiOperation("删除区县信息")
@@ -98,6 +104,7 @@ public class AreaController extends BaseController{
             return createResponse(Constant.FAIL, "区县代码不存在", null);
         }
         areaService.delete(code);
+        sysData.loadArea();
         return createResponse(Constant.SUCCESS, "成功", null);
     }
 }

@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveKjjl.KjjlRequest;
 import com.chen.brand.http.request.ApproveKjjl.KjjlStatus;
 import com.chen.brand.model.ApproveKjjl;
@@ -43,7 +44,7 @@ public class ApproveKjjlController extends BaseController{
         kjjl.setDw(request.getDw());
         kjjl.setSj(request.getSj());
         kjjl.setCl(request.getCl());
-        kjjl.setStatus(1L);
+        kjjl.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         kjjl.setUserId(user.getId());
         Long id = kjjlService.insert(kjjl);
@@ -143,9 +144,9 @@ public class ApproveKjjlController extends BaseController{
         kjjl.setId(id);
         kjjl.setStatus(request.getStatus());
         kjjl.setDj(request.getDj());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             kjjl.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             kjjl.setFinalComment(request.getComment());
         }
         kjjlService.update(kjjl);

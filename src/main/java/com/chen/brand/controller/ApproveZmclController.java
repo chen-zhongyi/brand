@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveZmcl.ZmclRequest;
 import com.chen.brand.http.request.ApproveZmcl.ZmclStatus;
 import com.chen.brand.model.ApproveZmcl;
@@ -44,7 +45,7 @@ public class ApproveZmclController extends BaseController{
         zmcl.setLrb(request.getLrb());
         zmcl.setPm(request.getPm());
         zmcl.setYear(request.getYear());
-        zmcl.setStatus(1L);
+        zmcl.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         zmcl.setUserId(user.getId());
         Long id = zmclService.insert(zmcl);
@@ -144,9 +145,9 @@ public class ApproveZmclController extends BaseController{
         ApproveZmcl zmcl = new ApproveZmcl();
         zmcl.setId(id);
         zmcl.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             zmcl.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             zmcl.setFinalComment(request.getComment());
         }
         zmclService.update(zmcl);

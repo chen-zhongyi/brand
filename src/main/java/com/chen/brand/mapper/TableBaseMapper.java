@@ -21,4 +21,8 @@ public interface TableBaseMapper {
     List<TableBase> findAll(@Param("areaCode") String areaCode,
                             @Param("sampleId") Long sampleId,
                             @Param("planRound")Date planRound);
+
+    TableBase findByUserIdAndYearAndStatus(@Param("userId") Long userId,
+                                           @Param("year") String year,
+                                           @Param("status") Long status);
 }

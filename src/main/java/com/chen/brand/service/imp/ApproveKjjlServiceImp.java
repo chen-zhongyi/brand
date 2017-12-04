@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -49,5 +50,9 @@ public class ApproveKjjlServiceImp implements ApproveKjjlService {
         ans[0] = kjjlMapper.count(null, null, null, userId);
         ans[1] = kjjlMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId);
         return ans;
+    }
+
+    public List<ApproveKjjl> findByUserIdAndStatus(Long userId, Long status){
+        return kjjlMapper.findByUserIdAndStatus(userId, status);
     }
 }

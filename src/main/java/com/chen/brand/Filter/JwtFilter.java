@@ -6,6 +6,7 @@ import com.chen.brand.model.Api;
 import com.chen.brand.model.User;
 import com.chen.brand.service.ApiService;
 import com.chen.brand.service.UserService;
+import com.chen.brand.sys.SysData;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -20,12 +21,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Order(2)
-@WebFilter( filterName = "jwtFilter", urlPatterns = "/api/*")
+//@Order(2)
+//@WebFilter( filterName = "jwtFilter", urlPatterns = "/api/*")
 public class JwtFilter extends BaseController implements Filter{
 
+    //@Autowired
+    //private ApiService apiService;
+
     @Autowired
-    private ApiService apiService;
+    private SysData sysData;
 
     @Autowired
     private UserService userService;
@@ -37,7 +41,7 @@ public class JwtFilter extends BaseController implements Filter{
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException{
-        System.err.println("1 -- jwtFilter");
+        System.out.println("1 -- jwtFilter");
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -45,7 +49,7 @@ public class JwtFilter extends BaseController implements Filter{
         String path = request.getPathInfo();
         Object[] temp = getApi(path);
         path = (String) temp[0];
-        Api api = apiService.findByApi(path);
+        Api api = sysData.getApi(path);
         if(api != null && api.getSystemCode().equals("public")){
             chain.doFilter(servletRequest, servletResponse);
             return;

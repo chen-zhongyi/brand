@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveRych.RychRequest;
 import com.chen.brand.http.request.ApproveRych.RychStatus;
 import com.chen.brand.model.ApproveRych;
@@ -43,7 +44,7 @@ public class ApproveRychController extends BaseController{
         rych.setJg(request.getJg());
         rych.setSj(request.getSj());
         rych.setCl(request.getCl());
-        rych.setStatus(1L);
+        rych.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         rych.setUserId(user.getId());
         Long id = rychService.insert(rych);
@@ -142,9 +143,9 @@ public class ApproveRychController extends BaseController{
         ApproveRych rych = new ApproveRych();
         rych.setId(id);
         rych.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             rych.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             rych.setFinalComment(request.getComment());
         }
         rychService.update(rych);

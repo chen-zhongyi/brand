@@ -33,4 +33,6 @@ public interface ApproveQqhMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveQqh> findByUserIdAndStatus(@Param("userId")Long userId, @Param("status") Long status);
+
 }

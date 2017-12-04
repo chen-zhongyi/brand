@@ -3,7 +3,11 @@ package com.chen.brand;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.chen.brand.Filter.GrossFilter;
+import com.chen.brand.Filter.JwtFilter;
+import com.chen.brand.Filter.RoleFilter;
 import com.chen.brand.log.LogManager;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -93,6 +97,57 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     @Bean
     public LogManager logManager(){
         return new LogManager();
+    }
+
+    @Bean
+    public FilterRegistrationBean grossFilterRegistration() {
+
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(grossFilter());
+        registration.addUrlPatterns("/*");
+        //registration.addInitParameter("paramName", "paramValue");
+        registration.setName("grossFilter");
+        registration.setOrder(1);
+        return registration;
+    }
+
+    @Bean
+    public GrossFilter grossFilter(){
+        return new GrossFilter();
+    }
+
+    @Bean
+    public FilterRegistrationBean jwtFilterRegistration() {
+
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(jwtFilter());
+        registration.addUrlPatterns("/api/*");
+        //registration.addInitParameter("paramName", "paramValue");
+        registration.setName("jwtFilter");
+        registration.setOrder(2);
+        return registration;
+    }
+
+    @Bean
+    public JwtFilter jwtFilter(){
+        return new JwtFilter();
+    }
+
+    @Bean
+    public FilterRegistrationBean roleFilterRegistration() {
+
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(roleFilter());
+        registration.addUrlPatterns("/api/*");
+        //registration.addInitParameter("paramName", "paramValue");
+        registration.setName("roleFilter");
+        registration.setOrder(2);
+        return registration;
+    }
+
+    @Bean
+    public RoleFilter roleFilter(){
+        return new RoleFilter();
     }
 
 }

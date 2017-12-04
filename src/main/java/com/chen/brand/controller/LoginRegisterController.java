@@ -1,6 +1,8 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.RoleType;
+import com.chen.brand.Enum.UserType;
 import com.chen.brand.http.request.LoginResgister.Login;
 import com.chen.brand.http.request.LoginResgister.Register;
 import com.chen.brand.model.User;
@@ -72,12 +74,12 @@ public class LoginRegisterController extends BaseController{
         user.setRealName(request.getRealName());
         user.setOtherStr(getOtherStr());
         user.setPwd(getMd5String(request.getPwd() + user.getOtherStr()));
-        user.setRole(Constant.USER);
-        user.setType(Constant.USER);
+        user.setRole(RoleType.USER.code());
+        user.setType(UserType.USER.getCode());
         user.setStatus(true);
         user.setCreateAt(new Timestamp(System.currentTimeMillis()));
         user.setCreateBy(-1L);
-        user.setRight(roleService.findOne(Constant.USER).getRight());
+        user.setRight(roleService.findByCode(RoleType.USER.code()).getRight());
         Long id = userService.insert(user);
         Map<String, Object> data = userService.findOne(id).buildResponse();
         data.put("sample", sampleService.findByUserId(id));

@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.RoleType;
 import com.chen.brand.http.request.User.UserInsert;
 import com.chen.brand.http.request.User.UserNewPwd;
 import com.chen.brand.http.request.User.UserUpdate;
@@ -62,8 +63,8 @@ public class UserController extends BaseController{
         user.setCreateAt(new Timestamp(System.currentTimeMillis()));
         user.setType(Constant.QX_ADMIN);
         user.setStatus(true);
-        user.setRole(Constant.QX_ADMIN);
-        user.setRight(roleService.findOne(Constant.QX_ADMIN).getRight());
+        user.setRole(RoleType.QX_ADMIN.code());
+        user.setRight(roleService.findByCode(RoleType.QX_ADMIN.code()).getRight());
         Long id = userService.insert(user);
         return createResponse(Constant.SUCCESS, "成功", userService.findOne(id).buildResponse());
     }

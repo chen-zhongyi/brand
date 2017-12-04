@@ -2,6 +2,7 @@ package com.chen.brand.service;
 
 import com.chen.brand.model.ApproveXyjs;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ApproveXyjsService {
@@ -19,4 +20,6 @@ public interface ApproveXyjsService {
     Map<String, Object> findAll(String areaCode, String sampleName, Long status, Long userId, String year, int pageNumber, int pageSize);
 
     int[] total(Long userId, String year);
+
+    List<ApproveXyjs> findByUserIdAndStatus(Long userId, Long status);
 }

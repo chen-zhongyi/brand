@@ -50,4 +50,8 @@ public class ApproveZmclServiceImp implements ApproveZmclService{
         ans[1] = zmclMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId, year);
         return ans;
     }
+
+    public ApproveZmcl findByUserIdAndYearAndStatus(Long userId, String year, Long status){
+        return zmclMapper.findByUserIdAndYearAndStatus(userId, year, status);
+    }
 }

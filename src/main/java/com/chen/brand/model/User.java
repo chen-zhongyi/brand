@@ -18,7 +18,7 @@ public class User {
     private String loginIp;
     private Timestamp lastLoginTime;
     private Long count;
-    private Long role;
+    private String role;
     private String right;
     private String otherStr;
     private Timestamp createAt;
@@ -40,6 +40,14 @@ public class User {
         map.put("area", areaCode);
         map.put("type", type);
         return map;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Timestamp getLastLoginTime() {
@@ -136,14 +144,6 @@ public class User {
 
     public void setCount(Long count) {
         this.count = count;
-    }
-
-    public Long getRole() {
-        return role;
-    }
-
-    public void setRole(Long role) {
-        this.role = role;
     }
 
     public String getRight() {

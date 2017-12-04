@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveJwpp.JwppRequest;
 import com.chen.brand.http.request.ApproveJwpp.JwppStatus;
 import com.chen.brand.model.ApproveJwpp;
@@ -44,7 +45,7 @@ public class ApproveJwppController extends BaseController{
         jwpp.setSzg(request.getSzg());
         jwpp.setSj(request.getSj());
         jwpp.setCl(request.getCl());
-        jwpp.setStatus(1L);
+        jwpp.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         jwpp.setUserId(user.getId());
         Long id = jwppService.insert(jwpp);
@@ -146,9 +147,9 @@ public class ApproveJwppController extends BaseController{
         ApproveJwpp jwpp = new ApproveJwpp();
         jwpp.setId(id);
         jwpp.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             jwpp.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             jwpp.setFinalComment(request.getComment());
         }
         jwppService.update(jwpp);

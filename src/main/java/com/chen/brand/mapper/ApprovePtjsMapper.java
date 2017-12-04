@@ -33,4 +33,6 @@ public interface ApprovePtjsMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApprovePtjs> findByUserIdAndStatus(@Param("userId") Long userId, @Param("status") Long status);
+
 }

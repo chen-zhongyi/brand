@@ -2,6 +2,7 @@ package com.chen.brand.service;
 
 import com.chen.brand.model.ApproveBzqc;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ApproveBzqcService {
@@ -19,4 +20,6 @@ public interface ApproveBzqcService {
     Map<String, Object> findAll(String areaCode, String sampleName, Long status, Long userId, int pageNumber, int pageSize);
 
     int[] total(Long userId);
+
+    List<ApproveBzqc> findByUserIdAndStatus(Long userId, Long status);
 }

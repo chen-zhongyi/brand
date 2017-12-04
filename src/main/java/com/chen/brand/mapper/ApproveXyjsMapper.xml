@@ -37,7 +37,7 @@
 
     <select id = "findOne" resultType="com.chen.brand.model.ApproveXyjs">
         select b.*, s.ssqx as areaCode, s.qymcCn as sampleName, s.id as sampleId from approve_xyjs b, `user` u, sample s
-        where id = #{id} and u.id = b.userId and s.userId = u.id
+        where b.id = #{id} and u.id = b.userId and s.userId = u.id
     </select>
 
     <select id = "isExist" resultType="java.lang.Integer">
@@ -89,6 +89,10 @@
                 and b.status = #{status}
             </if>
         </where>
+    </select>
+
+    <select id = "findByUserIdAndStatus" resultType = "com.chen.brand.model.ApproveXyjs">
+        select * from approve_xyjs where userId = #{userId} and status = #{status}
     </select>
 
 </mapper>

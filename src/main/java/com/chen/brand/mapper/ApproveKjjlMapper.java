@@ -33,4 +33,6 @@ public interface ApproveKjjlMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveKjjl> findByUserIdAndStatus(@Param("userId") Long userId, @Param("status") Long status);
+
 }

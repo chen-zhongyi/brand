@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveBzrz.ApproveBzrzRequest;
 import com.chen.brand.http.request.ApproveBzrz.ApproveBzrzStatus;
 import com.chen.brand.model.ApproveBzrz;
@@ -42,7 +43,7 @@ public class ApproveBzrzController extends BaseController{
         bzrz.setZsbh(request.getZsbh());
         bzrz.setSj(request.getSj());
         bzrz.setZs(request.getZs());
-        bzrz.setStatus(1L);
+        bzrz.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         bzrz.setUserId(user.getId());
         Long id = bzrzService.insert(bzrz);
@@ -140,9 +141,9 @@ public class ApproveBzrzController extends BaseController{
         ApproveBzrz bzrz = new ApproveBzrz();
         bzrz.setId(id);
         bzrz.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             bzrz.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             bzrz.setFinalComment(request.getComment());
         }
         bzrzService.update(bzrz);

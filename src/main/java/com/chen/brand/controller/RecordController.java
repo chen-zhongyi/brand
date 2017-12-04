@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.record.Approve;
 import com.chen.brand.http.request.record.RecordRequest;
 import com.chen.brand.model.*;
@@ -66,7 +67,7 @@ public class RecordController extends BaseController{
         record.setTableId(request.getTableId());
         record.setPlanId(request.getPlanId());
         record.setSampleId(request.getSampleId());
-        record.setStatus(1L);
+        record.setStatus(ApproveStatus.NotApprove.getStatus());
         record.setCreateAt(new Timestamp(System.currentTimeMillis()));
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         record.setCreateBy(user.getId());
@@ -189,7 +190,7 @@ public class RecordController extends BaseController{
             @ApiImplicitParam( name = "request", value = "请求体, status:1-未审核 2-初审未通过  3-初审通过 4-终审未, comment:审核意见", dataType = "Approve", paramType = "Body")
     })
     @PutMapping("/approve/{id}")
-    public Map<String, Object> approve(@PathVariable Long id, @RequestBody Approve request, @ApiIgnore Errors errors){
+    public Map<String, Object> approve(@ApiIgnore HttpServletRequest httpRequest, @PathVariable Long id, @RequestBody Approve request, @ApiIgnore Errors errors){
         if(errors.hasErrors()){
             return createResponse(Constant.FAIL, "参数验证失败", createErrors(errors));
         }
@@ -200,14 +201,15 @@ public class RecordController extends BaseController{
         record.setId(id);
         record.setTableId(-1L);
         record.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             record.setFirstApproveAt(new Timestamp(System.currentTimeMillis()));
-            record.setFirstApproveBy(1L);
+            record.setFirstApproveBy(user.getId());
             record.setFirstApproveComment(request.getComment());
         }
-        if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             record.setFinalApproveAt(new Timestamp(System.currentTimeMillis()));
-            record.setFinalApproveBy(1L);
+            record.setFinalApproveBy(user.getId());
             record.setFinalApproveComment(request.getComment());
         }
         recordService.update(record, null, null, null, null);
@@ -260,9 +262,10 @@ public class RecordController extends BaseController{
             @ApiImplicitParam( name = "planId", value = "计划ID", dataType = "Long", paramType = "query")
     })
     @GetMapping("/isExistPriYearRecord")
-    public Map<String, Object> isExistPriYear(@ApiIgnore @CookieValue("_chen_jwt") String jwt,
+    public Map<String, Object> isExistPriYear(@ApiIgnore HttpServletRequest httpRequest,
                                               @RequestParam Long planId){
-        Sample sample = sampleService.findByUserId(getUserId(jwt));
+        User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
+        Sample sample = sampleService.findByUserId(user.getId());
         if(sample == null){
             return createResponse(Constant.FAIL, "企业信息不完善", null);
         }

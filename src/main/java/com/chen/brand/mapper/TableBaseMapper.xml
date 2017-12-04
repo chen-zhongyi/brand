@@ -87,4 +87,9 @@
         </if>
     </select>
 
+    <select id = "findByUserIdAndYearAndStatus" resultType = "com.chen.brand.model.TableBase">
+        select b.* from table_base b, record r
+        where b.recordId = r.id and YEAR(b.round) = #{year} and r.status = #{status} and r.createBy = #{userId}
+    </select>
+
 </mapper>

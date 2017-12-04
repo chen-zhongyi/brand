@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveJnzl.JnzlStatus;
 import com.chen.brand.http.request.ApproveJwzl.JwzlRequest;
 import com.chen.brand.model.ApproveJwzl;
@@ -42,7 +43,7 @@ public class ApproveJwzlController extends BaseController{
         jwzl.setSqh(request.getSqh());
         jwzl.setRq(request.getRq());
         jwzl.setZs(request.getZs());
-        jwzl.setStatus(1L);
+        jwzl.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         jwzl.setUserId(user.getId());
         Long id = jwzlService.insert(jwzl);
@@ -140,9 +141,9 @@ public class ApproveJwzlController extends BaseController{
         ApproveJwzl jwzl = new ApproveJwzl();
         jwzl.setId(id);
         jwzl.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             jwzl.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             jwzl.setFinalComment(request.getComment());
         }
         jwzlService.update(jwzl);

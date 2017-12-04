@@ -37,4 +37,8 @@ public class PdfServiceImp implements PdfService{
     public boolean isExist(Long id){
         return pdfMapper.isExist(id) > 0;
     }
+
+    public Pdf findByUserIdAndBrandId(Long userId, Long brandId){
+        return pdfMapper.findByUserIdAndBrandId(userId, brandId);
+    }
 }

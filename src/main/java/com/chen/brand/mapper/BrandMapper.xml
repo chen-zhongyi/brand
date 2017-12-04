@@ -16,8 +16,8 @@
     </resultMap>
 
     <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.Brand">
-        insert into brand (`ppmc`, ppsb, pplx, splx, sp, `zcrq`, zcd, status, sampleId, zcdGw, zs)
-        values(#{ppmc}, #{ppsb}, #{pplx}, #{splx}, #{sp}, #{zcrq}, #{zcd}, #{status}, #{sampleId}, #{zcdGw}, #{zs})
+        insert into brand (`ppmc`, ppsb, pplx, splx, sp, `zcrq`, zcd, status, sampleId, zcdGw, zs, userId)
+        values(#{ppmc}, #{ppsb}, #{pplx}, #{splx}, #{sp}, #{zcrq}, #{zcd}, #{status}, #{sampleId}, #{zcdGw}, #{zs}, #{userId})
     </insert>
 
     <update id = "update" parameterType = "com.chen.brand.model.Brand">

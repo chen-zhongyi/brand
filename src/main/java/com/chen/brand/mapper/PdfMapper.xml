@@ -40,6 +40,10 @@
         select count(*) from pdf where id = #{id}
     </select>
 
+    <select id = "findByUserIdAndBrandId" resultType = "com.chen.brand.model.Pdf" >
+        select * from pdf where userId = #{userId} and brandId = #{brandId}
+    </select>
+
     <select id = "findAll" resultType="com.chen.brand.model.Pdf">
         select p.* from pdf p, sample s, `user` u
         <where>

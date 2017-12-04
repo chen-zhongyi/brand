@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveBzqc.BzqcRequest;
 import com.chen.brand.http.request.ApproveBzqc.BzqcStatus;
 import com.chen.brand.model.ApproveBzqc;
@@ -44,7 +45,7 @@ public class ApproveBzqcController extends BaseController{
         bzqc.setFg(request.getFg());
         bzqc.setSj(request.getSj());
         bzqc.setCl(request.getCl());
-        bzqc.setStatus(1L);
+        bzqc.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         bzqc.setUserId(user.getId());
         Long id = bzqcService.insert(bzqc);
@@ -144,9 +145,9 @@ public class ApproveBzqcController extends BaseController{
         ApproveBzqc bzqc = new ApproveBzqc();
         bzqc.setId(id);
         bzqc.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             bzqc.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             bzqc.setFinalComment(request.getComment());
         }
         bzqcService.update(bzqc);

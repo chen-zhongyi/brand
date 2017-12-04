@@ -35,4 +35,6 @@ public interface ApproveXyjsMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveXyjs> findByUserIdAndStatus(@Param("userId") Long userId, @Param("status") Long status);
+
 }

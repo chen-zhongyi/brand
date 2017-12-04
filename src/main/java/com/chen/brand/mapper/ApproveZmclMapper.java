@@ -35,4 +35,8 @@ public interface ApproveZmclMapper {
 
     int isExist(@Param("id") Long id);
 
+    ApproveZmcl findByUserIdAndYearAndStatus(@Param("userId") Long userId,
+                                             @Param("year") String year,
+                                             @Param("status") Long status);
+
 }

@@ -158,11 +158,11 @@
 			<artifactId>pdfa</artifactId>
 			<version>${iText.version}</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>pdftest</artifactId>
 			<version>${iText.version}</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>font-asian</artifactId>

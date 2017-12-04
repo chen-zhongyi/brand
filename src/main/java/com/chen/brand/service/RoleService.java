@@ -19,4 +19,6 @@ public interface RoleService {
     boolean isExistCode(String code);
 
     void changeStatus(Long id, Boolean status);
+
+    Role findByCode(String code);
 }

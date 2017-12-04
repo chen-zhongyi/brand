@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -49,5 +50,9 @@ public class ApproveXyjsServiceImp implements ApproveXyjsService{
         ans[0] = xyjsMapper.count(null, null, null, userId, year);
         ans[1] = xyjsMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId, year);
         return ans;
+    }
+
+    public List<ApproveXyjs> findByUserIdAndStatus(Long userId, Long status){
+        return xyjsMapper.findByUserIdAndStatus(userId, status);
     }
 }

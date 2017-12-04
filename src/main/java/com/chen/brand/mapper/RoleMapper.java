@@ -24,4 +24,6 @@ public interface RoleMapper {
     int isExist(@Param("id") Long id);
 
     int changeStatus(@Param("id") Long id, @Param("status") Boolean status);
+
+    Role findByCode(@Param("code") String code);
 }

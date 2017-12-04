@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApprovePpcke.PpckeRequest;
 import com.chen.brand.http.request.ApprovePpcke.PpckeStatus;
 import com.chen.brand.model.ApprovePpcke;
@@ -57,7 +58,7 @@ public class ApprovePpckeController extends BaseController{
         ppcke.setThree(request.getThree());
         ppcke.setFour(request.getFour());
         ppcke.setFive(request.getFive());
-        ppcke.setStatus(1L);
+        ppcke.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         ppcke.setUserId(user.getId());
         ppcke.setYear(request.getYear());
@@ -167,9 +168,9 @@ public class ApprovePpckeController extends BaseController{
         ApprovePpcke ppcke = new ApprovePpcke();
         ppcke.setId(id);
         ppcke.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             ppcke.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             ppcke.setFinalComment(request.getComment());
         }
         ppckeService.update(ppcke);

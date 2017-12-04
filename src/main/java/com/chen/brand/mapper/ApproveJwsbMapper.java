@@ -33,4 +33,6 @@ public interface ApproveJwsbMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveJwsb> findByUserIdAndStatus(@Param("userId")Long userId, @Param("status") Long status);
+
 }

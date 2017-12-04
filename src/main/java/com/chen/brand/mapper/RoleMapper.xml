@@ -39,4 +39,8 @@
         update role set `right` = #{right} where id = #{id}
     </update>
 
+    <select id = "findByCode" resultType = "com.chen.brand.model.Role">
+        select * from role where code = #{code}
+    </select>
+
 </mapper>

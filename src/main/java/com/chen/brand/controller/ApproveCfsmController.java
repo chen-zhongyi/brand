@@ -1,6 +1,7 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.ApproveStatus;
 import com.chen.brand.http.request.ApproveCfsm.CfsmRequest;
 import com.chen.brand.http.request.ApproveCfsm.CfsmStatus;
 import com.chen.brand.model.ApproveCfsm;
@@ -43,7 +44,7 @@ public class ApproveCfsmController extends BaseController{
         cfsm.setDw(request.getDw());
         cfsm.setSj(request.getSj());
         cfsm.setSm(request.getSm());
-        cfsm.setStatus(1L);
+        cfsm.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         cfsm.setUserId(user.getId());
         Long id = cfsmService.insert(cfsm);
@@ -142,9 +143,9 @@ public class ApproveCfsmController extends BaseController{
         ApproveCfsm cfsm = new ApproveCfsm();
         cfsm.setId(id);
         cfsm.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             cfsm.setFirstComment(request.getComment());
-        }else if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        }else if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FinalApprovePass.getStatus()){
             cfsm.setFinalComment(request.getComment());
         }
         cfsmService.update(cfsm);

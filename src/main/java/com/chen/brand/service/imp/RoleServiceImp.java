@@ -42,4 +42,8 @@ public class RoleServiceImp implements RoleService{
     public void changeStatus(Long id, Boolean status){
         roleMapper.changeStatus(id, status);
     }
+
+    public Role findByCode(String code){
+        return roleMapper.findByCode(code);
+    }
 }

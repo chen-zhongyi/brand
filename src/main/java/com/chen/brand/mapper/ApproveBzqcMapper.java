@@ -33,4 +33,5 @@ public interface ApproveBzqcMapper {
 
     int isExist(@Param("id") Long id);
 
+    List<ApproveBzqc> findByUserIdAndStatus(@Param("userId")Long userId, @Param("status") Long status);
 }

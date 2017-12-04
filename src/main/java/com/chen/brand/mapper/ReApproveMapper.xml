@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.ReApproveMapper">
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ReApprove">
+        insert into re_approve (`year`, userId, status)
+        values(#{year}, #{userId}, #{status})
+    </insert>
+
+    <update id = "update" parameterType = "com.chen.brand.model.ReApprove">
+        update re_approve
+        <set>
+            <if test = "year != null" >
+                `year` = #{year},
+            </if>
+            <if test = "status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id = "delete">
+        delete from re_approve where id = #{id}
+    </delete>
+
+    <select id = "findOne" resultType="com.chen.brand.model.ReApprove">
+        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from re_approve b, `user` u, sample s
+        where b.id = #{id} and u.id = b.userId and u.id = s.userId
+    </select>
+
+    <select id = "findAll" resultType="com.chen.brand.model.ReApprove">
+        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from re_approve b, `user` u, sample s
+        <where>
+            u.id = b.userId and u.id = s.userId
+            <if test = "areaCode != null">
+                and u.areaCode = #{areaCode}
+            </if>
+            <if test = "userId != null">
+                and u.id = #{userId}
+            </if>
+            <if test = "sampleName != null">
+                <bind name="temp" value="'%' + _parameter.sampleName + '%'" />
+                and (s.qymcCn like #{temp} or s.qymcEn like #{temp})
+            </if>
+            <if test = "status != null">
+                and b.status = #{status}
+            </if>
+        </where>
+        order by id desc limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "count" resultType="java.lang.Integer">
+        select count(*) from re_approve b, `user` u, sample s
+        <where>
+            u.id = b.userId and u.id = s.userId
+            <if test = "areaCode != null">
+                and u.areaCode = #{areaCode}
+            </if>
+            <if test = "userId != null">
+                and u.id = #{userId}
+            </if>
+            <if test = "sampleName != null">
+                <bind name="temp" value="'%' + _parameter.sampleName + '%'" />
+                and (s.qymcCn like #{temp} or s.qymcEn like #{temp})
+            </if>
+            <if test = "status != null">
+                and b.status = #{status}
+            </if>
+        </where>
+    </select>
+
+</mapper>

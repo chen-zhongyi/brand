@@ -59,6 +59,7 @@ public class BrandController extends BaseController{
         Long userId = user.getId();
         Sample sample = sampleService.findByUserId(userId);
         brand.setSampleId(sample.getId());
+        brand.setUserId(user.getId());
         Long id = brandService.insert(brand);
         return createResponse(Constant.SUCCESS, "成功", brandService.findOne(id));
     }
