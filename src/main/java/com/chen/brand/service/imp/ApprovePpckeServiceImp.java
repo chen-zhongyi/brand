@@ -55,4 +55,8 @@ public class ApprovePpckeServiceImp implements ApprovePpckeService{
         ans[1] = ppckeMapper.count(null, null, ApproveStatus.FinalApprovePass.getStatus(), userId, year);
         return ans;
     }
+
+    public ApprovePpcke findByUserIdAndBrandIdAndYearAndStatus(Long userId, Long brandId, String year, Long status){
+        return ppckeMapper.findByUserIdAndBrandIdAndYearAndStatus(userId, brandId, year, status);
+    }
 }

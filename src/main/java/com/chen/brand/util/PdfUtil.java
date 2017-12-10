@@ -62,16 +62,18 @@ public class PdfUtil {
 
     private static void addImage(String path, Document doc, String uploadPath){
         if(path == null)    return ;
-        path = uploadPath + File.separator + path;
-        System.out.println("image path = " + path);
-        try {
-            Image img = new Image(ImageDataFactory.create(path));
-            if(img == null) return ;
-            img.setHeight(IMAGE_HEIGHT);
-            img.setWidth(IMAGE_WIDTH);
-            doc.add(img);
-        }catch(MalformedURLException e){
-            e.printStackTrace();
+        for(String temp : path.split(",")) {
+            temp = uploadPath + File.separator + temp;
+            System.out.println("image path = " + temp);
+            try {
+                Image img = new Image(ImageDataFactory.create(temp));
+                if (img == null) return;
+                img.setHeight(IMAGE_HEIGHT);
+                img.setWidth(IMAGE_WIDTH);
+                doc.add(img);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -131,13 +133,30 @@ public class PdfUtil {
         doc.add(new Paragraph());
         doc.add(new Paragraph());
         doc.add(new Paragraph());
-        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("品牌名称：")
+        /**
+         * name: 品牌信息
+         * data: brand
+         * info:
+         */
+        Brand brand = (Brand) data.get("brand");
+        if(brand == null)   brand = new Brand();
+
+        /**
+         * name: 企业基本信息
+         * data: sample
+         * info:
+         */
+
+        Sample sample = (Sample) data.get("sample");
+        if(sample == null)  sample = new Sample();
+
+        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("品牌名称：" + isNull(brand.getPpmc()))
                 .addStyle(front).setFontSize(20));
-        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("申请单位：")
+        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("申请单位：" + isNull(sample.getQymcCn()))
                 .addStyle(front).setFontSize(20));
-        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("联  系   人：")
+        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("联  系   人：" + isNull(sample.getLxr()))
                 .addStyle(front).setFontSize(20));
-        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("联系电话：")
+        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("联系电话：" + isNull(sample.getLxdh()))
                 .addStyle(front).setFontSize(20));
         doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("申请日期：")
                 .addStyle(front).setFontSize(20));
@@ -161,21 +180,12 @@ public class PdfUtil {
                 .setFirstLineIndent(40)
                 .addStyle(front));
         doc.add(new Paragraph("\n\n\n\n\n\n\n\n\n"));
-        doc.add(new Paragraph().add(new Tab()).add("企业名称：" + "（盖章）")
+        doc.add(new Paragraph().add(new Tab()).add("企业名称：" + isNull(sample.getQymcCn()) + "（盖章）")
                 .addStyle(front));
-        doc.add(new Paragraph().add(new Tab()).add("法定代表人（或委托代理人）：" + "（盖章）")
+        doc.add(new Paragraph().add(new Tab()).add("法定代表人（或委托代理人）：" + isNull(sample.getFrdb()) + "（盖章）")
                 .addStyle(front));
         doc.add(new Paragraph().add(new Tab()).add("日期：" + sf.format(date))
                 .addStyle(front));
-
-        /**
-         * name: 企业基本信息
-         * data: sample
-         * info:
-         */
-
-        Sample sample = (Sample) data.get("sample");
-        if(sample == null)  sample = new Sample();
 
         doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
@@ -213,7 +223,7 @@ public class PdfUtil {
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 3).add("")
+        cell = new Cell(1, 3).add(isNull(sample.getSsqx()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
@@ -654,11 +664,12 @@ public class PdfUtil {
 
         /**
          * name: 表3  申报品牌的基本情况
-         * data: brand
+         * data: brand, ppcke, priPpcke
          * info:
          */
-        Brand brand = (Brand) data.get("brand");
-        if(brand == null)   brand = new Brand();
+        ApprovePpcke ppcke = (ApprovePpcke) data.get("ppcke");
+        ApprovePpcke priPpcke = (ApprovePpcke) data.get("priPpcke");
+
         title = new Paragraph("表3  申报品牌的基本情况");
         title.setTextAlignment(TextAlignment.CENTER)
                 .addStyle(codeTitle);
@@ -729,11 +740,11 @@ public class PdfUtil {
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 5).add("元")
+        cell = new Cell(1, 5).add(isNull(ppcke.getCke()) + "元")
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 5).add("元")
+        cell = new Cell(1, 5).add(isNull(priPpcke.getCke()) + "元")
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
@@ -742,23 +753,23 @@ public class PdfUtil {
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 2).add("")
+        cell = new Cell(1, 2).add(isNull(ppcke.getOne()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 2).add("")
+        cell = new Cell(1, 2).add(isNull(ppcke.getTwo()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 2).add("")
+        cell = new Cell(1, 2).add(isNull(ppcke.getThree()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 2).add("")
+        cell = new Cell(1, 2).add(isNull(ppcke.getFour()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 2).add("")
+        cell = new Cell(1, 2).add(isNull(ppcke.getFive()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);

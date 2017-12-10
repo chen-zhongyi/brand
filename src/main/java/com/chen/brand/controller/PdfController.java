@@ -74,8 +74,8 @@ public class PdfController extends BaseController{
             return createResponse(Constant.FAIL, "不能生成不属于该企业的品牌评审材料", null);
         }
         Pdf pdf = pdfService.findByUserIdAndBrandId(user.getId(), request.getBrandId());
-        String name = "pdf" + File.separator + sample.getQymcCn() + "-" + brand.getPpmc() + "-" + System.currentTimeMillis() + ".pdf";
-        String path = UPLOAD_PATH + File.separator + "pdf" + File.separator + name;
+        String name = "pdfs" + File.separator + sample.getQymcCn() + "-" + brand.getPpmc() + "-" + System.currentTimeMillis() + ".pdf";
+        String path = UPLOAD_PATH + File.separator + "pdfs" + File.separator + name;
         PdfUtil.getPdf(getData(user.getId(), brand.getId()), path, UPLOAD_PATH);
         if(pdf == null){
             pdf = new Pdf();
@@ -109,10 +109,10 @@ public class PdfController extends BaseController{
         Pdf pdf = new Pdf();
         pdf.setId(id);
         pdf.setStatus(request.getStatus());
-        if(request.getStatus() >= 2 && request.getStatus() <= 3){
+        if(request.getStatus() == ApproveStatus.FirstApproveNotPass.getStatus() || request.getStatus() == ApproveStatus.FirstApprovePass.getStatus()){
             pdf.setFirstComment(request.getComment());
         }
-        if(request.getStatus() >= 4 && request.getStatus() <= 5){
+        if(request.getStatus() == ApproveStatus.FinalApproveNotPass.getStatus() || request.getStatus() <= ApproveStatus.FinalApprovePass.getStatus()){
             pdf.setFinalComment(request.getComment());
         }
         pdfService.update(pdf);
@@ -199,6 +199,12 @@ public class PdfController extends BaseController{
     @Autowired
     private TableBaseServer baseServer;
 
+    @Autowired
+    private AreaService areaService;
+
+    @Autowired
+    private ApprovePpckeService ppckeService;
+
     private Map<String, Object> getData(Long userId, Long brandId){
         Map<String, Object> data = new HashMap<>();
         /**
@@ -211,6 +217,8 @@ public class PdfController extends BaseController{
          * 企业基础数据
          */
         Sample sample = sampleService.findByUserId(userId);
+        Area area = areaService.findOne(sample.getSsqx() == null ? "" : sample.getSsqx());
+        sample.setSsqx(area == null ? null : area.getName());
         data.put("sample", sample);
 
         /**
@@ -218,6 +226,14 @@ public class PdfController extends BaseController{
          */
         Brand brand = brandService.findOne(brandId);
         data.put("brand", brand);
+
+        /**
+         * 品牌出口额
+         */
+        ApprovePpcke ppcke = ppckeService.findByUserIdAndBrandIdAndYearAndStatus(userId, brandId, year + "", ApproveStatus.FinalApprovePass.getStatus());
+        ApprovePpcke priPpcke = ppckeService.findByUserIdAndBrandIdAndYearAndStatus(userId, brandId, (year - 1) + "", ApproveStatus.FinalApprovePass.getStatus());
+        data.put("ppcke", ppcke);
+        data.put("priPpcke", priPpcke);
 
         /**
          * table_base 年报

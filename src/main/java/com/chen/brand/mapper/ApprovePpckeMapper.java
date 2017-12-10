@@ -37,4 +37,9 @@ public interface ApprovePpckeMapper {
 
     List<ApprovePpcke> findByYear(@Param("userId") Long userId, @Param("year") String year);
 
+    ApprovePpcke findByUserIdAndBrandIdAndYearAndStatus(@Param("userId") Long userId,
+                                              @Param("brandId") Long brandId,
+                                              @Param("year") String year,
+                                              @Param("status") Long status);
+
 }

@@ -121,4 +121,8 @@
         on b.brandId = p.brandId and b.userId = p.userId and b.year = p.year
     </select>
 
+    <select id = "findByUserIdAndBrandIdAndYearAndStatus" resultType = "com.chen.brand.model.ApprovePpcke">
+        select * from approve_ppcke where userId = #{userId} and brandId = #{brandId} and `year` = #{year} and status = #{status}
+    </select>
+
 </mapper>
