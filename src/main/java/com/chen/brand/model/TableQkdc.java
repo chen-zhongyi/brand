@@ -57,6 +57,16 @@ public class TableQkdc {
     private String gjzcYear;
     private String gjzcNext;
 
+    private Long status;
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
     public String getFwjgPri() {
         return fwjgPri;
     }

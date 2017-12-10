@@ -19,6 +19,7 @@
         <result property = "round" column = "round"/>
         <result property = "ckppsl" column = "ckppsl"/>
         <result property = "sjse" column = "sjse"/>
+        <result property = "status" column = "status"/>
     </resultMap>
 
     <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.TableBase">
@@ -74,7 +75,7 @@
     </select>
 
     <select id = "findAll" resultType = "com.chen.brand.model.TableBase" resultMap = "tableBaseMap">
-        select b.* from table_base b, record r, sample s, reportplan p
+        select b.*, r.status from table_base b, record r, sample s, reportplan p
         where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
         <if test = "areaCode != null">
             and s.ssqx = #{areaCode}

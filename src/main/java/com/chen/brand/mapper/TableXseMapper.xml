@@ -11,6 +11,7 @@
         <result property = "gj" column = "gj"/>
         <result property = "brandId" column = "brandId"/>
         <result property = "recordId" column = "recordId"/>
+        <result property = "status" column = "status"/>
     </resultMap>
 
     <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.TableXse">
@@ -58,7 +59,7 @@
     </select>
 
     <select id = "findAll" resultType="java.util.Map">
-        select x.*, b.ppmc as brandName from table_xse x, record r, sample s, reportplan p, brand b
+        select x.*, b.ppmc as brandName, r.status from table_xse x, record r, sample s, reportplan p, brand b
         where r.id = x.recordId and s.id = r.sampleId and r.planId = p.id and x.brandId = b.id
         <if test = "areaCode != null">
             and s.ssqx = #{areaCode}

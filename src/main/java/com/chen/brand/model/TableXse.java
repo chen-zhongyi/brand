@@ -13,6 +13,15 @@ public class TableXse {
     private String gj3;
     private String gj4;
     private String gj5;
+    private Long status;
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

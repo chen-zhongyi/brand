@@ -19,6 +19,15 @@ public class TableBase {
     private Date round;
     private Long ckppsl;
     private Double sjse;
+    private Long status;
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
 
     public Double getSjse() {
         return sjse;

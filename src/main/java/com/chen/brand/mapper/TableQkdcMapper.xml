@@ -6,6 +6,7 @@
     <resultMap id = "tableQkdcMap" type = "com.chen.brand.model.TableQkdc">
         <id property = "id" column = "id" />
         <result property = "recordId" column = "recordId"/>
+        <result property = "status" column = "status"/>
 
         <result property = "rzPri" column = "rz_pri" />
         <result property = "rzYear" column = "rz_year"/>
@@ -232,7 +233,7 @@
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.TableQkdc" resultMap="tableQkdcMap">
-        select b.* from table_qkdc b, record r, sample s, reportplan p
+        select b.*, r.status from table_qkdc b, record r, sample s, reportplan p
         where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
         <if test = "areaCode != null">
             and s.ssqx = #{areaCode}

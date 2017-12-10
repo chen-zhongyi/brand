@@ -12,6 +12,7 @@
         <result property = "cyryB2b" column = "cyry_b2b"/>
         <result property = "cyryB2c" column = "cyry_b2c"/>
         <result property = "recordId" column = "recordId"/>
+        <result property = "status" column = "status"/>
     </resultMap>
 
     <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.TableJygm">
@@ -49,7 +50,7 @@
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.TableJygm" resultMap="tableJygmMap">
-        select b.* from table_jygm b, record r, sample s, reportplan p
+        select b.*, r.status from table_jygm b, record r, sample s, reportplan p
         where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
         <if test = "areaCode != null">
             and s.ssqx = #{areaCode}

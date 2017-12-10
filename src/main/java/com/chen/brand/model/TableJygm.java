@@ -10,6 +10,15 @@ public class TableJygm {
     private Long cyryB2b;
     private Long cyryB2c;
     private Long recordId;
+    private Long status;
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
