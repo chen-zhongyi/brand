@@ -5,21 +5,19 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class FileUploadController extends BaseController{
+public class FileController extends BaseController{
 
     @Value("${web.upload-path}")
     private String UPLOAD_PATH;
@@ -55,7 +53,52 @@ public class FileUploadController extends BaseController{
         return createResponse(Constant.SUCCESS, "成功", data);
     }
 
+    @GetMapping("/download")
+    public void download(@ApiIgnore HttpServletResponse httpResponse, @RequestParam String filePath){
+        String suffix = getSuffix(filePath);
+        if(suffix.equalsIgnoreCase(".pdf")) {
+            filePath = UPLOAD_PATH + File.separator + filePath;
+            System.out.println("download file path : " + filePath);
+            File file = new File(filePath);
+            if(file.exists()){
+                downloadFile(file, httpResponse);
+            }
+        }
+    }
+
+    protected void  downloadFile(File file, HttpServletResponse response){
+        response.setHeader("content-type", "application/octet-stream");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
+
+        InputStream in = null;
+        OutputStream out = null;
+
+        try {
+            in = new FileInputStream(file.getPath());
+            int len = 0;
+            byte[] buffer = new byte[1024];
+            out = response.getOutputStream();
+            while((len = in.read(buffer)) > 0) {
+                out.write(buffer,0,len);
+            }
+
+        }catch(Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            if(in != null) {
+                try {
+                    in.close();
+                }catch(Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
+    }
+
     private String getSuffix(String name) {
+        if(name == null)    return "";
         if(name.lastIndexOf(".") != -1) {
             return name.substring(name.lastIndexOf("."), name.length()).toLowerCase();
         }
