@@ -24,6 +24,15 @@ public class TotalController extends BaseController{
     @Autowired
     private TotalService totalService;
 
+    @ApiOperation("汇总数据是否提交")
+    @GetMapping("/isCommit")
+    public Map<String, Object> isCommit(@ApiIgnore HttpServletRequest httpRequest){
+        User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
+        Total total = totalService.findByUserId(user.getId());
+        boolean isCommit = total == null ? false : total.getSure();
+        return createResponse(Constant.SUCCESS, "成功", isCommit);
+    }
+
     @ApiOperation("创建汇总记录")
     @PostMapping("")
     public Map<String, Object> insert(@ApiIgnore HttpServletRequest httpRequest){
