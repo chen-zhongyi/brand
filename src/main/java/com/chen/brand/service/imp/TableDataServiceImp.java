@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class TableDataServiceImp implements TableDataService{
@@ -26,16 +28,21 @@ public class TableDataServiceImp implements TableDataService{
     @Autowired
     private TableQkdcMapper qkdcMapper;
 
-    public Object findAll(Long tableId, String areaCode, Long sampleId, Date planRound){
+    public Map<String, Object> findAll(Long tableId, String areaCode, Long sampleId, Date planRound, int pageNumber, int pageSize){
+        Map<String, Object> data = new HashMap<>();
         if(tableId == Constant.BASE){
-            return baseMapper.findAll(areaCode, sampleId, planRound);
+            data.put("total", baseMapper.countAll(areaCode, sampleId, planRound));
+            data.put("list", baseMapper.findAll(areaCode, sampleId, planRound, (pageNumber - 1) * pageSize, pageSize));
         }else if(tableId == Constant.JYGM){
-            return jygmMapper.findAll(areaCode, sampleId, planRound);
+            data.put("total", jygmMapper.countAll(areaCode, sampleId, planRound));
+            data.put("list", jygmMapper.findAll(areaCode, sampleId, planRound, (pageNumber - 1) * pageSize, pageSize));
         }else if(tableId == Constant.XSE){
-            return xseMapper.findAll(areaCode, sampleId, planRound);
+            data.put("total", xseMapper.countAll(areaCode, sampleId, planRound));
+            data.put("list", xseMapper.findAll(areaCode, sampleId, planRound, (pageNumber - 1) * pageSize, pageSize));
         }else if(tableId == Constant.QKDC){
-            return qkdcMapper.findAll(areaCode, sampleId, planRound);
+            data.put("total", qkdcMapper.countAll(areaCode, sampleId, planRound));
+            data.put("list", qkdcMapper.findAll(areaCode, sampleId, planRound, (pageNumber - 1) * pageSize, pageSize));
         }
-        return null;
+        return data;
     }
 }

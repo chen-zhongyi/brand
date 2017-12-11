@@ -32,13 +32,17 @@ public class TableDataController extends BaseController{
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tableId", value = "报表id", dataType = "Long", paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "areaCode", value = "区县Code", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "planRound", value = "期次", dataType = "Date", paramType = "query")
+            @ApiImplicitParam(name = "planRound", value = "期次", dataType = "Date", paramType = "query"),
+            @ApiImplicitParam(name = "pageNumber", value = "分页，第几页", dataType = "int", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页，分页大小", dataType = "int", paramType = "query", defaultValue = "20")
     })
     @GetMapping("")
     public Map<String, Object> findAll(@ApiIgnore HttpServletRequest httpRequest,
                                        @RequestParam(defaultValue = "1") Long tableId,
                                        @RequestParam(required = false) String areaCode,
-                                       @RequestParam(required = false) Date planRound){
+                                       @RequestParam(required = false) Date planRound,
+                                       @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+                                       @RequestParam(required = false, defaultValue = "20") Integer pageSize){
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         Long sampleId = null;
         Long type = user.getType();
@@ -53,6 +57,6 @@ public class TableDataController extends BaseController{
                 sampleId = sample.getId();
             }
         }
-        return createResponse(Constant.SUCCESS, "成功", dataService.findAll(tableId, areaCode, sampleId, planRound));
+        return createResponse(Constant.SUCCESS, "成功", dataService.findAll(tableId, areaCode, sampleId, planRound, pageNumber, pageSize));
     }
 }

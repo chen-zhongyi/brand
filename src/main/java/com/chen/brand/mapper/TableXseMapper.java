@@ -22,6 +22,12 @@ public interface TableXseMapper {
     int isExist(@Param("recordId") Long recordId, @Param("brandId") Long brandId);
 
     List<Map<String, Object>> findAll(@Param("areaCode") String areaCode,
-                                @Param("sampleId") Long sampleId,
-                                @Param("planRound")Date planRound);
+                                      @Param("sampleId") Long sampleId,
+                                      @Param("planRound")Date planRound,
+                                      @Param("start") int start,
+                                      @Param("pageSize") int pageSize);
+
+    int countAll(@Param("areaCode") String areaCode,
+                 @Param("sampleId") Long sampleId,
+                 @Param("planRound")Date planRound);
 }

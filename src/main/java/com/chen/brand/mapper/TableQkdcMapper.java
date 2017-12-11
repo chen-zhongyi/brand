@@ -20,5 +20,11 @@ public interface TableQkdcMapper {
 
     List<TableQkdc> findAll(@Param("areaCode") String areaCode,
                             @Param("sampleId") Long sampleId,
-                            @Param("planRound")Date planRound);
+                            @Param("planRound")Date planRound,
+                            @Param("start") int start,
+                            @Param("pageSize") int pageSize);
+
+    int countAll(@Param("areaCode") String areaCode,
+                 @Param("sampleId") Long sampleId,
+                 @Param("planRound")Date planRound);
 }

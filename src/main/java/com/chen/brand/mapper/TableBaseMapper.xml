@@ -86,6 +86,21 @@
         <if test = "planRound != null">
             and YEAR(p.round) = YEAR(#{planRound})
         </if>
+        order by b.id desc limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "countAll" resultType = "java.lang.Integer" >
+        select count(*) from table_base b, record r, sample s, reportplan p
+        where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
+        <if test = "areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test = "planRound != null">
+            and YEAR(p.round) = YEAR(#{planRound})
+        </if>
     </select>
 
     <select id = "findByUserIdAndYearAndStatus" resultType = "com.chen.brand.model.TableBase">

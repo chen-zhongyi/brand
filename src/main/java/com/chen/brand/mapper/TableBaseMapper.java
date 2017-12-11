@@ -20,7 +20,13 @@ public interface TableBaseMapper {
 
     List<TableBase> findAll(@Param("areaCode") String areaCode,
                             @Param("sampleId") Long sampleId,
-                            @Param("planRound")Date planRound);
+                            @Param("planRound")Date planRound,
+                            @Param("start") int start,
+                            @Param("pageSize") int pageSize);
+
+    int countAll(@Param("areaCode") String areaCode,
+                 @Param("sampleId") Long sampleId,
+                 @Param("planRound")Date planRound);
 
     TableBase findByUserIdAndYearAndStatus(@Param("userId") Long userId,
                                            @Param("year") String year,
