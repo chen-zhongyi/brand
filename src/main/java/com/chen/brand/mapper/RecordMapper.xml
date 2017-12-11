@@ -39,6 +39,9 @@
             <if test = "status != null">
                 status = #{status},
             </if>
+            <if test = "tableReportId != null">
+                tableReportId = #{tableReportId},
+            </if>
         </set>
         where id = #{id}
     </update>

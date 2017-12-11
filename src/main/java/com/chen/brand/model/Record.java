@@ -19,7 +19,7 @@ public class Record {
     private Long finalApproveBy;
     private String firstApproveComment;
     private String finalApproveComment;
-    private Long tableReportId;
+    private String tableReportId;
     private Timestamp modifyAt;
     private Long modifyBy;
     private String tableName;
@@ -139,11 +139,11 @@ public class Record {
         this.finalApproveComment = finalApproveComment;
     }
 
-    public Long getTableReportId() {
+    public String getTableReportId() {
         return tableReportId;
     }
 
-    public void setTableReportId(Long tableReportId) {
+    public void setTableReportId(String tableReportId) {
         this.tableReportId = tableReportId;
     }
 

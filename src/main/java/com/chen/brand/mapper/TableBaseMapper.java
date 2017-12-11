@@ -31,4 +31,6 @@ public interface TableBaseMapper {
     TableBase findByUserIdAndYearAndStatus(@Param("userId") Long userId,
                                            @Param("year") String year,
                                            @Param("status") Long status);
+
+    TableBase findByYearAndRecordId(@Param("year") int year, @Param("recordId") Long recordId);
 }

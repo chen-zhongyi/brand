@@ -16,10 +16,18 @@ public class TableBase {
     private Long ppsl;
     private Long cyry;
     private Long recordId;
-    private Date round;
+    private Integer round;
     private Long ckppsl;
     private Double sjse;
     private Long status;
+
+    public Integer getRound() {
+        return round;
+    }
+
+    public void setRound(Integer round) {
+        this.round = round;
+    }
 
     public Long getStatus() {
         return status;
@@ -43,14 +51,6 @@ public class TableBase {
 
     public void setCkppsl(Long ckppsl) {
         this.ckppsl = ckppsl;
-    }
-
-    public Date getRound() {
-        return round;
-    }
-
-    public void setRound(Date round) {
-        this.round = round;
     }
 
     public Long getRecordId() {

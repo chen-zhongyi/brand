@@ -108,7 +108,9 @@ public class RecordController extends BaseController{
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
         record.setModifyBy(user.getId());
         record.setId(id);
-        record.setTableId(((Record)r.get("record")).getTableId());
+        Record temp = (Record)r.get("record");
+        record.setTableId(temp.getTableId());
+        record.setTableReportId(temp.getTableReportId());
         List<TableBase> bases = request.getBase();
         if(bases != null) {
             for(TableBase base : bases) {
