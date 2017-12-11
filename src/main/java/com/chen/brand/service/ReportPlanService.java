@@ -2,7 +2,7 @@ package com.chen.brand.service;
 
 import com.chen.brand.model.ReportPlan;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ReportPlanService {
 
@@ -14,7 +14,7 @@ public interface ReportPlanService {
 
     ReportPlan findOne(Long id);
 
-    List<ReportPlan> findAll();
+    Map<String, Object> findAll(int pageNumber, int pageSize);
 
     boolean isExist(Long id);
 

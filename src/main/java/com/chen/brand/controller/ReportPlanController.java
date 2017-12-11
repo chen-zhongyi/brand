@@ -108,9 +108,14 @@ public class ReportPlanController extends BaseController {
     }
 
     @ApiOperation(value = "获取列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNumber", value = "分页，第几页", dataType = "int", defaultValue = "1", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "分页，分页大小", dataType = "int", defaultValue = "20", paramType = "query")
+    })
     @GetMapping(value = "")
-    public Map<String, Object> findAll() {
-        return createResponse(Constant.SUCCESS, "成功", planService.findAll());
+    public Map<String, Object> findAll(@RequestParam(name = "pageNumber", defaultValue = "1") Integer pageNumber,
+                                       @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
+        return createResponse(Constant.SUCCESS, "成功", planService.findAll(pageNumber, pageSize));
     }
 
     @ApiOperation(value = "改变状态")

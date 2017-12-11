@@ -19,7 +19,9 @@ public interface ReportPlanMapper {
 
     ReportPlan findOne(@Param("id") Long id);
 
-    List<ReportPlan> findAll();
+    List<ReportPlan> findAll(@Param("start") int start, @Param("pageSize") int pageSize);
+
+    int countAll();
 
     int isExist(@Param("id") Long id);
 

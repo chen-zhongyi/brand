@@ -6,7 +6,8 @@ import com.chen.brand.service.ReportPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ReportPlanServiceImp implements ReportPlanService{
@@ -31,8 +32,11 @@ public class ReportPlanServiceImp implements ReportPlanService{
         return planMapper.findOne(id);
     }
 
-    public List<ReportPlan> findAll(){
-        return planMapper.findAll();
+    public Map<String, Object> findAll(int pageNumber, int pageSize){
+        Map<String, Object> data = new HashMap<>();
+        data.put("total", planMapper.countAll());
+        data.put("list", planMapper.findAll((pageNumber - 1) * pageSize, pageSize));
+        return data;
     }
 
     public boolean isExist(Long id){

@@ -60,7 +60,11 @@
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.ReportPlan" resultMap="planMap">
-        select * from reportplan
+        select * from reportplan limit #{start}, #{pageSize}
+    </select>
+
+    <select id = "countAll" resultType = "java.lang.Integer">
+        select count(*) from reportplan
     </select>
 
     <update id = "changeStatus" >
