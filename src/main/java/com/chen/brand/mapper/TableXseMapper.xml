@@ -59,7 +59,7 @@
     </select>
 
     <select id = "findAll" resultType="java.util.Map">
-        select x.*, b.ppmc as brandName, r.status from table_xse x, record r, sample s, reportplan p, brand b
+        select x.*, b.ppmc as brandName, r.status, s.id as sampleId, s.qymcCn as sampleName, s.ssqx as areaCode from table_xse x, record r, sample s, reportplan p, brand b
         where r.id = x.recordId and s.id = r.sampleId and r.planId = p.id and x.brandId = b.id
         <if test = "areaCode != null">
             and s.ssqx = #{areaCode}

@@ -17,6 +17,24 @@ public class Brand {
     private String zcdGw;
     private String zs;
     private Long userId;
+    private String sampleName;
+    private String areaCode;
+
+    public String getSampleName() {
+        return sampleName;
+    }
+
+    public void setSampleName(String sampleName) {
+        this.sampleName = sampleName;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
 
     public Long getUserId() {
         return userId;

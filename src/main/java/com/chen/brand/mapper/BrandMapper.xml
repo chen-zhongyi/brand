@@ -67,7 +67,7 @@
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.Brand" resultMap="brandMap">
-        select b.* from brand b, sample s
+        select b.*, s.id as sampleId, s.qymcCn as sampleName, s.ssqx as areaCode from brand b, sample s
         <where>
             b.sampleId = s.id
             <if test = "ppmc != null">

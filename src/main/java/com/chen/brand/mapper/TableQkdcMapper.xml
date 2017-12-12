@@ -233,7 +233,7 @@
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.TableQkdc" resultMap="tableQkdcMap">
-        select b.*, r.status from table_qkdc b, record r, sample s, reportplan p
+        select b.*, r.status, s.id as sampleId, s.qymcCn as sampleName, s.ssqx as areaCode from table_qkdc b, record r, sample s, reportplan p
         where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
         <if test = "areaCode != null">
             and s.ssqx = #{areaCode}
