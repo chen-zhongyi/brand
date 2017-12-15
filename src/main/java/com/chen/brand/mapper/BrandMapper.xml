@@ -111,4 +111,8 @@
         update brand set status = #{status} where id = #{id}
     </update>
 
+    <select id = "findByUserIdAndStatus" resultType = "com.chen.brand.model.Brand">
+        select * from brand where userId = #{userId} and status = #{status}
+    </select>
+
 </mapper>

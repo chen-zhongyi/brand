@@ -2,6 +2,7 @@ package com.chen.brand.service;
 
 import com.chen.brand.model.Brand;
 
+import java.util.List;
 import java.util.Map;
 
 public interface BrandService {
@@ -19,4 +20,6 @@ public interface BrandService {
     void approve(Long id, Long status);
 
     boolean isExist(Long id);
+
+    List<Brand> findByUserIdAndStatus(Long userId, Long status);
 }

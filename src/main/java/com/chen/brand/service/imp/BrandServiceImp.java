@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -45,5 +46,9 @@ public class BrandServiceImp implements BrandService{
 
     public boolean isExist(Long id){
         return brandMapper.isExist(id) > 0;
+    }
+
+    public List<Brand> findByUserIdAndStatus(Long userId, Long status){
+        return brandMapper.findByUserIdAndStatus(userId, status);
     }
 }

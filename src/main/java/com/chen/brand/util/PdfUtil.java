@@ -620,6 +620,7 @@ public class PdfUtil {
          * info:
          */
         ApproveZmcl zmcl = (ApproveZmcl) data.get("zmcl");
+        if(zmcl == null) zmcl = new ApproveZmcl();
         doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
         doc.add(new Paragraph("附件 2.1 企业资产负债表（需有会计师事务所审核章）")
                 .setFontSize(20)

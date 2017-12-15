@@ -26,4 +26,6 @@ public interface BrandMapper {
     int approve(@Param("id") Long id, @Param("status") Long status);
 
     int isExist(@Param("id") Long id);
+
+    List<Brand> findByUserIdAndStatus(@Param("userId") Long userId, @Param("status") Long status);
 }
