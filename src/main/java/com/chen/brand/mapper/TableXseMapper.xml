@@ -51,7 +51,7 @@
     </update>
 
     <select id = "findByRecordId" resultType="com.chen.brand.model.TableXse" resultMap="tableXseMap">
-        select * from table_xse where recordId = #{recordId}
+        select x.*, b.ppmc as brandName from table_xse x, brand b where recordId = #{recordId} and x.brandId = b.id
     </select>
 
     <select id = "isExist" resultType = "java.lang.Integer">

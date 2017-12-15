@@ -18,6 +18,15 @@ public class TableXse {
     private Long sampleId;
     private String sampleName;
     private String areaCode;
+    private String brandName;
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
 
     public Long getSampleId() {
         return sampleId;

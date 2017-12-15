@@ -6,7 +6,7 @@
 
     <select id = "findAll" resultType="com.chen.brand.model.Record">
         select ta.*, r.createAt, r.createBy, r.modifyAt, r.modifyBy, r.status, r.firstApproveAt, r.firstApproveBy, r.finalApproveAt, r.finalApproveBy, r.firstApproveComment,
-        r.finalApproveComment, r.tableReportId from
+        r.finalApproveComment, r.tableReportId, r.id from
         (select g.id as groupId, p.id as planId, p.round as planRound, t.id as tableId, t.name as tableName, s.id as sampleId, s.qymcCn as sampleName, s.ssqx as areaCode from reportplan p, `table` t, tablegroup g, sample s
         where p.groupId = g.id and t.groupId = g.id and t.status = 1 and p.status = 1
         <if test="sampleId != null">

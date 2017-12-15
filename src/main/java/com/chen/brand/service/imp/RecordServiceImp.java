@@ -78,7 +78,7 @@ public class RecordServiceImp implements RecordService{
     }
 
     public void update(Record record, List<TableBase> bases, TableJygm jygm, Map<Long, TableXse> xses, TableQkdc qkdc){
-        StringBuffer tableRecords = new StringBuffer(record.getTableReportId());
+        StringBuffer tableRecords = record.getTableReportId() == null ? null : new StringBuffer(record.getTableReportId());
         if(record.getTableId() == TableType.BASE.code()){
             for(TableBase base : bases) {
                 TableBase temp = baseMapper.findByYearAndRecordId(base.getRound(), base.getRecordId());
@@ -108,7 +108,7 @@ public class RecordServiceImp implements RecordService{
         }else if(record.getTableId() == TableType.QKDC.code()){
             qkdcMapper.update(qkdc);
         }
-        record.setTableReportId(tableRecords.toString());
+        record.setTableReportId(tableRecords == null ? null : tableRecords.toString());
         recordMapper.update(record);
     }
 
