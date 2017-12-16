@@ -139,14 +139,14 @@ public class TotalController extends BaseController{
         Map<String, Object> data = new HashMap<>();
         data.put("total", total);
         data.put("data", all(total.getUserId(), "2016"));
-        return createResponse(Constant.SUCCESS, "ID不存在", data);
+        return createResponse(Constant.SUCCESS, "成功", data);
     }
 
     @ApiOperation("查看列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "areaCode", value = "区县Code", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "pageNumber", value = "分页，第几页", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "pageSize", value = "分页，页面大小", dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "pageNumber", value = "分页，第几页", dataType = "int", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页，页面大小", dataType = "int", paramType = "query", defaultValue = "20")
     })
     @GetMapping("")
     public Map<String, Object> findAll(@ApiIgnore HttpServletRequest httpRequest,

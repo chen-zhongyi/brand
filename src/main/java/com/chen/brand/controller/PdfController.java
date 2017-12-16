@@ -136,8 +136,8 @@ public class PdfController extends BaseController{
             @ApiImplicitParam(name = "areaCode", value = "区县Code", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "sampleName", value = "企业名称", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "status", value = "状态：1-未审核 2-初审未通过  3-初审通过 4-终审未通过 5-终审通过", dataType = "long", paramType = "query"),
-            @ApiImplicitParam(name = "pageNumber", value = "分页，第几页", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "pageSize", value = "分页，分页大小", dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "pageNumber", value = "分页，第几页", dataType = "int", paramType = "query", defaultValue = "1"),
+            @ApiImplicitParam(name = "pageSize", value = "分页，分页大小", dataType = "int", paramType = "query", defaultValue = "20")
     })
     @GetMapping("")
     public Map<String, Object> findAll(@ApiIgnore HttpServletRequest httpRequest,

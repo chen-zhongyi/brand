@@ -24,12 +24,12 @@
     </select>
 
     <select id = "findOne" resultType = "com.chen.brand.model.Total">
-        select * from total where id = #{id}
+        select t.*, u.areaCode, s.id as sampleId, s.qymcCn as sampleName from total t, `user` u, sample s where t.id = #{id} and s.userId = u.id and t.userId = u.id
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.Total">
-        select t.* from total t, `user` u
-        where u.id = t.userId
+        select t.*, u.areaCode, s.id as sampleId, s.qymcCn as sampleName from total t, `user` u, sample s
+        where u.id = t.userId and s.userId = u.id
         <if test = "areaCode != null">
             and u.areaCode = #{areaCode}
         </if>

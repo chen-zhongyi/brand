@@ -6,7 +6,8 @@ import com.chen.brand.service.PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class PdfServiceImp implements PdfService{
@@ -30,8 +31,11 @@ public class PdfServiceImp implements PdfService{
         return pdfMapper.findOne(id);
     }
 
-    public List<Pdf> findAll(String areaCode, String sampleName, Long status, Long userId, int pageNumber, int pageSize){
-        return pdfMapper.findAll(areaCode, sampleName, status, userId, (pageNumber - 1) * pageSize, pageSize);
+    public Map<String, Object> findAll(String areaCode, String sampleName, Long status, Long userId, int pageNumber, int pageSize){
+        Map<String, Object> data = new HashMap<>();
+        data.put("total", pdfMapper.count(areaCode, sampleName, status, userId));
+        data.put("list", pdfMapper.findAll(areaCode, sampleName, status, userId, (pageNumber - 1) * pageSize, pageSize));
+        return data;
     }
 
     public boolean isExist(Long id){

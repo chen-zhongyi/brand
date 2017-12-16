@@ -6,6 +6,34 @@ public class Total {
     private Long userId;
     private Boolean isSure;
 
+    private String areaCode;
+    private String sampleName;
+    private Long sampleId;
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getSampleName() {
+        return sampleName;
+    }
+
+    public void setSampleName(String sampleName) {
+        this.sampleName = sampleName;
+    }
+
+    public Long getSampleId() {
+        return sampleId;
+    }
+
+    public void setSampleId(Long sampleId) {
+        this.sampleId = sampleId;
+    }
+
     public Long getId() {
         return id;
     }
