@@ -57,11 +57,39 @@ public class TableQkdc {
     private String gjzcYear;
     private String gjzcNext;
 
+    private String hyPri;
+    private String hyYear;
+    private String hyNext;
+
     private Long status;
 
     private Long sampleId;
     private String sampleName;
     private String areaCode;
+
+    public String getHyPri() {
+        return hyPri;
+    }
+
+    public void setHyPri(String hyPri) {
+        this.hyPri = hyPri;
+    }
+
+    public String getHyYear() {
+        return hyYear;
+    }
+
+    public void setHyYear(String hyYear) {
+        this.hyYear = hyYear;
+    }
+
+    public String getHyNext() {
+        return hyNext;
+    }
+
+    public void setHyNext(String hyNext) {
+        this.hyNext = hyNext;
+    }
 
     public Long getSampleId() {
         return sampleId;

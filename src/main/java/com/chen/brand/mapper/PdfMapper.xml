@@ -47,9 +47,9 @@
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.Pdf">
-        select p.*, u.areaCode, s.id as sampleId, s.qymcCn as sampleName, b.ppmc as brandName from pdf p, sample s, `user` u, brand b
+        select p.*, u.areaCode, s.id as sampleId, s.qymcCn as sampleName, b.ppmc as brandName from pdf p, sample s, `user` u, brand b, total t
         <where>
-            p.userId = u.id and s.userId = u.id and p.brandId = b.id
+            p.userId = u.id and s.userId = u.id and p.brandId = b.id and t.userId = u.id and t.isSure = 1
             <if test = "sampleName != null">
                 <bind name="sampleNameTemp" value="'%' + _parameter.sampleName + '%'" />
                 and (s.qymcCn like #{sampleNameTemp} or s.qymcEn like #{sampleNameTemp})
@@ -68,9 +68,9 @@
     </select>
 
     <select id = "count" resultType="java.lang.Integer">
-        select count(*) from pdf p, sample s, `user` u
+        select count(*) from pdf p, sample s, `user` u, total t
         <where>
-            p.userId = u.id and s.userId = u.id
+            p.userId = u.id and s.userId = u.id and t.userId = u.id and t.isSure = 1
             <if test = "sampleName != null">
                 <bind name="sampleNameTemp" value="'%' + _parameter.sampleName + '%'" />
                 and (s.qymcCn like #{sampleNameTemp} or s.qymcEn like #{sampleNameTemp})

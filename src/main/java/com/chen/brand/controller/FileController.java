@@ -57,7 +57,7 @@ public class FileController extends BaseController{
     public void download(@ApiIgnore HttpServletResponse httpResponse, @RequestParam String filePath){
         String suffix = getSuffix(filePath);
         if(suffix.equalsIgnoreCase(".pdf")) {
-            filePath = UPLOAD_PATH + File.separator + filePath;
+            filePath = UPLOAD_PATH + "pdfs" + File.separator + filePath;
             System.out.println("download file path : " + filePath);
             File file = new File(filePath);
             if(file.exists()){

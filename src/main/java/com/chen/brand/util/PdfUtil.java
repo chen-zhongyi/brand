@@ -669,7 +669,9 @@ public class PdfUtil {
          * info:
          */
         ApprovePpcke ppcke = (ApprovePpcke) data.get("ppcke");
+        if(ppcke == null)   ppcke = new ApprovePpcke();
         ApprovePpcke priPpcke = (ApprovePpcke) data.get("priPpcke");
+        if(priPpcke == null)   priPpcke = new ApprovePpcke();
 
         title = new Paragraph("表3  申报品牌的基本情况");
         title.setTextAlignment(TextAlignment.CENTER)

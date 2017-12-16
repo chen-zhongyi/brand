@@ -70,7 +70,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         if(osName.contains("Mac"))
             registry.addResourceHandler("/**").addResourceLocations("file:/Users/chenzhongyi/upload/");
         else
-            registry.addResourceHandler("/**").addResourceLocations("file:D:\\brand\\upload\\");
+            registry.addResourceHandler("/**").addResourceLocations("file:D:\\brand\\web\\");
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")

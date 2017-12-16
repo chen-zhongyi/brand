@@ -75,6 +75,7 @@
                                jyxs_pri, jyxs_year, jyxs_next,
                                xczz_pri, xczz_year, xczz_next,
                                gjzc_pri, gjzc_year, gjzc_next,
+                               hy_pri, hy_year, hy_next,
                                recordId)
         values(#{rzPri}, #{rzYear}, #{rzNext},
                #{gzPri}, #{gzYear}, #{gzNext},
@@ -89,6 +90,7 @@
                #{jyxsPri}, #{jyxsYear}, #{jyxsNext},
                #{xczzPri}, #{xczzYear}, #{xczzNext},
                #{gjzcPri}, #{gjzcYear}, #{gjzcNext},
+               #{hyPri}, #{hyYear}, #{hyNext},
                #{recordId})
     </insert>
 
@@ -223,6 +225,16 @@
             </if>
             <if test = "gjzcNext != null">
                 gjzc_next = #{gjzcNext},
+            </if>
+
+            <if test = "hyPri != null" >
+                hy_pri = #{hyPri},
+            </if>
+            <if test = "hyYear != null">
+                hy_year = #{hyYear},
+            </if>
+            <if test = "hyNext != null">
+                hy_next = #{hyNext},
             </if>
         </set>
         where recordId = #{recordId}

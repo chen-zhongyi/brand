@@ -87,9 +87,10 @@
     <select id = "findAll" resultType="com.chen.brand.model.User" resultMap="userMap">
         select * from `user`
         <where>
+            `type` <![CDATA[ <> ]]> 0
             <if test = "realName != null">
                 <bind name="pattern" value="'%' + _parameter.realName + '%'" />
-                realName like #{pattern}
+                and realName like #{pattern}
             </if>
             <if test = "type != null">
                 and `type` = #{type}

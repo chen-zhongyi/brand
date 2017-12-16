@@ -89,8 +89,8 @@ public class TotalController extends BaseController{
             Sample sample = sampleService.findByUserId(user.getId());
             for(Brand brand : brands) {
                 Pdf pdf = pdfService.findByUserIdAndBrandId(user.getId(), brand.getId());
-                String name = "pdfs" + File.separator + sample.getQymcCn() + "-" + brand.getPpmc() + "-" + System.currentTimeMillis() + ".pdf";
-                String path = UPLOAD_PATH + name;
+                String name = sample.getQymcCn() + "-" + brand.getPpmc() + "-" + System.currentTimeMillis() + ".pdf";
+                String path = UPLOAD_PATH + "pdfs" + File.separator + name;
                 PdfUtil.getPdf(getData(user.getId(), brand.getId()), path, UPLOAD_PATH);
                 if (pdf == null) {
                     pdf = new Pdf();
@@ -113,17 +113,28 @@ public class TotalController extends BaseController{
             @ApiImplicitParam(name = "id", value = "ID", dataType = "long", paramType = "path")
     })
     @PutMapping("/{id}")
-    public Map<String, Object> update(@PathVariable Long id){
+    public Map<String, Object> update(@PathVariable Long id, @ApiIgnore HttpServletRequest httpRequest){
         Total total = totalService.findOne(id);
         if(total == null){
             return createResponse(Constant.FAIL, "ID不存在", null);
         }
         total.setSure(total.getSure() == true ? false : true);
         totalService.update(total);
-        Map<String, Object> data = new HashMap<>();
-        data.put("total", total);
-        data.put("data", all(total.getUserId(), "2016"));
-        return createResponse(Constant.SUCCESS, "成功", data);
+        User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
+        List<Brand> brands = brandService.findByUserIdAndStatus(user.getId(), ApproveStatus.FinalApprovePass.getStatus());
+        for(Brand brand : brands) {
+            Pdf pdf = pdfService.findByUserIdAndBrandId(user.getId(), brand.getId());
+            if (pdf != null) {
+                pdf.setStatus(ApproveStatus.NotApprove.getStatus());
+                pdf.setFirstComment("");
+                pdf.setFinalComment("");
+                pdfService.update(pdf);
+            }
+        }
+        //Map<String, Object> data = new HashMap<>();
+        //data.put("total", total);
+        //data.put("data", all(total.getUserId(), "2016"));
+        return createResponse(Constant.SUCCESS, "成功", true);
     }
 
     @ApiOperation("根据ID，查看详情")
@@ -211,6 +222,9 @@ public class TotalController extends BaseController{
     @Autowired
     private TableBaseServer baseServer;
 
+    @Autowired
+    private WzService wzService;
+
     private Map<String, int[]> all(Long userId, String year){
         Map<String, int[]> data = new HashMap<>();
         data.put("bzqc", bzqcService.total(userId));
@@ -244,6 +258,19 @@ public class TotalController extends BaseController{
         Sample sample = sampleService.findByUserId(userId);
         Area area = areaService.findOne(sample.getSsqx() == null ? "" : sample.getSsqx());
         sample.setSsqx(area == null ? null : area.getName());
+        if(sample.getWz() != null){
+            StringBuffer sb = new StringBuffer("");
+            for(String wzId : sample.getWz().split(",")){
+                try {
+                    long id = Long.valueOf(wzId);
+                    sb.append(wzService.findOne(id).getLink() + ", ");
+                }catch(Exception e){
+                    e.printStackTrace();
+                    continue;
+                }
+            }
+            sample.setWz(sb.toString());
+        }
         data.put("sample", sample);
 
         /**
