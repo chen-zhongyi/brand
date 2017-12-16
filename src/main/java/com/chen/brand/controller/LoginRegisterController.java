@@ -6,10 +6,13 @@ import com.chen.brand.Enum.UserType;
 import com.chen.brand.http.request.LoginResgister.Login;
 import com.chen.brand.http.request.LoginResgister.Register;
 import com.chen.brand.model.User;
+import com.chen.brand.model.UserCookie;
 import com.chen.brand.service.RoleService;
 import com.chen.brand.service.SampleService;
+import com.chen.brand.service.UserCookieService;
 import com.chen.brand.service.UserService;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
@@ -18,10 +21,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.Cookie;
@@ -40,6 +40,8 @@ import java.util.Map;
 @Api( value = "api --- loginRegisterController", description = "登陆、注册接口")
 public class LoginRegisterController extends BaseController{
 
+    private static final int COOKIE_TIME = 60 * 60 * 24 * 30;
+
     @Autowired
     private UserService userService;
 
@@ -48,6 +50,9 @@ public class LoginRegisterController extends BaseController{
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private UserCookieService cookieService;
 
     @ApiOperation(value = "注册用户")
     @ApiImplicitParams({
@@ -85,13 +90,7 @@ public class LoginRegisterController extends BaseController{
         data.put("sample", sampleService.findByUserId(id));
 
         httpRequest.getSession().setAttribute(Constant.SESSION_NAME, user);
-        String userCookie = getMd5String(user.getUserName() + "," + user.getPwd() + "," + user.getOtherStr());
-        Cookie cookie = new Cookie(Constant.COOKIE_NAME, userCookie);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(60 * 60 * 24 * 30);
-        cookie.setPath("/");
-        cookie.setSecure(false);
-        response.addCookie(cookie);
+        createCookie(user, response);
 
         /*String jwt = createJwt(user);
         Cookie cookie = new Cookie(Constant.COOKIE_NAME, jwt);
@@ -104,6 +103,7 @@ public class LoginRegisterController extends BaseController{
         return createResponse(Constant.SUCCESS, "成功", data);
     }
 
+    @ApiOperation("是否登录")
     @PostMapping("/isLogin")
     public Map<String, Object> isLogin(@ApiIgnore HttpServletRequest request){
         /*Cookie[] cookies = request.getCookies();
@@ -132,23 +132,21 @@ public class LoginRegisterController extends BaseController{
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constant.SESSION_NAME);
         if(user == null){
-            Cookie[] cookies = request.getCookies();
-            System.out.println("cookie : " + new Gson().toJson(cookies));
-            String userCookie = "";
-            if(cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals(Constant.COOKIE_NAME)) {
-                        userCookie = cookie.getValue();
-                        break;
-                    }
-                }
-            }
+            String userCookie = findCookie(request, Constant.COOKIE_NAME);
             boolean isEnable = false;
             if( ! userCookie.equals(""))  {
                 String[] userCookies = userCookie.split("-");
                 if(userCookies.length == 2){
-                    user = userService.findByUserName(userCookies[0]);
-                    if(getMd5String(user.getPwd() + "," + user.getOtherStr()).equals(userCookies[1])){
+                    Long userId;
+                    try {
+                        userId = Long.valueOf(userCookies[0]);
+                    }catch(Exception e){
+                        return createResponse(Constant.FAIL, "未登录", null);
+                    }
+                    user = userService.findOne(userId);
+                    UserCookie c = cookieService.find(userId, userCookie, getIpAddress(request));
+                    if(user != null && c != null && user.getId().longValue() == c.getUserId().longValue()
+                            && getMd5String(user.getPwd() + "," + user.getOtherStr()).equals(userCookies[1])){
                         session.setAttribute(Constant.SESSION_NAME, user);
                         isEnable = true;
                     }
@@ -163,6 +161,10 @@ public class LoginRegisterController extends BaseController{
         return createResponse(Constant.SUCCESS, "成功", data);
     }
 
+    @ApiOperation(value = "登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", value = "请求体", required = true, dataType = "Login", paramType = "body")
+    })
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody @Valid Login request,
                                      @ApiIgnore Errors errors,
@@ -187,14 +189,7 @@ public class LoginRegisterController extends BaseController{
         user.setCount(user.getCount() + 1);
         userService.update(user);
         httpRequest.getSession().setAttribute(Constant.SESSION_NAME, user);
-        String userCookie = user.getUserName() + "-" + getMd5String( user.getPwd() + "," + user.getOtherStr());
-        System.err.println("userCookie = " + userCookie);
-        Cookie cookie = new Cookie(Constant.COOKIE_NAME, userCookie);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(60 * 60 * 24 * 30);
-        cookie.setPath("/");
-        cookie.setSecure(false);
-        response.addCookie(cookie);
+        createCookie(user, response);
 
         /*String jwt = createJwt(user);
         Cookie cookie = new Cookie(Constant.COOKIE_NAME, jwt);
@@ -208,6 +203,50 @@ public class LoginRegisterController extends BaseController{
         Map<String, Object> data = userService.findOne(user.getId()).buildResponse();
         data.put("sample", sampleService.findByUserId(user.getId()));
         return createResponse(Constant.SUCCESS, "成功", data);
+    }
+
+    @ApiOperation(value = "登出")
+    @DeleteMapping("/logout")
+    public Map<String, Object> logout(@ApiIgnore HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute(Constant.SESSION_NAME);
+        if(user != null){
+            System.out.println(user.getId());
+            System.out.println(findCookie(request, Constant.COOKIE_NAME));
+            System.out.println(getIpAddress(request));
+            cookieService.delete(user.getId(), findCookie(request, Constant.COOKIE_NAME), getIpAddress(request));
+        }
+        return createResponse(Constant.SUCCESS, "成功", null);
+    }
+
+    private String findCookie(HttpServletRequest request, String name){
+        Cookie[] cookies = request.getCookies();
+        System.out.println("cookie : " + new GsonBuilder().setPrettyPrinting().create().toJson(cookies));
+        String userCookie = "";
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(name)) {
+                    userCookie = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return userCookie;
+    }
+
+    private void createCookie(User user, HttpServletResponse response){
+        String userCookie = user.getId() + "-" + getMd5String( user.getPwd() + "," + user.getOtherStr());
+        System.err.println("userCookie = " + userCookie);
+        Cookie cookie = new Cookie(Constant.COOKIE_NAME, userCookie);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(COOKIE_TIME);
+        cookie.setPath("/");
+        cookie.setSecure(false);
+        response.addCookie(cookie);
+        UserCookie c = cookieService.find(user.getId(), userCookie, user.getLoginIp());
+        if(c == null) {
+            c = new UserCookie(user.getId(), userCookie, user.getLoginIp());
+            cookieService.insert(c);
+        }
     }
 
     private String createJwt(User user){
