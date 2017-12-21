@@ -7,6 +7,7 @@ import com.chen.brand.Filter.GrossFilter;
 import com.chen.brand.Filter.JwtFilter;
 import com.chen.brand.Filter.RoleFilter;
 import com.chen.brand.log.LogManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -14,9 +15,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,11 +28,22 @@ import java.util.Map;
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter{
 
+    @Value("${web.upload-path}")
+    private String uploadPath;
+
     @Bean
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return registration;
+    }
+
+    @Bean
+    public ViewResolver viewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/");
+        viewResolver.setSuffix(".html");
+        return viewResolver;
     }
 
     @Override
@@ -65,12 +79,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String osName = System.getProperty("os.name");
-        System.err.println("osName --> " + osName);
-        if(osName.contains("Mac"))
-            registry.addResourceHandler("/**").addResourceLocations("file:/Users/chenzhongyi/upload/");
-        else
-            registry.addResourceHandler("/**").addResourceLocations("file:D:\\brand\\web\\");
+        System.err.println("upload-path --> " + uploadPath);
+        registry.addResourceHandler("/**").addResourceLocations("file:" + uploadPath);
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
