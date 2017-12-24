@@ -9,11 +9,11 @@ import javax.validation.constraints.Size;
 @ApiModel
 public class UserInsert {
     @NotNull
-    @Size( min = 6, max = 20)
+    @Size( min = 4, max = 20)
     @ApiModelProperty(required = true, reference = "Size(min = 4, max = 20)")
     private String userName;
     @NotNull
-    @Size( min = 4, max = 20)
+    @Size( min = 6, max = 20)
     @ApiModelProperty( required = true)
     private String pwd;
     @NotNull

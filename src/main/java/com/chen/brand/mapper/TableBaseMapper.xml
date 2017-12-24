@@ -109,7 +109,7 @@
     </select>
 
     <select id = "findByYearAndRecordId" resultType = "com.chen.brand.model.TableBase">
-        select * from table_base where `round` = #{year} and recordId = #{recordId}
+        select * from table_base where YEAR(round) = #{year} and recordId = #{recordId}
     </select>
 
 </mapper>

@@ -85,6 +85,7 @@ public class LoginRegisterController extends BaseController{
         user.setCreateAt(new Timestamp(System.currentTimeMillis()));
         user.setCreateBy(-1L);
         user.setRight(roleService.findByCode(RoleType.USER.code()).getRight());
+        user.setLoginIp(getIpAddress(httpRequest));
         Long id = userService.insert(user);
         Map<String, Object> data = userService.findOne(id).buildResponse();
         data.put("sample", sampleService.findByUserId(id));
@@ -141,7 +142,7 @@ public class LoginRegisterController extends BaseController{
                     try {
                         userId = Long.valueOf(userCookies[0]);
                     }catch(Exception e){
-                        return createResponse(Constant.FAIL, "未登录", null);
+                        return createResponse(Constant.SUCCESS, "未登录", null);
                     }
                     user = userService.findOne(userId);
                     UserCookie c = cookieService.find(userId, userCookie, getIpAddress(request));
@@ -153,7 +154,7 @@ public class LoginRegisterController extends BaseController{
                 }
             }
             if(! isEnable){
-                return createResponse(Constant.FAIL, "未登录", null);
+                return createResponse(Constant.SUCCESS, "未登录", null);
             }
         }
         Map<String, Object> data = user.buildResponse();
@@ -214,6 +215,7 @@ public class LoginRegisterController extends BaseController{
             System.out.println(findCookie(request, Constant.COOKIE_NAME));
             System.out.println(getIpAddress(request));
             cookieService.delete(user.getId(), findCookie(request, Constant.COOKIE_NAME), getIpAddress(request));
+            request.getSession().removeAttribute(Constant.SESSION_NAME);
         }
         return createResponse(Constant.SUCCESS, "成功", null);
     }
@@ -266,23 +268,4 @@ public class LoginRegisterController extends BaseController{
                 .compact();
     }
 
-    private static String getIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("X-Real-IP");
-        if (null != ip && !"".equals(ip.trim())
-                && !"unknown".equalsIgnoreCase(ip)) {
-            return ip;
-        }
-        ip = request.getHeader("X-Forwarded-For");
-        if (null != ip && !"".equals(ip.trim())
-                && !"unknown".equalsIgnoreCase(ip)) {
-            // 多次反向代理后会有多个IP值，第一个为真实IP。
-            int index = ip.indexOf(',');
-            if (index != -1) {
-                return ip.substring(0, index);
-            } else {
-                return ip;
-            }
-        }
-        return request.getRemoteAddr();
-    }
 }

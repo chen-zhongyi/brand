@@ -16,7 +16,7 @@ public class TableBase {
     private Long ppsl;
     private Long cyry;
     private Long recordId;
-    private Integer round;
+    private Date round;
     private Long ckppsl;
     private Double sjse;
     private Long status;
@@ -49,11 +49,11 @@ public class TableBase {
         this.areaCode = areaCode;
     }
 
-    public Integer getRound() {
+    public Date getRound() {
         return round;
     }
 
-    public void setRound(Integer round) {
+    public void setRound(Date round) {
         this.round = round;
     }
 

@@ -4,7 +4,7 @@ import javax.validation.constraints.Size;
 
 public class UserUpdate {
 
-    @Size( min = 4, max = 20)
+    @Size( min = 2, max = 20)
     private String realName;
 
     public String getRealName() {

@@ -4,6 +4,7 @@ import com.chen.brand.Enum.TableType;
 import com.chen.brand.mapper.*;
 import com.chen.brand.model.*;
 import com.chen.brand.service.RecordService;
+import com.chen.brand.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class RecordServiceImp implements RecordService{
         if(record.getTableId() == TableType.BASE.code()){
             for(TableBase base : bases) {
                 base.setRecordId(record.getId());
-                TableBase temp = baseMapper.findByYearAndRecordId(base.getRound(), base.getRecordId());
+                TableBase temp = baseMapper.findByYearAndRecordId(TimeUtils.getYear(base.getRound()), base.getRecordId());
                 if(temp != null){
                     continue;
                 }
@@ -81,7 +82,7 @@ public class RecordServiceImp implements RecordService{
         StringBuffer tableRecords = record.getTableReportId() == null ? null : new StringBuffer(record.getTableReportId());
         if(record.getTableId() == TableType.BASE.code()){
             for(TableBase base : bases) {
-                TableBase temp = baseMapper.findByYearAndRecordId(base.getRound(), base.getRecordId());
+                TableBase temp = baseMapper.findByYearAndRecordId(TimeUtils.getYear(base.getRound()), base.getRecordId());
                 if(temp == null){
                     baseMapper.insert(base);
                     if(tableRecords.toString().length() == 0)   tableRecords.append(base.getId());

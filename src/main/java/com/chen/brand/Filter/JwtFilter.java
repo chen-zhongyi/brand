@@ -4,7 +4,9 @@ import com.chen.brand.Constant;
 import com.chen.brand.controller.BaseController;
 import com.chen.brand.model.Api;
 import com.chen.brand.model.User;
+import com.chen.brand.model.UserCookie;
 import com.chen.brand.service.ApiService;
+import com.chen.brand.service.UserCookieService;
 import com.chen.brand.service.UserService;
 import com.chen.brand.sys.SysData;
 import com.google.gson.Gson;
@@ -33,6 +35,9 @@ public class JwtFilter extends BaseController implements Filter{
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserCookieService cookieService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException{
@@ -71,8 +76,16 @@ public class JwtFilter extends BaseController implements Filter{
             if( ! userCookie.equals(""))  {
                 String[] userCookies = userCookie.split("-");
                 if(userCookies.length == 2){
-                    User user = userService.findByUserName(userCookies[0]);
-                    if(getMd5String(user.getPwd() + "," + user.getOtherStr()).equals(userCookies[1])){
+                    long userId = -1;
+                    try{
+                        userId = Long.valueOf(userCookies[0]);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    User user = userService.findOne(userId);
+                    UserCookie c = cookieService.find(userId, userCookie, getIpAddress(request));
+                    if(user != null && c != null && user.getId().longValue() == c.getUserId().longValue()
+                            && getMd5String(user.getPwd() + "," + user.getOtherStr()).equals(userCookies[1])){
                         session.setAttribute(Constant.SESSION_NAME, user);
                         isEnable = true;
                     }
