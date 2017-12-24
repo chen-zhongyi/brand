@@ -2,8 +2,8 @@ package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
 import com.chen.brand.Enum.ApproveStatus;
-import com.chen.brand.http.request.ApproveJnzl.JnzlStatus;
 import com.chen.brand.http.request.ApproveJwzl.JwzlRequest;
+import com.chen.brand.http.request.ApproveJwzl.JwzlStatus;
 import com.chen.brand.model.ApproveJwzl;
 import com.chen.brand.model.User;
 import com.chen.brand.service.ApproveJwzlService;
@@ -131,7 +131,7 @@ public class ApproveJwzlController extends BaseController{
             @ApiImplicitParam(name = "request", value = "请求体", dataType = "ApproveBzrzStatus", paramType = "body")
     })
     @PutMapping(value = "/approve/{id}")
-    public Map<String, Object> changeStatus(@PathVariable Long id, @RequestBody @Valid JnzlStatus request, @ApiIgnore Errors errors) {
+    public Map<String, Object> changeStatus(@PathVariable Long id, @RequestBody @Valid JwzlStatus request, @ApiIgnore Errors errors) {
         if (errors.hasErrors()) {
             return createResponse(Constant.FAIL, "参数验证失败", null);
         }

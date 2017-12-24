@@ -2,7 +2,6 @@ package com.chen.brand.http.request.ApproveRych;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
 public class RychStatus {
 
@@ -10,7 +9,6 @@ public class RychStatus {
     @Max(5)
 
     private Long status;
-    @Size(min = 1, max = 200)
     private String comment;
 
     public String getComment() {

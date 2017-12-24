@@ -2,14 +2,12 @@ package com.chen.brand.http.request.ApproveZmcl;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
 public class ZmclStatus {
 
     @Min(1)
     @Max(5)
     private Long status;
-    @Size(min = 1, max = 200)
     private String comment;
 
     public String getComment() {

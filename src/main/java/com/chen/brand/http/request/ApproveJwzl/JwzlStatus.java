@@ -1,14 +1,13 @@
-package com.chen.brand.http.request.ApproveKjjl;
+package com.chen.brand.http.request.ApproveJwzl;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-public class KjjlStatus {
+public class JwzlStatus {
 
     @Min(1)
     @Max(5)
     private Long status;
-    private String dj;
     private String comment;
 
     public String getComment() {
@@ -26,13 +25,5 @@ public class KjjlStatus {
 
     public void setStatus(Long status) {
         this.status = status;
-    }
-
-    public String getDj() {
-        return dj;
-    }
-
-    public void setDj(String dj) {
-        this.dj = dj;
     }
 }
