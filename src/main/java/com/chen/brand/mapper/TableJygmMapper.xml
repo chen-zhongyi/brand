@@ -50,7 +50,7 @@
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.TableJygm" resultMap="tableJygmMap">
-        select b.*, r.status, s.id as sampleId, s.qymcCn as sampleName, s.ssqx as areaCode from table_jygm b, record r, sample s, reportplan p
+        select b.*, r.status, s.id as sampleId, s.qymcCn as sampleName, s.ssqx as areaCode, p.groupId from table_jygm b, record r, sample s, reportplan p
         where r.id = b.recordId and s.id = r.sampleId and r.planId = p.id
         <if test = "areaCode != null">
             and s.ssqx = #{areaCode}

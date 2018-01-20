@@ -42,6 +42,9 @@ public class PdfController extends BaseController{
     @Value("${web.upload-path}")
     private String UPLOAD_PATH;
 
+    @Value("${os}")
+    private String os;
+
     @ApiOperation("是否已经创建了文档")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "request", value = "请求体", dataType = "PdfInsert", paramType = "body")
@@ -76,7 +79,7 @@ public class PdfController extends BaseController{
         Pdf pdf = pdfService.findByUserIdAndBrandId(user.getId(), request.getBrandId());
         String name = "pdfs" + File.separator + sample.getQymcCn() + "-" + brand.getPpmc() + "-" + System.currentTimeMillis() + ".pdf";
         String path = UPLOAD_PATH + File.separator + "pdfs" + File.separator + name;
-        PdfUtil.getPdf(getData(user.getId(), brand.getId()), path, UPLOAD_PATH);
+        PdfUtil.getPdf(getData(user.getId(), brand.getId()), path, UPLOAD_PATH, os);
         if(pdf == null){
             pdf = new Pdf();
             pdf.setBrandId(request.getBrandId());

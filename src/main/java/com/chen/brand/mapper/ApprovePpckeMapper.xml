@@ -57,9 +57,9 @@
     </select>
 
     <select id = "findAll" resultType="com.chen.brand.model.ApprovePpcke">
-        select b.*, s.ssqx as areaCode, s.qymcCn as sampleName, s.id as sampleId from approve_ppcke b, `user` u, sample s
+        select b.*, s.ssqx as areaCode, s.qymcCn as sampleName, s.id as sampleId, br.ppmc as brandName, br.id as brandId from approve_ppcke b, `user` u, sample s, brand br
         <where>
-            u.id = b.userId and s.userId = u.id
+            u.id = b.userId and s.userId = u.id and br.userId = u.id
             <if test = "areaCode != null">
                 and u.areaCode = #{areaCode}
             </if>
@@ -81,9 +81,9 @@
     </select>
 
     <select id = "count" resultType="java.lang.Integer">
-        select count(*) from approve_ppcke b, `user` u, sample s
+        select count(*) from approve_ppcke b, `user` u, sample s, brand br
         <where>
-            u.id = b.userId and s.userId = u.id
+            u.id = b.userId and s.userId = u.id and br.userId = u.id
             <if test = "areaCode != null">
                 and u.areaCode = #{areaCode}
             </if>

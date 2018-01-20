@@ -90,6 +90,7 @@ public class RecordServiceImp implements RecordService{
                         tableRecords.append("," + base.getId());
                     continue;
                 }
+                base.setId(temp.getId());
                 baseMapper.update(base);
             }
         }else if(record.getTableId() == TableType.JYGM.code()){

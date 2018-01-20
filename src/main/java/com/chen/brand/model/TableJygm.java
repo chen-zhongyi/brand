@@ -15,6 +15,15 @@ public class TableJygm {
     private Long sampleId;
     private String sampleName;
     private String areaCode;
+    private Long groupId;
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
 
     public Long getSampleId() {
         return sampleId;

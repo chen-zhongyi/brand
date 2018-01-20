@@ -41,6 +41,9 @@ public class TotalController extends BaseController{
     @Value("${web.upload-path}")
     private String UPLOAD_PATH;
 
+    @Value("${os}")
+    private String os;
+
     @ApiOperation("汇总数据是否提交")
     @GetMapping("/isCommit")
     public Map<String, Object> isCommit(@ApiIgnore HttpServletRequest httpRequest){
@@ -91,7 +94,7 @@ public class TotalController extends BaseController{
                 Pdf pdf = pdfService.findByUserIdAndBrandId(user.getId(), brand.getId());
                 String name = sample.getQymcCn() + "-" + brand.getPpmc() + "-" + System.currentTimeMillis() + ".pdf";
                 String path = UPLOAD_PATH + "pdfs" + File.separator + name;
-                PdfUtil.getPdf(getData(user.getId(), brand.getId()), path, UPLOAD_PATH);
+                PdfUtil.getPdf(getData(user.getId(), brand.getId()), path, UPLOAD_PATH, os);
                 if (pdf == null) {
                     pdf = new Pdf();
                     pdf.setBrandId(brand.getId());

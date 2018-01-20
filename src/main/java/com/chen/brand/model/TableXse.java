@@ -19,6 +19,15 @@ public class TableXse {
     private String sampleName;
     private String areaCode;
     private String brandName;
+    private Long groupId;
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
 
     public String getBrandName() {
         return brandName;

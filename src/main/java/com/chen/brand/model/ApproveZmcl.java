@@ -15,6 +15,15 @@ public class ApproveZmcl {
     private Long sampleId;
     private String sampleName;
     private String areaCode;
+    private String pmjg;
+
+    public String getPmjg() {
+        return pmjg;
+    }
+
+    public void setPmjg(String pmjg) {
+        this.pmjg = pmjg;
+    }
 
     public String getAreaCode() {
         return areaCode;

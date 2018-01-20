@@ -5,8 +5,8 @@
 <mapper namespace = "com.chen.brand.mapper.ApproveZmclMapper">
 
     <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ApproveZmcl">
-        insert into approve_zmcl (fzb, xse, lrb, pm, status, userId, `year`)
-        values(#{fzb}, #{xse}, #{lrb}, #{pm}, #{status}, #{userId}, #{year})
+        insert into approve_zmcl (fzb, xse, lrb, pm, status, userId, `year`, pmjg)
+        values(#{fzb}, #{xse}, #{lrb}, #{pm}, #{status}, #{userId}, #{year}, #{pmjg})
     </insert>
 
     <update id = "update" parameterType = "com.chen.brand.model.ApproveZmcl">
@@ -23,6 +23,9 @@
             </if>
             <if test = "pm != null">
                 pm = #{pm},
+            </if>
+            <if test = "pmjg != null">
+                pmjg = #{pmjg},
             </if>
             <if test = "firstComment != null">
                 firstComment = #{firstComment},

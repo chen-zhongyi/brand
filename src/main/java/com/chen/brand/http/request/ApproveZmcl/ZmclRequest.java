@@ -6,7 +6,16 @@ public class ZmclRequest {
     private String xse;
     private String lrb;
     private String pm;
+    private String pmjg;
     private String year;
+
+    public String getPmjg() {
+        return pmjg;
+    }
+
+    public void setPmjg(String pmjg) {
+        this.pmjg = pmjg;
+    }
 
     public String getFzb() {
         return fzb;

@@ -2,9 +2,6 @@ package com.chen.brand.util;
 
 import com.chen.brand.Enum.XyType;
 import com.chen.brand.model.*;
-import com.chen.brand.sys.SysData;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.color.Color;
@@ -22,21 +19,17 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 public class PdfUtil {
 
-    public static void getPdf(Map<String, Object> data, String path, String uploadPath){
+    public static void getPdf(Map<String, Object> data, String path, String uploadPath, String os){
         try {
-            createPdf(path, data, uploadPath);
+            createPdf(path, data, uploadPath, os);
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -83,7 +76,7 @@ public class PdfUtil {
         return sf.format(date);
     }
 
-    private static void createPdf(String dest, Map<String, Object> data, String uploadPath) throws IOException{
+    private static void createPdf(String dest, Map<String, Object> data, String uploadPath, String os) throws IOException{
         int year = (int) data.get("year");
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
         PageSize pageSize = PageSize.A4;
@@ -97,7 +90,8 @@ public class PdfUtil {
         Date date = new Date(System.currentTimeMillis());
 
         PdfFont font = PdfFontFactory.createFont("STSong-Light", "UniGB-UCS2-H", false);
-        //PdfFont font = PdfFontFactory.createFont("c://windows//fonts//simsun.ttc,1", PdfEncodings.IDENTITY_H, false);
+        if(os.equalsIgnoreCase("windows"))
+            font = PdfFontFactory.createFont("c://windows//fonts//simsun.ttc,1", PdfEncodings.IDENTITY_H, false);
         Style code = new Style();
         code.setFont(font)
                 .setFontSize(11)
@@ -158,7 +152,7 @@ public class PdfUtil {
                 .addStyle(front).setFontSize(20));
         doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("联系电话：" + isNull(sample.getLxdh()))
                 .addStyle(front).setFontSize(20));
-        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("申请日期：")
+        doc.add(new Paragraph().add(new Tab()).add(new Tab()).add("申请日期：" + sf.format(new Date(System.currentTimeMillis())))
                 .addStyle(front).setFontSize(20));
 
         doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
@@ -248,7 +242,7 @@ public class PdfUtil {
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 3).add(isNull(sample.getZczb()))
+        cell = new Cell(1, 3).add(isNull(sample.getZczb()) + " 元")
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
@@ -528,29 +522,46 @@ public class PdfUtil {
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
+        /**
+         * name: 附件 2.1 企业资产负债表（需有会计师事务所审核章）
+         * data: zmcl
+         * info:
+         */
+        ApproveZmcl zmcl = (ApproveZmcl) data.get("zmcl");
+        if(zmcl == null) zmcl = new ApproveZmcl();
 
         cell = new Cell(1, 3).add("排名依据(或机构)")
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 3).add("")
+        cell = new Cell(1, 3).add(isNull(zmcl.getPmjg()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 4).add("")
+        cell = new Cell(1, 4).add(isNull(zmcl.getPmjg()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
+
+        /**
+         * name: 表3  申报品牌的基本情况
+         * data: brand, ppcke, priPpcke
+         * info:
+         */
+        ApprovePpcke ppcke = (ApprovePpcke) data.get("ppcke");
+        if(ppcke == null)   ppcke = new ApprovePpcke();
+        ApprovePpcke priPpcke = (ApprovePpcke) data.get("priPpcke");
+        if(priPpcke == null)   priPpcke = new ApprovePpcke();
 
         cell = new Cell(1, 3).add("本年度出口目的国前五位")
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 3).add("")
+        cell = new Cell(1, 3).add(isNull(ppcke.getOne()) + " | " + isNull(ppcke.getTwo()) + " | " + isNull(ppcke.getThree()) + " | " + isNull(ppcke.getFour()) + " | " + isNull(ppcke.getFive()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
-        cell = new Cell(1, 4).add("")
+        cell = new Cell(1, 4).add(isNull(priPpcke.getOne()) + " | " + isNull(priPpcke.getTwo()) + " | " + isNull(priPpcke.getThree()) + " | " + isNull(priPpcke.getFour()) + " | " + isNull(priPpcke.getFive()))
                 .setVerticalAlignment(VerticalAlignment.MIDDLE)
                 .addStyle(code);
         table.addCell(cell);
@@ -619,8 +630,8 @@ public class PdfUtil {
          * data: zmcl
          * info:
          */
-        ApproveZmcl zmcl = (ApproveZmcl) data.get("zmcl");
-        if(zmcl == null) zmcl = new ApproveZmcl();
+        //ApproveZmcl zmcl = (ApproveZmcl) data.get("zmcl");
+        //if(zmcl == null) zmcl = new ApproveZmcl();
         doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
         doc.add(new Paragraph("附件 2.1 企业资产负债表（需有会计师事务所审核章）")
                 .setFontSize(20)
@@ -668,10 +679,10 @@ public class PdfUtil {
          * data: brand, ppcke, priPpcke
          * info:
          */
-        ApprovePpcke ppcke = (ApprovePpcke) data.get("ppcke");
-        if(ppcke == null)   ppcke = new ApprovePpcke();
-        ApprovePpcke priPpcke = (ApprovePpcke) data.get("priPpcke");
-        if(priPpcke == null)   priPpcke = new ApprovePpcke();
+        //ApprovePpcke ppcke = (ApprovePpcke) data.get("ppcke");
+        //if(ppcke == null)   ppcke = new ApprovePpcke();
+        //ApprovePpcke priPpcke = (ApprovePpcke) data.get("priPpcke");
+        //if(priPpcke == null)   priPpcke = new ApprovePpcke();
 
         title = new Paragraph("表3  申报品牌的基本情况");
         title.setTextAlignment(TextAlignment.CENTER)
@@ -1738,7 +1749,7 @@ public class PdfUtil {
          */
         List<ApproveJwsb> jwsbs = (List<ApproveJwsb>) data.get("jwsbs");
         doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-        title = new Paragraph("表9 报品牌项下的境外注册商标");
+        title = new Paragraph("表9 申报品牌项下的境外注册商标");
         title.setTextAlignment(TextAlignment.CENTER)
                 .addStyle(codeTitle);
         doc.add(title);
@@ -2453,6 +2464,6 @@ public class PdfUtil {
 
     public static void main(String[] args) throws IOException{
 
-        getPdf(new HashMap<>(), "/Users/chenzhongyi/chen.pdf", "/Users/chenzhongyi/upload");
+        getPdf(new HashMap<>(), "/Users/chenzhongyi/chen.pdf", "/Users/chenzhongyi/upload", "mac");
     }
 }

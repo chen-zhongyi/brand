@@ -44,6 +44,7 @@ public class ApproveZmclController extends BaseController{
         zmcl.setXse(request.getXse());
         zmcl.setLrb(request.getLrb());
         zmcl.setPm(request.getPm());
+        zmcl.setPmjg(request.getPmjg());
         zmcl.setYear(request.getYear());
         zmcl.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
@@ -71,6 +72,7 @@ public class ApproveZmclController extends BaseController{
         zmcl.setXse(request.getXse());
         zmcl.setLrb(request.getLrb());
         zmcl.setPm(request.getPm());
+        zmcl.setPmjg(request.getPmjg());
         zmcl.setYear(request.getYear());
         zmclService.update(zmcl);
         return createResponse(Constant.SUCCESS, "成功", zmclService.findOne(id));
