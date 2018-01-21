@@ -117,13 +117,13 @@ public class PdfUtil {
         doc.add(new Paragraph("附件 1")
                 .setFontSize(20)
                 .setFont(font));
-        doc.add(new Paragraph("\n\n\n\n\n\n\n"));
+        doc.add(new Paragraph("\n\n\n\n\n"));
         Paragraph text = new Paragraph("杭州市出口名牌评审材料")
                 .setTextAlignment(TextAlignment.CENTER)
                 .setFont(font)
                 .setFontSize(38);
         doc.add(text);
-        doc.add(new Paragraph("\n\n\n\n\n\n\n\n\n\n\n\n"));
+        doc.add(new Paragraph("\n\n\n\n\n\n\n\n\n\n"));
         doc.add(new Paragraph());
         doc.add(new Paragraph());
         doc.add(new Paragraph());
@@ -1170,7 +1170,38 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
-
+        for(int i = kjjls.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         /**
@@ -1342,7 +1373,33 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
-
+        for(int i = ptjss.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         /**
@@ -1530,6 +1587,33 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
             cell = new Cell(1, 2).add(dateFormat(bzqc.getSj()))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
+        for(int i = bzqcs.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
                     .setVerticalAlignment(VerticalAlignment.MIDDLE)
                     .setTextAlignment(TextAlignment.CENTER)
                     .addStyle(code);
@@ -1724,6 +1808,33 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
+        for(int i = bzrzs.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         /**
@@ -1810,6 +1921,33 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
+        for(int i = jwsbs.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         doc.add(new Paragraph("(二)证明材料").setFont(font).setFontSize(12));
@@ -1886,7 +2024,33 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
-
+        for(int i = jwpps.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         doc.add(new Paragraph("(二)证明材料").setFont(font).setFontSize(12));
@@ -1964,7 +2128,33 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
-
+        for(int i = jwzls.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         doc.add(new Paragraph("(二)证明材料").setFont(font).setFontSize(12));
@@ -2041,7 +2231,33 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
-
+        for(int i = qqhs.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         doc.add(new Paragraph("(二)证明材料").setFont(font).setFontSize(12));
@@ -2282,7 +2498,28 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
-
+        for(int i = rychs.size();i < 5;++i){
+            cell = new Cell(1, 1).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 3).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 3).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 3).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         doc.add(new Paragraph("(二)证明材料").setFont(font).setFontSize(12));
@@ -2359,7 +2596,33 @@ public class PdfUtil {
                     .addStyle(code);
             table.addCell(cell);
         }
-
+        for(int i = cfsms.size();i < 5;++i){
+            cell = new Cell(1, 2).add("" + (i + 1))
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+            cell = new Cell(1, 2).add("")
+                    .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .addStyle(code);
+            table.addCell(cell);
+        }
         doc.add(table);
 
         doc.add(new AreaBreak(AreaBreakType.NEXT_PAGE));

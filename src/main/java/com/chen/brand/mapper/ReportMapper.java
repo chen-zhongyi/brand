@@ -12,7 +12,19 @@ import java.util.List;
 @Component
 public interface ReportMapper {
 
-    List<Record> findAll(@Param("areaCode") String areaCode, @Param("sampleId") Long sampleId, @Param("sampleName") String sampleName, @Param("planRound")Date planRound, @Param("tableId") Long tableId, @Param("start")int start, @Param("pageSize") int pageSize);
+    List<Record> findAll(@Param("areaCode") String areaCode,
+                         @Param("sampleId") Long sampleId,
+                         @Param("sampleName") String sampleName,
+                         @Param("planRound")Date planRound,
+                         @Param("tableId") Long tableId,
+                         @Param("status") Long status,
+                         @Param("start")int start,
+                         @Param("pageSize") int pageSize);
 
-    int count(@Param("areaCode") String areaCode, @Param("sampleId") Long sampleId, @Param("sampleName") String sampleName, @Param("planRound")Date planRound, @Param("tableId") Long tableId);
+    int count(@Param("areaCode") String areaCode,
+              @Param("sampleId") Long sampleId,
+              @Param("sampleName") String sampleName,
+              @Param("planRound")Date planRound,
+              @Param("tableId") Long tableId,
+              @Param("status") Long status);
 }

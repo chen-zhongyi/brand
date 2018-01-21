@@ -30,6 +30,14 @@
         LEFT OUTER JOIN
         record r
         ON ta.tableId = r.tableId and ta.planId = r.planId and ta.sampleId = r.sampleId
+        <where>
+            <if test = "status != null and status == -1">
+                r.status is null
+            </if>
+            <if test = "status != null and status != -1">
+                r.status = #{status}
+            </if>
+        </where>
         limit #{start}, #{pageSize}
     </select>
 
@@ -58,6 +66,14 @@
         LEFT OUTER JOIN
         record r
         ON ta.tableId = r.tableId and ta.planId = r.planId and ta.sampleId = r.sampleId
+        <where>
+            <if test = "status != null and status == -1">
+                r.status is null
+            </if>
+            <if test = "status != null and status != -1">
+                r.status = #{status}
+            </if>
+        </where>
     </select>
 
 </mapper>

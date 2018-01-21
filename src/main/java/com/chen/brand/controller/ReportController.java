@@ -34,6 +34,7 @@ public class ReportController extends BaseController{
             @ApiImplicitParam( name = "sampleName", value = "企业名称，不必须", dataType = "String", paramType = "query"),
             @ApiImplicitParam( name = "planRound", value = "期次，不必须", dataType = "Date", paramType = "query"),
             @ApiImplicitParam( name = "tableId", value = "报表id，不必须", dataType = "Long", paramType = "query"),
+            @ApiImplicitParam( name = "status", value = "状态,不必须,-1:未填报", dataType = "Long", paramType = "query"),
             @ApiImplicitParam( name = "pageNumber", value = "分页，第几页，不必须, 默认1", dataType = "int", paramType = "query", defaultValue = "1"),
             @ApiImplicitParam( name = "pageSize", value = "分页，分页大小，不必须，默认20", dataType = "int", paramType = "query", defaultValue = "20"),
     })
@@ -43,6 +44,7 @@ public class ReportController extends BaseController{
                                        @RequestParam(required = false) String sampleName,
                                        @RequestParam(required = false) Date planRound,
                                        @RequestParam(required = false) Long tableId,
+                                       @RequestParam(required = false) Long status,
                                        @RequestParam(required = false, defaultValue = "1") int pageNumber,
                                        @RequestParam(required = false, defaultValue = "20") int pageSize){
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);Long sampleId = null;
@@ -58,7 +60,7 @@ public class ReportController extends BaseController{
                 sampleId = sample.getId();
             }
         }
-        return createResponse(Constant.SUCCESS, "成功", reportService.findAll(areaCode, sampleId, sampleName, planRound, tableId, pageNumber, pageSize));
+        return createResponse(Constant.SUCCESS, "成功", reportService.findAll(areaCode, sampleId, sampleName, planRound, tableId, status, pageNumber, pageSize));
     }
 
 }
