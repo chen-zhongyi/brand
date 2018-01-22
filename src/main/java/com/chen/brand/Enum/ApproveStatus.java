@@ -12,6 +12,13 @@ public enum ApproveStatus {
         this.description = description;
     }
 
+    public static ApproveStatus convert(Long status){
+        for(ApproveStatus approveStatus : ApproveStatus.values()){
+            if(approveStatus.getStatus() == status) return approveStatus;
+        }
+        return null;
+    }
+
     public Long getStatus() {
         return status;
     }

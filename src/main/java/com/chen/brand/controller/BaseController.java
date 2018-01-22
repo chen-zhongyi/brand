@@ -140,4 +140,9 @@ public class BaseController {
         }
         return request.getRemoteAddr();
     }
+
+    public static String isNull(Object o){
+        if(o == null)   return "";
+        return o.toString();
+    }
 }
