@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.chen.brand.mapper.BrandApproveMapper">
+
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.BrandApprove">
+        insert into brand_approve (userId, brandId, `year`)
+        values(#{userId}, #{brandId}, #{year})
+    </insert>
+
+    <select id = "findAll" resultType="com.chen.brand.model.BrandApprove">
+        select * from brand_approve
+    </select>
+
+    <select id = "findByBrandId" resultType = "com.chen.brand.model.BrandApprove">
+        select * from brand_approve where brandId = #{brandId} order by `year` desc
+    </select>
+
+</mapper>

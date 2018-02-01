@@ -20,6 +20,34 @@ public class Brand {
     private String sampleName;
     private String areaCode;
 
+    private Boolean isBest = false;
+    private Boolean isEverBest = false;
+    private String year;
+
+    public Boolean getBest() {
+        return isBest;
+    }
+
+    public void setBest(Boolean best) {
+        isBest = best;
+    }
+
+    public Boolean getEverBest() {
+        return isEverBest;
+    }
+
+    public void setEverBest(Boolean everBest) {
+        isEverBest = everBest;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
     public String getSampleName() {
         return sampleName;
     }

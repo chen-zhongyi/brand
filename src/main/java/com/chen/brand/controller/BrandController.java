@@ -193,7 +193,7 @@ public class BrandController extends BaseController{
         }
         List<List<String>> data = new ArrayList<>();
         List<String> temp = new ArrayList<>();
-        temp.addAll(Arrays.asList(new String[]{"序号", "企业名称", "所在区县", "申报品牌名称", "品牌商标", "状态", "品牌类型", "商品类型", "商品", "首次注册/签发", "首次注册地"}));
+        temp.addAll(Arrays.asList(new String[]{"序号", "企业名称", "所在区县", "申报品牌名称", "品牌商标", "状态", "是否是名品", "是否曾今是名品", "最近评定名品年份", "品牌类型", "商品类型", "商品", "首次注册/签发", "首次注册地"}));
         data.add(temp);
         List<Object> brands = (List<Object>) brandService.findAll(areaCode, sampleId, ppmc, status, 1, Integer.MAX_VALUE).get("list");
         int i = 1;
@@ -208,6 +208,9 @@ public class BrandController extends BaseController{
             temp.add(isNull(brand.getPpsb()).equals("") ? "" : "http://114.55.103.228:8083/" + isNull(brand.getPpsb()));
             ApproveStatus s = ApproveStatus.convert(brand.getStatus());
             temp.add(s == null ? "" : s.getDescription());
+            temp.add(brand.getBest() == true ? "是" : "否");
+            temp.add(brand.getEverBest() == true ? "是" : "否");
+            temp.add(isNull(brand.getYear()));
             temp.add(isNull(brand.getPplx()));
             temp.add(isNull(brand.getSplx()));
             temp.add(isNull(brand.getSp()));
