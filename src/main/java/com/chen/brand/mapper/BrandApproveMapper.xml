@@ -9,12 +9,53 @@
         values(#{userId}, #{brandId}, #{year})
     </insert>
 
+    <update id = "update" parameterType = "com.chen.brand.model.BrandApprove">
+        update brand_approve
+        <set>
+            <if test = "year != null">
+                `year` = #{year}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id = "findOne" resultType = "com.chen.brand.model.BrandApprove">
+        select ab.*, b.ppmc as brandName, s.qymcCn as sampleName, s.id as sampleId, s.ssqx as areaCode from brand_approve ab, brand b, sample s where ab.id = #{id} and ab.userId = s.userId and ab.brandId = b.id;
+    </select>
+
+    <delete id = "delete">
+        delete from brand_approve where id = #{id}
+    </delete>
+
     <select id = "findAll" resultType="com.chen.brand.model.BrandApprove">
-        select * from brand_approve
+        select ab.*, b.ppmc as brandName, s.qymcCn as sampleName, s.id as sampleId, s.ssqx as areaCode  from brand_approve ab, brand b, sample s
+        where ab.userId = s.userId and ab.brandId = b.id
+        <if test = "sampleName">
+            <bind name="temp" value="'%' + _parameter.sampleName + '%'" />
+            and s.qymcCn like #{temp}
+        </if>
+        <if test = "brandName">
+            <bind name="xx" value="'%' + _parameter.brandName + '%'" />
+            and b.ppmc like #{xx}
+        </if>
+        <if test = "areaCode != null">
+            and s.ssqx = #{areaCode}
+        </if>
+        <if test = "sampleId != null">
+            and s.id = #{sampleId}
+        </if>
+        <if test = "brandId != null">
+            and b.id = #{brandId}
+        </if>
+        order by ab.id desc limit #{start}, #{pageSize}
     </select>
 
     <select id = "findByBrandId" resultType = "com.chen.brand.model.BrandApprove">
         select * from brand_approve where brandId = #{brandId} order by `year` desc
+    </select>
+
+    <select id = "findByBrandIdAndYear" resultType = "com.chen.brand.model.BrandApprove">
+        select * from brand_approve where brandId = #{brandId} and `year` = #{year}
     </select>
 
 </mapper>

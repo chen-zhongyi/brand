@@ -18,11 +18,27 @@ public class BrandApproveServiceImp implements BrandApproveService{
         brandApproveMapper.insert(brandApprove);
     }
 
-    public List<BrandApprove> findAll(){
-        return brandApproveMapper.findAll();
+    public void update(BrandApprove brandApprove){
+        brandApproveMapper.update(brandApprove);
     }
 
-    public List<BrandApprove> findByBrandId(Long brandId){
+    public void delete(Long id){
+        brandApproveMapper.delete(id);
+    }
+
+    public BrandApprove findOne(Long id) {
+        return brandApproveMapper.findOne(id);
+    }
+
+    public List<BrandApprove> findAll(String sampleName, String brandName, String areaCode, Long sampleId, Long brandId, int pageNumber, int pageSize){
+        return brandApproveMapper.findAll(sampleName, brandName, areaCode, sampleId, brandId, (pageNumber - 1) * pageSize, pageSize);
+    }
+
+    public List<BrandApprove> findByBrandId(Long brandId) {
         return brandApproveMapper.findByBrandId(brandId);
+    }
+
+    public BrandApprove findByBrandIdAndYear(Long brandId, String year){
+        return brandApproveMapper.findByBrandIdAndYear(brandId, year);
     }
 }
