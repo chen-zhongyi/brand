@@ -8,7 +8,16 @@ public class ApproveBzrzRequest {
     private String tx;
     private String zsbh;
     private Date sj;
+    private Date dqsj;
     private String zs;
+
+    public Date getDqsj() {
+        return dqsj;
+    }
+
+    public void setDqsj(Date dqsj) {
+        this.dqsj = dqsj;
+    }
 
     public String getBz() {
         return bz;

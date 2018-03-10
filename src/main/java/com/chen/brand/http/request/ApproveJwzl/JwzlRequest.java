@@ -8,7 +8,16 @@ public class JwzlRequest {
     private String zz;
     private String sqh;
     private Date rq;
+    private Date dqsj;
     private String zs;
+
+    public Date getDqsj() {
+        return dqsj;
+    }
+
+    public void setDqsj(Date dqsj) {
+        this.dqsj = dqsj;
+    }
 
     public String getMc() {
         return mc;

@@ -5,8 +5,8 @@
 <mapper namespace = "com.chen.brand.mapper.ApproveJwsbMapper">
 
     <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ApproveJwsb">
-        insert into approve_jwsb (mc, tp, xs, sj, cl, status, userId, dygj)
-        values(#{mc}, #{tp}, #{xs}, #{sj}, #{cl}, #{status}, #{userId}, #{dygj})
+        insert into approve_jwsb (mc, tp, xs, sj, dqsj, cl, status, userId, dygj)
+        values(#{mc}, #{tp}, #{xs}, #{sj}, #{dqsj}, #{cl}, #{status}, #{userId}, #{dygj})
     </insert>
 
     <update id = "update" parameterType = "com.chen.brand.model.ApproveJwsb">
@@ -23,6 +23,9 @@
             </if>
             <if test = "sj != null">
                 sj = #{sj},
+            </if>
+            <if test = "dqsj != null">
+                dqsj = #{dqsj},
             </if>
             <if test = "cl != null">
                 cl = #{cl},

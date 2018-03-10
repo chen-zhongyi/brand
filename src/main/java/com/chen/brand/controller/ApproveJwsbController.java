@@ -44,6 +44,7 @@ public class ApproveJwsbController extends BaseController{
         jwsb.setTp(request.getTp());
         jwsb.setXs(request.getXs());
         jwsb.setSj(request.getSj());
+        jwsb.setDqsj(request.getDqsj());
         jwsb.setCl(request.getCl());
         jwsb.setDygj(request.getDygj());
         jwsb.setStatus(ApproveStatus.NotApprove.getStatus());
@@ -72,6 +73,7 @@ public class ApproveJwsbController extends BaseController{
         jwsb.setTp(request.getTp());
         jwsb.setXs(request.getXs());
         jwsb.setSj(request.getSj());
+        jwsb.setDqsj(request.getDqsj());
         jwsb.setCl(request.getCl());
         jwsb.setDygj(request.getDygj());
         jwsbService.update(jwsb);

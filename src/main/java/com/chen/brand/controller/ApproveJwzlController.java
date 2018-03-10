@@ -42,6 +42,7 @@ public class ApproveJwzlController extends BaseController{
         jwzl.setZz(request.getZz());
         jwzl.setSqh(request.getSqh());
         jwzl.setRq(request.getRq());
+        jwzl.setDqsj(request.getDqsj());
         jwzl.setZs(request.getZs());
         jwzl.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
@@ -69,6 +70,7 @@ public class ApproveJwzlController extends BaseController{
         jwzl.setZz(request.getZz());
         jwzl.setSqh(request.getSqh());
         jwzl.setRq(request.getRq());
+        jwzl.setDqsj(request.getDqsj());
         jwzl.setZs(request.getZs());
         jwzlService.update(jwzl);
         return createResponse(Constant.SUCCESS, "成功", jwzlService.findOne(id));

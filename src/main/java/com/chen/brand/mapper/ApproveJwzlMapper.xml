@@ -5,8 +5,8 @@
 <mapper namespace = "com.chen.brand.mapper.ApproveJwzlMapper">
 
     <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ApproveJwzl">
-        insert into approve_jwzl (mc, zz, sqh, rq, status, userId, zs)
-        values(#{mc}, #{zz}, #{sqh}, #{rq}, #{status}, #{userId}, #{zs})
+        insert into approve_jwzl (mc, zz, sqh, rq, dqsj, status, userId, zs)
+        values(#{mc}, #{zz}, #{sqh}, #{rq}, #{dqsj}, #{status}, #{userId}, #{zs})
     </insert>
 
     <update id = "update" parameterType = "com.chen.brand.model.ApproveJwzl">
@@ -23,6 +23,9 @@
             </if>
             <if test = "rq != null">
                 rq = #{rq},
+            </if>
+            <if test = "dqsj != null">
+                dqsj = #{dqsj},
             </if>
             <if test = "zs != null">
                 zs = #{zs},

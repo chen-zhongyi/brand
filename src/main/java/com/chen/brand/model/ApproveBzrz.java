@@ -9,6 +9,7 @@ public class ApproveBzrz {
     private String tx;
     private String zsbh;
     private Date sj;
+    private Date dqsj;
     private String zs;
     private Long status;
     private Long userId;
@@ -17,6 +18,14 @@ public class ApproveBzrz {
     private Long sampleId;
     private String sampleName;
     private String areaCode;
+
+    public Date getDqsj() {
+        return dqsj;
+    }
+
+    public void setDqsj(Date dqsj) {
+        this.dqsj = dqsj;
+    }
 
     public String getAreaCode() {
         return areaCode;

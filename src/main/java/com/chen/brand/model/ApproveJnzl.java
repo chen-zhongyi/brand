@@ -9,6 +9,7 @@ public class ApproveJnzl {
     private String lx;
     private String zlh;
     private Date rq;
+    private Date dqsj;
     private String zs;
     private Long status;
     private Long userId;
@@ -17,6 +18,14 @@ public class ApproveJnzl {
     private Long sampleId;
     private String sampleName;
     private String areaCode;
+
+    public Date getDqsj() {
+        return dqsj;
+    }
+
+    public void setDqsj(Date dqsj) {
+        this.dqsj = dqsj;
+    }
 
     public String getAreaCode() {
         return areaCode;

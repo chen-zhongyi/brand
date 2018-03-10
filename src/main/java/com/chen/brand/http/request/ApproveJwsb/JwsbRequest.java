@@ -8,8 +8,17 @@ public class JwsbRequest {
     private String tp;
     private String xs;
     private Date sj;
+    private Date dqsj;
     private String cl;
     private String dygj;
+
+    public Date getDqsj() {
+        return dqsj;
+    }
+
+    public void setDqsj(Date dqsj) {
+        this.dqsj = dqsj;
+    }
 
     public String getDygj() {
         return dygj;

@@ -42,6 +42,7 @@ public class ApproveBzrzController extends BaseController{
         bzrz.setTx(request.getTx());
         bzrz.setZsbh(request.getZsbh());
         bzrz.setSj(request.getSj());
+        bzrz.setDqsj(request.getDqsj());
         bzrz.setZs(request.getZs());
         bzrz.setStatus(ApproveStatus.NotApprove.getStatus());
         User user = (User) httpRequest.getSession().getAttribute(Constant.SESSION_NAME);
@@ -69,6 +70,7 @@ public class ApproveBzrzController extends BaseController{
         bzrz.setTx(request.getTx());
         bzrz.setZsbh(request.getZsbh());
         bzrz.setSj(request.getSj());
+        bzrz.setDqsj(request.getDqsj());
         bzrz.setZs(request.getZs());
         bzrzService.update(bzrz);
         return createResponse(Constant.SUCCESS, "成功", bzrzService.findOne(id));
