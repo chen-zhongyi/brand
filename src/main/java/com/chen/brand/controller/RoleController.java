@@ -1,11 +1,13 @@
 package com.chen.brand.controller;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.RoleType;
 import com.chen.brand.http.request.Role.RoleInsert;
 import com.chen.brand.http.request.Role.RoleUpdate;
 import com.chen.brand.model.Role;
 import com.chen.brand.service.RoleService;
 import com.chen.brand.service.SysService;
+import com.chen.brand.sys.SysData;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,6 +34,9 @@ public class RoleController extends BaseController{
     @Autowired
     private SysService sysService;
 
+    @Autowired
+    private SysData sysData;
+
     @ApiOperation(value = "创建角色")
     @ApiImplicitParams({
             @ApiImplicitParam( name = "roleRequest", value = "请求实体类", dataType = "RoleInsert", paramType = "body")
@@ -41,8 +46,9 @@ public class RoleController extends BaseController{
         if(errors.hasErrors()){
             return createResponse(Constant.FAIL, "参数验证失败", createErrors(errors));
         }
-        if(roleService.isExistCode(roleRequest.getCode())){
-            return createResponse(Constant.FAIL, "code已存在", null);
+        RoleType roleType = RoleType.convert(roleRequest.getCode());
+        if(roleType == null || roleService.isExistCode(roleRequest.getCode())){
+            return createResponse(Constant.FAIL, "code已存在或者code不合法", null);
         }
         String msg = checkRight(roleRequest.getRight());
         if(msg.equals("") == false){
@@ -54,6 +60,7 @@ public class RoleController extends BaseController{
         role.setRight(new Gson().toJson(roleRequest.getRight()));
         role.setStatus(true);
         Long id = roleService.insert(role);
+        sysData.loadRole();
         return createResponse(Constant.SUCCESS, "成功", roleService.findOne(id).buildResponse());
     }
 
@@ -78,6 +85,7 @@ public class RoleController extends BaseController{
         role.setRight(new Gson().toJson(roleRequest.getRight()));
         role.setId(id);
         roleService.update(role);
+        sysData.loadRole();
         return createResponse(Constant.SUCCESS, "成功", roleService.findOne(id).buildResponse());
     }
 

@@ -1,6 +1,8 @@
 package com.chen.brand.Filter;
 
 import com.chen.brand.Constant;
+import com.chen.brand.Enum.RoleType;
+import com.chen.brand.Enum.UserType;
 import com.chen.brand.sys.SysData;
 import com.chen.brand.controller.BaseController;
 import com.chen.brand.model.Api;
@@ -10,10 +12,8 @@ import com.chen.brand.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -69,6 +69,9 @@ public class RoleFilter extends BaseController implements Filter{
         if( ! ((api.getSystemCode().equals("sys") || api.getSystemCode().equals("public")) && method.equals("GET") )){  //非公共接口和系统获取接口
             User user = (User) request.getSession().getAttribute(Constant.SESSION_NAME);
             String rightStr = user.getRight();
+            if(user.getType() == UserType.USER.getCode()){
+                rightStr = sysData.findByCode(RoleType.USER.code()).getRight();
+            }
             Map<String, String> right = new Gson().fromJson(rightStr, new TypeToken<Map<String, Object>>(){}.getType());
             System.out.println("right = " + new Gson().toJson(right));
             boolean flag = false;
@@ -110,6 +113,4 @@ public class RoleFilter extends BaseController implements Filter{
     public void destroy(){
 
     }
-
-
 }

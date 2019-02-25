@@ -5,16 +5,13 @@ import com.chen.brand.controller.BaseController;
 import com.chen.brand.model.Api;
 import com.chen.brand.model.User;
 import com.chen.brand.model.UserCookie;
-import com.chen.brand.service.ApiService;
 import com.chen.brand.service.UserCookieService;
 import com.chen.brand.service.UserService;
 import com.chen.brand.sys.SysData;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -105,48 +102,6 @@ public class JwtFilter extends BaseController implements Filter{
 
         }
         chain.doFilter(servletRequest, servletResponse);
-/*
-        if(request.getPathInfo().startsWith("/api")){
-            Cookie[] cookies = request.getCookies();
-            System.out.println("cookie : " + new Gson().toJson(cookies));
-            String jwt = "";
-            if(cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals(Constant.COOKIE_NAME)) {
-                        jwt = cookie.getValue();
-                        break;
-                    }
-                }
-            }
-            System.out.println("jwt : " + jwt);
-            if(jwt.equals("")){
-                Map<String, Object> data = new HashMap<>();
-                data.put("code", Constant.FAIL);
-                data.put("msg", "无效token");
-                data.put("data", null);
-                response.setContentType("application/json;charset=utf-8");
-                response.getWriter().write(new Gson().toJson(data));
-                response.getWriter().close();
-                response.getWriter().flush();
-                return ;
-            }
-            try{
-                Jwts.parser().setSigningKey(Constant.JWT_SECRET).parseClaimsJws(jwt);
-                chain.doFilter(servletRequest, servletResponse);
-            }catch (SignatureException e){
-                Map<String, Object> data = new HashMap<>();
-                data.put("code", Constant.FAIL);
-                data.put("msg", "token验证失败");
-                data.put("data", null);
-                response.setContentType("application/json;charset=utf-8");
-                response.getWriter().write(new Gson().toJson(data));
-                response.getWriter().close();
-                response.getWriter().flush();
-                return ;
-            }
-        }else {
-            chain.doFilter(servletRequest, servletResponse);
-        }*/
     }
 
     @Override

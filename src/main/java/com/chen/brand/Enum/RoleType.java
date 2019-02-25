@@ -7,9 +7,18 @@ public enum RoleType {
     private String code;
     private String intro;
 
-    private RoleType(String code, String intro){
+    RoleType(String code, String intro){
         this.code = code;
         this.intro = intro;
+    }
+
+    public static RoleType convert(String code){
+        for(RoleType type : RoleType.values()){
+            if(type.code().equals(code)){
+                return type;
+            }
+        }
+        return null;
     }
 
     public String code(){
