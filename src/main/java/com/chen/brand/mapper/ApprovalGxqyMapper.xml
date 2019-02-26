@@ -2,33 +2,21 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace = "com.chen.brand.mapper.ApproveJwzlMapper">
+<mapper namespace = "com.chen.brand.mapper.ApproveGxqyMapper">
 
-    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ApproveJwzl">
-        insert into approve_jwzl (mc, zz, sqh, rq, dqsj, status, userId)
-        values(#{mc}, #{zz}, #{sqh}, #{rq}, #{dqsj}, #{status}, #{userId})
+    <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ApproveGxqy">
+        insert into approve_gxqy (jb, sj, status, userId)
+        values(#{jb}, #{sj} #{status}, #{userId})
     </insert>
 
-    <update id = "update" parameterType = "com.chen.brand.model.ApproveJwzl">
-        update approve_jwzl
+    <update id = "update" parameterType = "com.chen.brand.model.ApproveGxqy">
+        update approve_gxqy
         <set>
-            <if test = "mc != null" >
-                mc = #{mc},
+            <if test = "jb != null" >
+                jb = #{jb},
             </if>
-            <if test = "zz != null">
-                zz = #{zz},
-            </if>
-            <if test = "sqh != null">
-                sqh = #{sqh},
-            </if>
-            <if test = "rq != null">
-                rq = #{rq},
-            </if>
-            <if test = "dqsj != null">
-                dqsj = #{dqsj},
-            </if>
-            <if test = "zs != null">
-                zs = #{zs},
+            <if test = "sj != null">
+                sj = #{sj},
             </if>
             <if test = "status != null">
                 status = #{status},
@@ -44,20 +32,20 @@
     </update>
 
     <delete id = "delete">
-        delete from approve_jwzl where id = #{id}
+        delete from approve_gxqy where id = #{id}
     </delete>
 
-    <select id = "findOne" resultType="com.chen.brand.model.ApproveJwzl">
-        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from approve_jwzl b, `user` u, sample s
+    <select id = "findOne" resultType="com.chen.brand.model.ApproveGxqy">
+        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from approve_gxqy b, `user` u, sample s
         where b.id = #{id} and u.id = b.userId and u.id = s.userId
     </select>
 
     <select id = "isExist" resultType="java.lang.Integer">
-        select count(*) from approve_jwzl where id = #{id}
+        select count(*) from approve_gxqy where id = #{id}
     </select>
 
-    <select id = "findAll" resultType="com.chen.brand.model.ApproveJwzl">
-        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from approve_jwzl b, `user` u, sample s
+    <select id = "findAll" resultType="com.chen.brand.model.ApproveGxqy">
+        select b.*, s.id as sampleId, s.qymcCn sampleName, s.ssqx as areaCode from approve_gxqy b, `user` u, sample s
         <where>
             u.id = b.userId and u.id = s.userId
             <if test = "areaCode != null">
@@ -78,7 +66,7 @@
     </select>
 
     <select id = "count" resultType="java.lang.Integer">
-        select count(*) from approve_jwzl b, `user` u, sample s
+        select count(*) from approve_gxqy b, `user` u, sample s
         <where>
             u.id = b.userId and u.id = s.userId
             <if test = "areaCode != null">
@@ -97,8 +85,8 @@
         </where>
     </select>
 
-    <select id = "findByUserIdAndStatus" resultType = "com.chen.brand.model.ApproveJwzl">
-        select * from approve_jwzl where userId = #{userId} and status = #{status}
+    <select id = "findByUserIdAndStatus" resultType = "com.chen.brand.model.ApproveGxqy">
+        select * from approve_gxqy where userId = #{userId} and status = #{status}
     </select>
 
 </mapper>
