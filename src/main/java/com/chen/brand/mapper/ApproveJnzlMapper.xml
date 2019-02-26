@@ -6,7 +6,7 @@
 
     <insert id = "insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chen.brand.model.ApproveJnzl">
         insert into approve_jnzl (mc, lx, zlh, rq, dqsj, status, userId)
-        values(#{mc}, #{lx}, #{zlh}, #{rq}, #{dqsj} #{status}, #{userId})
+        values(#{mc}, #{lx}, #{zlh}, #{rq}, #{dqsj}, #{status}, #{userId})
     </insert>
 
     <update id = "update" parameterType = "com.chen.brand.model.ApproveJnzl">
