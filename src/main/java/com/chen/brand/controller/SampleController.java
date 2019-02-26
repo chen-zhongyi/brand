@@ -87,7 +87,15 @@ public class SampleController extends BaseController{
         sample.setZczb(request.getZczb());
         sample.setStatus(0L);
         sample.setUserId(temp.getId());
-        Long id = sampleService.insert(sample, request.getBgzs());
+        Sample one = sampleService.findByUserId(temp.getId());
+        Long id;
+        if (one != null) {
+            sample.setId(one.getId());
+            id = one.getId();
+            sampleService.update(sample, request.getBgzs());
+        } else {
+            id = sampleService.insert(sample, request.getBgzs());
+        }
         return createResponse(Constant.SUCCESS, "成功", sampleService.findOne(id));
     }
 
